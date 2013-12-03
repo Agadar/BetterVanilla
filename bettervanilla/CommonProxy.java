@@ -1,6 +1,9 @@
 package bettervanilla;
 
-public class CommonProxy {
-        public void registerRenderers() { }       
-        public void registerSound() { } 
+public class CommonProxy 
+{	
+	public int addArmor(String armor) 
+	{
+		return 0;
+	}     
 }

@@ -86,7 +86,7 @@ public class BetterVanilla
 		// Load/create the configuration properties.
 		Property apples = config.get(Configuration.CATEGORY_BLOCK, "Apples tweak", true);
 		Property applesRate = config.get(Configuration.CATEGORY_BLOCK, "Apples drop rate", 5);
-		Property beds = config.get(Configuration.CATEGORY_BLOCK, "Colored beds", true);
+		Property beds = config.get(Configuration.CATEGORY_BLOCK, "Colored beds", false);
 		Property boneMeal = config.get(Configuration.CATEGORY_ITEM, "Bonemeal tweak", true);
 		Property bookShelves = config.get(Configuration.CATEGORY_BLOCK, "Bookshelves drop tweak", true);
 		Property cacti = config.get(Configuration.CATEGORY_BLOCK, "Cacti placement tweak", true);
@@ -130,7 +130,7 @@ public class BetterVanilla
 		// Get the values of the configuration properties.
 		Apples = apples.getBoolean(true);
 		ApplesRate = applesRate.getDouble(5) * 2;
-		Beds = beds.getBoolean(true);
+		Beds = beds.getBoolean(false);
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
@@ -154,8 +154,6 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{
-		proxy.registerRenderers();
-
 		if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -272,23 +270,29 @@ public class BetterVanilla
 			// Create our new armor material.
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
 			
+			// Register whatever it is these integers represent.
+			int oak = proxy.addArmor("oak");
+			int spruce = proxy.addArmor("spruce");
+			int birch = proxy.addArmor("birch");
+			int jungle = proxy.addArmor("jungle");
+			
 			// Create our new armor items.
-			OakArmor helmetOak = (OakArmor) new OakArmor(WoodArmorID, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("oak"), 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
-			OakArmor plateOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("oak"), 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
-			OakArmor legsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("oak"), 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
-			OakArmor bootsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("oak"), 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
-			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("spruce"), 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
-			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("spruce"), 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
-			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("spruce"), 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
-			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("spruce"), 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
-			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("birch"), 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
-			BirchArmor plateBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("birch"), 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
-			BirchArmor legsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("birch"), 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
-			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("birch"), 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
-			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("jungle"), 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
-			JungleArmor plateJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("jungle"), 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
-			JungleArmor legsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("jungle"), 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
-			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, RenderingRegistry.addNewArmourRendererPrefix("jungle"), 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
+			OakArmor helmetOak = (OakArmor) new OakArmor(WoodArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
+			OakArmor plateOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
+			OakArmor legsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
+			OakArmor bootsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
+			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
+			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
+			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
+			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
+			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
+			BirchArmor plateBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
+			BirchArmor legsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
+			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
+			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
+			JungleArmor plateJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
+			JungleArmor legsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
+			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
 			
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
