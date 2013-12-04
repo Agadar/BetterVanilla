@@ -30,6 +30,7 @@ import bettervanilla.items.BirchArmor;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
 import bettervanilla.items.OakArmor;
+import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
 import bettervanilla.tileentities.BedDirection;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -269,12 +270,14 @@ public class BetterVanilla
 		if (WoodArmor) {
 			// Create our new armor material.
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
+			EnumArmorMaterial armorPUMPKIN = net.minecraftforge.common.EnumHelper.addArmorMaterial("PUMPKIN", 5, new int[]{1, 3, 2, 1}, 15);
 			
 			// Register whatever it is these integers represent.
 			int oak = proxy.addArmor("oak");
 			int spruce = proxy.addArmor("spruce");
 			int birch = proxy.addArmor("birch");
 			int jungle = proxy.addArmor("jungle");
+			int pumpkin = proxy.addArmor("pumpkin");
 			
 			// Create our new armor items.
 			OakArmor helmetOak = (OakArmor) new OakArmor(WoodArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
@@ -293,6 +296,10 @@ public class BetterVanilla
 			JungleArmor plateJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
 			JungleArmor legsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
 			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
+			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("helmetPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
+			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("platePumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
+			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("legsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
+			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("bootsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
 			
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
