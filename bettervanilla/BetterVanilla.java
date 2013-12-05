@@ -31,6 +31,7 @@ import bettervanilla.items.BirchArmor;
 import bettervanilla.items.CactusArmor;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
+import bettervanilla.items.MelonArmor;
 import bettervanilla.items.OakArmor;
 import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
@@ -55,12 +56,12 @@ public class BetterVanilla
 	// Values from the configuration file.
 	public static boolean Apples;
 	public static double ApplesRate;
-	
 	public static boolean Beds;
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
 	public static boolean Cacti;
 	public static boolean Cauldrons;
+	public static boolean CraftableGrass;
 	public static boolean Dispensers;
 	public static boolean Doors;
 	public static boolean EnderChests;
@@ -74,6 +75,7 @@ public class BetterVanilla
 	public static boolean HardLeatherRecipe;
 	public static int FleshyHideID;
 	public static boolean Saddles;
+	public static boolean SmeltableItems;
 	public static boolean MoreArmor;
 	public static int MoreArmorID;
 	
@@ -98,6 +100,7 @@ public class BetterVanilla
 		Property bookShelves = config.get(Configuration.CATEGORY_BLOCK, "Bookshelves drop tweak", true);
 		Property cacti = config.get(Configuration.CATEGORY_BLOCK, "Cacti placement tweak", true);
 		Property cauldrons = config.get(Configuration.CATEGORY_BLOCK, "Cauldron tweak", true);
+		Property craftableGrass = config.get(Configuration.CATEGORY_BLOCK, "Craftable Grass", true);
 		Property dispensers = config.get(Configuration.CATEGORY_BLOCK, "Dispenser overhaul", true);
 		Property doors = config.get(Configuration.CATEGORY_ITEM, "Stackable doors", true);
 		Property enderChests = config.get(Configuration.CATEGORY_BLOCK, "Ender chest drop tweak", true);
@@ -111,6 +114,7 @@ public class BetterVanilla
 		Property hardLeatherRecipe = config.get(Configuration.CATEGORY_ITEM, "Hard leather recipe", true);
 		Property fleshyHideID = config.get(Configuration.CATEGORY_ITEM, "Fleshy Hide ID", 1010);
 		Property saddles = config.get(Configuration.CATEGORY_ITEM, "Craftable saddles", true);
+		Property smeltableItems = config.get(Configuration.CATEGORY_ITEM, "Smeltable Items", true);
 		Property moreArmor = config.get(Configuration.CATEGORY_ITEM, "Wood Armor", true);
 		Property moreArmorID = config.get(Configuration.CATEGORY_ITEM, "Starting ID", 1011);
 
@@ -122,6 +126,7 @@ public class BetterVanilla
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
+		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
@@ -137,6 +142,7 @@ public class BetterVanilla
 		hardLeatherRecipe.comment = "Set to 'true' to disable directly smelting rotten flesh into leather, instead introducing an intermediate product (Fleshy Hide).";
 		fleshyHideID.comment = "Sets the item ID of Fleshy Hide.";
 		saddles.comment = "Set to 'true' to allow the crafting of saddles.";
+		smeltableItems.comment = "Set to 'true' to allow most iron and golden items to be smelted into ingots.";
 		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
 		moreArmorID.comment = "Sets the starting ID of the More Armor ID range. As there are a total of 20 items in this range, the last ID in the range is this value plus 19.";
 				
@@ -148,6 +154,7 @@ public class BetterVanilla
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
 		Cauldrons = cauldrons.getBoolean(true);
+		CraftableGrass = craftableGrass.getBoolean(true);
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
 		EnderChests = enderChests.getBoolean(true);
@@ -161,6 +168,7 @@ public class BetterVanilla
 		HardLeatherRecipe = hardLeatherRecipe.getBoolean(true);
 		FleshyHideID = fleshyHideID.getInt();
 		Saddles = saddles.getBoolean(true);
+		SmeltableItems = smeltableItems.getBoolean(true);
 		MoreArmor = moreArmor.getBoolean(true);
 		MoreArmorID = moreArmorID.getInt(); 
 		
@@ -231,6 +239,13 @@ public class BetterVanilla
 			// Register the event hook for using clay and wool on a cauldron.
 			MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
 		}
+		if (CraftableGrass)
+		{
+			// Add the recipes for the grass block and mycelium.
+			GameRegistry.addShapelessRecipe(new ItemStack(Block.grass), Block.dirt, Item.seeds);
+			GameRegistry.addShapelessRecipe(new ItemStack(Block.mycelium), Block.dirt, Block.mushroomBrown);
+			GameRegistry.addShapelessRecipe(new ItemStack(Block.mycelium), Block.dirt, Block.mushroomRed);
+		}
 		if (Dispensers) {
 			// Register our dispenser behaviors
 			BlockDispenser.dispenseBehaviorRegistry.putObject(Item.shears,
@@ -285,6 +300,55 @@ public class BetterVanilla
 					"z z", 'x', Item.leather, 'y', Item.silk, 'z',
 					Item.ingotIron);
 		}
+		if (SmeltableItems)
+		{
+			// Register all the smeltable recipes for iron.
+			GameRegistry.addSmelting(Item.doorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
+			GameRegistry.addSmelting(Item.bucketEmpty.itemID, new ItemStack(Item.ingotIron, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shears.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			GameRegistry.addSmelting(Block.pressurePlateIron.blockID, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetIron.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateIron.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsIron.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsIron.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
+			GameRegistry.addSmelting(Item.minecartEmpty.itemID, new ItemStack(Item.ingotIron, 5), 0);
+			GameRegistry.addSmelting(Item.cauldron.itemID, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.swordIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shovelIron.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.pickaxeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.hoeIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.axeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+			GameRegistry.addSmelting(Block.railDetector.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Block.railActivator.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.flintAndSteel.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Item.compass.itemID, new ItemStack(Item.ingotIron, 4), 0);
+			FurnaceRecipes.smelting().addSmelting(Block.anvil.blockID, 0, new ItemStack(Item.ingotIron, 31), 0);
+			GameRegistry.addSmelting(Block.pistonBase.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Block.pistonStickyBase.blockID, new ItemStack(Item.ingotIron, 5), 0);
+			GameRegistry.addSmelting(Block.hopperBlock.blockID, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetChain.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateChain.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsChain.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsChain.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
+			GameRegistry.addSmelting(Item.horseArmorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
+			
+			// Register all the smeltable recipes for gold.
+			GameRegistry.addSmelting(Item.pocketSundial.itemID, new ItemStack(Item.ingotGold, 4), 0);
+			GameRegistry.addSmelting(Block.railPowered.blockID, new ItemStack(Item.ingotGold, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 1, new ItemStack(Block.blockGold, 8), 0);
+			GameRegistry.addSmelting(Block.pressurePlateGold.blockID, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetGold.itemID, 0, new ItemStack(Item.ingotGold, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsGold.itemID, 0, new ItemStack(Item.ingotGold, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsGold.itemID, 0, new ItemStack(Item.ingotGold, 4), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.swordGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shovelGold.itemID, 0, new ItemStack(Item.ingotGold, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.pickaxeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.hoeGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.axeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
+			GameRegistry.addSmelting(Item.horseArmorGold.itemID, new ItemStack(Item.ingotGold, 6), 0);
+		}
 		if (RottenFleshToLeather) 
 		{
 			// Add the rotten flesh to leather recipe.
@@ -305,6 +369,7 @@ public class BetterVanilla
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
 			EnumArmorMaterial armorPUMPKIN = net.minecraftforge.common.EnumHelper.addArmorMaterial("PUMPKIN", 5, new int[]{1, 3, 2, 1}, 15);
 			EnumArmorMaterial armorCACTUS = net.minecraftforge.common.EnumHelper.addArmorMaterial("CACTUS", 5, new int[]{1, 3, 2, 1}, 15);
+			EnumArmorMaterial armorMELON = net.minecraftforge.common.EnumHelper.addArmorMaterial("MELON", 5, new int[]{1, 3, 2, 1}, 15);
 			
 			// Register whatever it is these integers represent.
 			int oak = proxy.addArmor("oak");
@@ -313,6 +378,7 @@ public class BetterVanilla
 			int jungle = proxy.addArmor("jungle");
 			int pumpkin = proxy.addArmor("pumpkin");
 			int cactus = proxy.addArmor("cactus");
+			int melon = proxy.addArmor("melon");
 			
 			// Create our new armor items.
 			OakArmor helmetOak = (OakArmor) new OakArmor(MoreArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
@@ -339,7 +405,11 @@ public class BetterVanilla
 			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 1).setUnlocalizedName("plateCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
 			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 2).setUnlocalizedName("legsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
 			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 3).setUnlocalizedName("bootsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
-
+			MelonArmor helmetMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 0).setUnlocalizedName("helmetMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_helmet");
+			MelonArmor plateMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 1).setUnlocalizedName("plateMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_chestplate");
+			MelonArmor legsMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 2).setUnlocalizedName("legsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_leggings");
+			MelonArmor bootMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 3).setUnlocalizedName("bootsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_boots");
+			
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
 			LanguageRegistry.addName(plateOak, "Oak Chestplate");
@@ -365,6 +435,10 @@ public class BetterVanilla
 			LanguageRegistry.addName(plateCactus, "Cactus Chestplate");
 			LanguageRegistry.addName(legsCactus, "Cactus Leggings");
 			LanguageRegistry.addName(bootCactus, "Cactus Boots");
+			LanguageRegistry.addName(helmetMelon, "Melon Helmet");
+			LanguageRegistry.addName(plateMelon, "Melon Chestplate");
+			LanguageRegistry.addName(legsMelon, "Melon Leggings");
+			LanguageRegistry.addName(bootMelon, "Melon Boots");
 			
 			// Add the recipes of our items to the GameRegistry.
 			GameRegistry.addRecipe(new ItemStack(helmetOak), "xxx", "x x", 'x', new ItemStack(Block.wood, 1, 0));
@@ -391,31 +465,11 @@ public class BetterVanilla
 			GameRegistry.addRecipe(new ItemStack(plateCactus), "x x", "xxx", "xxx", 'x', new ItemStack(Block.cactus));
 			GameRegistry.addRecipe(new ItemStack(legsCactus), "xxx", "x x", "x x", 'x', new ItemStack(Block.cactus));
 			GameRegistry.addRecipe(new ItemStack(bootCactus), "x x", "x x", 'x', new ItemStack(Block.cactus));
+			GameRegistry.addRecipe(new ItemStack(helmetMelon), "xxx", "x x", 'x', new ItemStack(Block.melon));
+			GameRegistry.addRecipe(new ItemStack(plateMelon), "x x", "xxx", "xxx", 'x', new ItemStack(Block.melon));
+			GameRegistry.addRecipe(new ItemStack(legsMelon), "xxx", "x x", "x x", 'x', new ItemStack(Block.melon));
+			GameRegistry.addRecipe(new ItemStack(bootMelon), "x x", "x x", 'x', new ItemStack(Block.melon));
 		}
-		
-		GameRegistry.addSmelting(Item.doorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
-		GameRegistry.addSmelting(Item.bucketEmpty.itemID, new ItemStack(Item.ingotIron, 3), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.shears.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-		GameRegistry.addSmelting(Block.pressurePlateIron.blockID, new ItemStack(Item.ingotIron, 2), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.helmetIron.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.plateIron.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.legsIron.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.bootsIron.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
-		GameRegistry.addSmelting(Item.minecartEmpty.itemID, new ItemStack(Item.ingotIron, 5), 0);
-		GameRegistry.addSmelting(Item.cauldron.itemID, new ItemStack(Item.ingotIron, 7), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.swordIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.shovelIron.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.pickaxeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.hoeIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.axeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
-		GameRegistry.addSmelting(Block.railDetector.blockID, new ItemStack(Item.ingotIron, 1), 0);
-		GameRegistry.addSmelting(Block.railActivator.blockID, new ItemStack(Item.ingotIron, 1), 0);
-		FurnaceRecipes.smelting().addSmelting(Item.flintAndSteel.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
-		GameRegistry.addSmelting(Item.compass.itemID, new ItemStack(Item.ingotIron, 4), 0);
-		FurnaceRecipes.smelting().addSmelting(Block.anvil.blockID, 0, new ItemStack(Item.ingotIron, 31), 0);
-		GameRegistry.addSmelting(Block.pistonBase.blockID, new ItemStack(Item.ingotIron, 1), 0);
-		GameRegistry.addSmelting(Block.pistonStickyBase.blockID, new ItemStack(Item.ingotIron, 5), 0);
-		GameRegistry.addSmelting(Block.hopperBlock.blockID, new ItemStack(Item.ingotIron, 5), 0);
 	}
 
 	@EventHandler
