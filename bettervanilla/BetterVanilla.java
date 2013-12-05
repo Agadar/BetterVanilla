@@ -27,6 +27,7 @@ import bettervanilla.events.BreakHook;
 import bettervanilla.events.HarvestDropsHook;
 import bettervanilla.events.PlayerInteractHook;
 import bettervanilla.items.BirchArmor;
+import bettervanilla.items.CactusArmor;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
 import bettervanilla.items.OakArmor;
@@ -53,6 +54,7 @@ public class BetterVanilla
 	// Values from the configuration file.
 	public static boolean Apples;
 	public static double ApplesRate;
+	
 	public static boolean Beds;
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
@@ -67,9 +69,12 @@ public class BetterVanilla
 	public static String[] MobFilterList;
 	public static boolean MossStone;
 	public static boolean Nametags;
+	public static boolean RottenFleshToLeather;
+	public static boolean HardLeatherRecipe;
+	public static int FleshyHideID;
 	public static boolean Saddles;
-	public static boolean WoodArmor;
-	public static int WoodArmorID;
+	public static boolean MoreArmor;
+	public static int MoreArmorID;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -101,9 +106,12 @@ public class BetterVanilla
 		Property mobFilterList = config.get(Configuration.CATEGORY_GENERAL, "Mob filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property mossStone = config.get(Configuration.CATEGORY_ITEM, "Craftable moss stone", true);
 		Property nametags = config.get(Configuration.CATEGORY_ITEM, "Craftable nametags", true);
+		Property rottenFleshToLeather = config.get(Configuration.CATEGORY_ITEM, "Rotten flesh to leather", true);
+		Property hardLeatherRecipe = config.get(Configuration.CATEGORY_ITEM, "Hard leather recipe", true);
+		Property fleshyHideID = config.get(Configuration.CATEGORY_ITEM, "Fleshy Hide ID", 1010);
 		Property saddles = config.get(Configuration.CATEGORY_ITEM, "Craftable saddles", true);
-		Property woodArmor = config.get(Configuration.CATEGORY_ITEM, "Wood Armor", true);
-		Property woodArmorID = config.get(Configuration.CATEGORY_ITEM, "Starting ID", 1011);
+		Property moreArmor = config.get(Configuration.CATEGORY_ITEM, "Wood Armor", true);
+		Property moreArmorID = config.get(Configuration.CATEGORY_ITEM, "Starting ID", 1011);
 
 		// Set the comments of the configuration properties.
 		apples.comment = "Set to 'true' to alter the drop rate of apples.";
@@ -124,9 +132,12 @@ public class BetterVanilla
 				+ "other mods from spawning.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
+		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather.";
+		hardLeatherRecipe.comment = "Set to 'true' to disable directly smelting rotten flesh into leather, instead introducing an intermediate product (Fleshy Hide).";
+		fleshyHideID.comment = "Sets the item ID of Fleshy Hide.";
 		saddles.comment = "Set to 'true' to allow the crafting of saddles.";
-		woodArmor.comment = "Set to 'true' to allow the crafting of several wood armor types. Wood armor is equal in all respects to leather armor.";
-		woodArmorID.comment = "Sets the starting ID of the Wood Armor ID range. As there are a total of 16 items in this range, the last ID in the range is this value plus 15.";
+		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
+		moreArmorID.comment = "Sets the starting ID of the More Armor ID range. As there are a total of 20 items in this range, the last ID in the range is this value plus 19.";
 				
 		// Get the values of the configuration properties.
 		Apples = apples.getBoolean(true);
@@ -145,9 +156,12 @@ public class BetterVanilla
 		MobFilterList = mobFilterList.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
+		RottenFleshToLeather = rottenFleshToLeather.getBoolean(true);
+		HardLeatherRecipe = hardLeatherRecipe.getBoolean(true);
+		FleshyHideID = fleshyHideID.getInt();
 		Saddles = saddles.getBoolean(true);
-		WoodArmor = woodArmor.getBoolean(true);
-		WoodArmorID = woodArmorID.getInt(); 
+		MoreArmor = moreArmor.getBoolean(true);
+		MoreArmorID = moreArmorID.getInt(); 
 		
 		config.save();
 	}
@@ -267,10 +281,25 @@ public class BetterVanilla
 					"z z", 'x', Item.leather, 'y', Item.silk, 'z',
 					Item.ingotIron);
 		}
-		if (WoodArmor) {
+		if (RottenFleshToLeather) 
+		{
+			if (HardLeatherRecipe) 
+			{
+				Item fleshyHide = (new Item(FleshyHideID)).setUnlocalizedName("fleshy_hide").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("bettervanilla:fleshy_hide");
+				LanguageRegistry.addName(fleshyHide, "Fleshy Hide");
+				GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.rottenFlesh);
+				GameRegistry.addSmelting(fleshyHide.itemID, new ItemStack(Item.leather), 0.1F);				
+			} 
+			else 
+			{
+				GameRegistry.addSmelting(Item.rottenFlesh.itemID, new ItemStack(Item.leather), 0.1F);
+			}
+		}
+		if (MoreArmor) {
 			// Create our new armor material.
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
 			EnumArmorMaterial armorPUMPKIN = net.minecraftforge.common.EnumHelper.addArmorMaterial("PUMPKIN", 5, new int[]{1, 3, 2, 1}, 15);
+			EnumArmorMaterial armorCACTUS = net.minecraftforge.common.EnumHelper.addArmorMaterial("CACTUS", 5, new int[]{1, 3, 2, 1}, 15);
 			
 			// Register whatever it is these integers represent.
 			int oak = proxy.addArmor("oak");
@@ -278,28 +307,33 @@ public class BetterVanilla
 			int birch = proxy.addArmor("birch");
 			int jungle = proxy.addArmor("jungle");
 			int pumpkin = proxy.addArmor("pumpkin");
+			int cactus = proxy.addArmor("cactus");
 			
 			// Create our new armor items.
-			OakArmor helmetOak = (OakArmor) new OakArmor(WoodArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
-			OakArmor plateOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
-			OakArmor legsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
-			OakArmor bootsOak = (OakArmor) new OakArmor(WoodArmorID += 1, armorWOOD, oak, 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
-			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
-			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
-			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
-			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(WoodArmorID += 1, armorWOOD, spruce, 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
-			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
-			BirchArmor plateBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
-			BirchArmor legsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
-			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(WoodArmorID += 1, armorWOOD, birch, 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
-			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
-			JungleArmor plateJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
-			JungleArmor legsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
-			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(WoodArmorID += 1, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
-			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("helmetPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
-			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("platePumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
-			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("legsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
-			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(WoodArmorID += 1, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("bootsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
+			OakArmor helmetOak = (OakArmor) new OakArmor(MoreArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
+			OakArmor plateOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
+			OakArmor legsOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
+			OakArmor bootsOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
+			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
+			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
+			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
+			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
+			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
+			BirchArmor plateBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
+			BirchArmor legsBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
+			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
+			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
+			JungleArmor plateJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
+			JungleArmor legsJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
+			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
+			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("helmetPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
+			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("platePumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
+			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("legsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
+			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("bootsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
+			CactusArmor helmetCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 0).setUnlocalizedName("helmetCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_helmet");
+			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 1).setUnlocalizedName("plateCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
+			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 2).setUnlocalizedName("legsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
+			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 3).setUnlocalizedName("bootsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
 			
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
@@ -318,6 +352,14 @@ public class BetterVanilla
 			LanguageRegistry.addName(plateJungle, "Jungle Chestplate");
 			LanguageRegistry.addName(legsJungle, "Jungle Leggings");
 			LanguageRegistry.addName(bootsJungle, "Jungle Boots");
+			LanguageRegistry.addName(helmetPumpkin, "Pumpkin Helmet");
+			LanguageRegistry.addName(platePumpkin, "Pumpkin Chestplate");
+			LanguageRegistry.addName(legsPumpkin, "Pumpkin Leggings");
+			LanguageRegistry.addName(bootPumpkin, "Pumpkin Boots");
+			LanguageRegistry.addName(helmetCactus, "Cactus Helmet");
+			LanguageRegistry.addName(plateCactus, "Cactus Chestplate");
+			LanguageRegistry.addName(legsCactus, "Cactus Leggings");
+			LanguageRegistry.addName(bootCactus, "Cactus Boots");
 			
 			// Add the recipes of our items to the GameRegistry.
 			GameRegistry.addRecipe(new ItemStack(helmetOak), "xxx", "x x", 'x', new ItemStack(Block.wood, 1, 0));
@@ -335,7 +377,15 @@ public class BetterVanilla
 			GameRegistry.addRecipe(new ItemStack(helmetJungle), "xxx", "x x", 'x', new ItemStack(Block.wood, 1, 3));
 			GameRegistry.addRecipe(new ItemStack(plateJungle), "x x", "xxx", "xxx", 'x', new ItemStack(Block.wood, 1, 3));
 			GameRegistry.addRecipe(new ItemStack(legsJungle), "xxx", "x x", "x x", 'x', new ItemStack(Block.wood, 1, 3));
-			GameRegistry.addRecipe(new ItemStack(bootsJungle), "x x", "x x", 'x', new ItemStack(Block.wood, 1, 3));
+			GameRegistry.addRecipe(new ItemStack(bootsJungle), "x x", "x x", 'x', new ItemStack(Block.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(helmetPumpkin), "xxx", "x x", 'x', new ItemStack(Block.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(platePumpkin), "x x", "xxx", "xxx", 'x', new ItemStack(Block.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(legsPumpkin), "xxx", "x x", "x x", 'x', new ItemStack(Block.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(bootPumpkin), "x x", "x x", 'x', new ItemStack(Block.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(helmetCactus), "xxx", "x x", 'x', new ItemStack(Block.cactus));
+			GameRegistry.addRecipe(new ItemStack(plateCactus), "x x", "xxx", "xxx", 'x', new ItemStack(Block.cactus));
+			GameRegistry.addRecipe(new ItemStack(legsCactus), "xxx", "x x", "x x", 'x', new ItemStack(Block.cactus));
+			GameRegistry.addRecipe(new ItemStack(bootCactus), "x x", "x x", 'x', new ItemStack(Block.cactus));
 		}
 	}
 
