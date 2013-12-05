@@ -12,6 +12,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
@@ -251,7 +252,7 @@ public class BetterVanilla
 			Item.doorIron.setMaxStackSize(16);
 		}
 		if (HorseArmor) {
-			// Add the horse armor, saddle, and name-tag recipes.
+			// Add the horse armor recipes.
 			GameRegistry.addRecipe(new ItemStack(Item.horseArmorGold), "  x",
 					"xyx", "xxx", 'x', Item.ingotGold, 'y', new ItemStack(
 							Block.cloth, 1, 14));
@@ -263,6 +264,7 @@ public class BetterVanilla
 							Block.cloth, 1, 11));
 		}
 		if (MossStone) {
+			// Add the moss stone, mossy bricks, chiseled bricks, and cracked bricks recipes.
 			GameRegistry.addRecipe(new ItemStack(Block.cobblestoneMossy, 8), "xxx", "xyx",
 					"xxx", 'x', Block.cobblestone, 'y', Block.vine);
 			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 8, 1), "xxx", "xyx",
@@ -273,16 +275,19 @@ public class BetterVanilla
 					'x', new ItemStack(Block.stoneSingleSlab, 1, 5));
 		}
 		if (Nametags) {
+			// Add the name-tag recipe.
 			GameRegistry.addRecipe(new ItemStack(Item.nameTag), "  x", " y ",
 					"y  ", 'x', Item.silk, 'y', Item.paper);
 		}
 		if (Saddles) {
+			// Add the saddle recipe.
 			GameRegistry.addRecipe(new ItemStack(Item.saddle), "xxx", "yxy",
 					"z z", 'x', Item.leather, 'y', Item.silk, 'z',
 					Item.ingotIron);
 		}
 		if (RottenFleshToLeather) 
 		{
+			// Add the rotten flesh to leather recipe.
 			if (HardLeatherRecipe) 
 			{
 				Item fleshyHide = (new Item(FleshyHideID)).setUnlocalizedName("fleshy_hide").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("bettervanilla:fleshy_hide");
@@ -387,6 +392,30 @@ public class BetterVanilla
 			GameRegistry.addRecipe(new ItemStack(legsCactus), "xxx", "x x", "x x", 'x', new ItemStack(Block.cactus));
 			GameRegistry.addRecipe(new ItemStack(bootCactus), "x x", "x x", 'x', new ItemStack(Block.cactus));
 		}
+		
+		GameRegistry.addSmelting(Item.doorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
+		GameRegistry.addSmelting(Item.bucketEmpty.itemID, new ItemStack(Item.ingotIron, 3), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.shears.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+		GameRegistry.addSmelting(Block.pressurePlateIron.blockID, new ItemStack(Item.ingotIron, 2), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.helmetIron.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.plateIron.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.legsIron.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.bootsIron.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
+		GameRegistry.addSmelting(Item.minecartEmpty.itemID, new ItemStack(Item.ingotIron, 5), 0);
+		GameRegistry.addSmelting(Item.cauldron.itemID, new ItemStack(Item.ingotIron, 7), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.swordIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.shovelIron.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.pickaxeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.hoeIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.axeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+		GameRegistry.addSmelting(Block.railDetector.blockID, new ItemStack(Item.ingotIron, 1), 0);
+		GameRegistry.addSmelting(Block.railActivator.blockID, new ItemStack(Item.ingotIron, 1), 0);
+		FurnaceRecipes.smelting().addSmelting(Item.flintAndSteel.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+		GameRegistry.addSmelting(Item.compass.itemID, new ItemStack(Item.ingotIron, 4), 0);
+		FurnaceRecipes.smelting().addSmelting(Block.anvil.blockID, 0, new ItemStack(Item.ingotIron, 31), 0);
+		GameRegistry.addSmelting(Block.pistonBase.blockID, new ItemStack(Item.ingotIron, 1), 0);
+		GameRegistry.addSmelting(Block.pistonStickyBase.blockID, new ItemStack(Item.ingotIron, 5), 0);
+		GameRegistry.addSmelting(Block.hopperBlock.blockID, new ItemStack(Item.ingotIron, 5), 0);
 	}
 
 	@EventHandler
