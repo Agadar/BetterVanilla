@@ -334,7 +334,7 @@ public class BetterVanilla
 			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 1).setUnlocalizedName("plateCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
 			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 2).setUnlocalizedName("legsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
 			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 3).setUnlocalizedName("bootsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
-			
+
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
 			LanguageRegistry.addName(plateOak, "Oak Chestplate");
