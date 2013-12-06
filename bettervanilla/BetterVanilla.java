@@ -61,6 +61,8 @@ public class BetterVanilla
 	public static boolean BookShelves;
 	public static boolean Cacti;
 	public static boolean Cauldrons;
+	public static boolean CheaperHoppers;
+	public static boolean CraftableCobwebs;
 	public static boolean CraftableGrass;
 	public static boolean Dispensers;
 	public static boolean Doors;
@@ -100,6 +102,8 @@ public class BetterVanilla
 		Property bookShelves = config.get(Configuration.CATEGORY_BLOCK, "Bookshelves drop tweak", true);
 		Property cacti = config.get(Configuration.CATEGORY_BLOCK, "Cacti placement tweak", true);
 		Property cauldrons = config.get(Configuration.CATEGORY_BLOCK, "Cauldron tweak", true);
+		Property cheaperHoppers = config.get(Configuration.CATEGORY_BLOCK, "Cheaper hoppers", true);
+		Property craftableCobwebs = config.get(Configuration.CATEGORY_BLOCK, "Craftable cobwebs", true);
 		Property craftableGrass = config.get(Configuration.CATEGORY_BLOCK, "Craftable Grass", true);
 		Property dispensers = config.get(Configuration.CATEGORY_BLOCK, "Dispenser overhaul", true);
 		Property doors = config.get(Configuration.CATEGORY_ITEM, "Stackable doors", true);
@@ -126,6 +130,8 @@ public class BetterVanilla
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
+		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
+		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
@@ -154,6 +160,8 @@ public class BetterVanilla
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
 		Cauldrons = cauldrons.getBoolean(true);
+		CheaperHoppers = cheaperHoppers.getBoolean(true);
+		CraftableCobwebs = craftableCobwebs.getBoolean(true);
 		CraftableGrass = craftableGrass.getBoolean(true);
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
@@ -238,6 +246,17 @@ public class BetterVanilla
 		if (Cauldrons) {
 			// Register the event hook for using clay and wool on a cauldron.
 			MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
+		}
+		if (CheaperHoppers)
+		{
+			// Remove the old recipe for hoppers, and add the new one.
+			removeRecipe(new ItemStack(Block.hopperBlock));
+			GameRegistry.addRecipe(new ItemStack(Block.hopperBlock), "x x", "xyx", " x ", 'x', Block.stone, 'y', Item.redstone);
+		}
+		if (CraftableCobwebs) 
+		{
+			// Add the recipe for cobwebs.
+			GameRegistry.addRecipe(new ItemStack(Block.web), "x x", " x ", "x x", 'x', Item.silk);
 		}
 		if (CraftableGrass)
 		{
