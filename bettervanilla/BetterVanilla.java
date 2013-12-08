@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
+import net.minecraft.block.BlockGlowStone;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.EnumArmorMaterial;
@@ -19,6 +22,8 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
@@ -75,6 +80,7 @@ public class BetterVanilla
 	public static boolean Nametags;
 	public static boolean RottenFleshToLeather;
 	public static boolean HardLeatherRecipe;
+	public static boolean OtherMeats;
 	public static int FleshyHideID;
 	public static boolean Saddles;
 	public static boolean SmeltableItems;
@@ -95,32 +101,33 @@ public class BetterVanilla
 		config.load();
 
 		// Load/create the configuration properties.
-		Property apples = config.get(Configuration.CATEGORY_BLOCK, "Apples tweak", true);
-		Property applesRate = config.get(Configuration.CATEGORY_BLOCK, "Apples drop rate", 5);
-		Property beds = config.get(Configuration.CATEGORY_BLOCK, "Colored beds", false);
-		Property boneMeal = config.get(Configuration.CATEGORY_ITEM, "Bonemeal tweak", true);
-		Property bookShelves = config.get(Configuration.CATEGORY_BLOCK, "Bookshelves drop tweak", true);
-		Property cacti = config.get(Configuration.CATEGORY_BLOCK, "Cacti placement tweak", true);
-		Property cauldrons = config.get(Configuration.CATEGORY_BLOCK, "Cauldron tweak", true);
-		Property cheaperHoppers = config.get(Configuration.CATEGORY_BLOCK, "Cheaper hoppers", true);
-		Property craftableCobwebs = config.get(Configuration.CATEGORY_BLOCK, "Craftable cobwebs", true);
-		Property craftableGrass = config.get(Configuration.CATEGORY_BLOCK, "Craftable Grass", true);
-		Property dispensers = config.get(Configuration.CATEGORY_BLOCK, "Dispenser overhaul", true);
-		Property doors = config.get(Configuration.CATEGORY_ITEM, "Stackable doors", true);
-		Property enderChests = config.get(Configuration.CATEGORY_BLOCK, "Ender chest drop tweak", true);
-		Property horseArmor = config.get(Configuration.CATEGORY_ITEM, "Craftable horse armor", true);
-		Property ice = config.get(Configuration.CATEGORY_BLOCK, "Ice drop tweak", true);
-		Property mobFilter = config.get(Configuration.CATEGORY_GENERAL, "Mob filter", false);
-		Property mobFilterList = config.get(Configuration.CATEGORY_GENERAL, "Mob filter list", new String[] { "Example1", "Example2", "Example3" });
-		Property mossStone = config.get(Configuration.CATEGORY_ITEM, "Craftable moss stone", true);
-		Property nametags = config.get(Configuration.CATEGORY_ITEM, "Craftable nametags", true);
-		Property rottenFleshToLeather = config.get(Configuration.CATEGORY_ITEM, "Rotten flesh to leather", true);
-		Property hardLeatherRecipe = config.get(Configuration.CATEGORY_ITEM, "Hard leather recipe", true);
-		Property fleshyHideID = config.get(Configuration.CATEGORY_ITEM, "Fleshy Hide ID", 1010);
-		Property saddles = config.get(Configuration.CATEGORY_ITEM, "Craftable saddles", true);
-		Property smeltableItems = config.get(Configuration.CATEGORY_ITEM, "Smeltable Items", true);
-		Property moreArmor = config.get(Configuration.CATEGORY_ITEM, "Wood Armor", true);
-		Property moreArmorID = config.get(Configuration.CATEGORY_ITEM, "Starting ID", 1011);
+		Property apples = config.get("Apples tweak", "Enabled", true);
+		Property applesRate = config.get("Apples tweak", "Drop rate", 5);
+		Property beds = config.get("Miscellaneous", "Colored beds", false);
+		Property boneMeal = config.get("Miscellaneous", "Bonemeal tweak", true);
+		Property bookShelves = config.get("Drop tweaks", "Bookshelves drop tweak", true);
+		Property cacti = config.get("Miscellaneous", "Cacti placement tweak", true);
+		Property cauldrons = config.get("Miscellaneous", "Cauldron tweak", true);
+		Property cheaperHoppers = config.get("Crafting", "Cheaper hoppers", true);
+		Property craftableCobwebs = config.get("Crafting", "Craftable cobwebs", true);
+		Property craftableGrass = config.get("Crafting", "Craftable Grass", true);
+		Property dispensers = config.get("Miscellaneous", "Dispenser overhaul", true);
+		Property doors = config.get("Miscellaneous", "Stackable doors", true);
+		Property enderChests = config.get("Drop tweaks", "Ender chest drop tweak", true);
+		Property horseArmor = config.get("Crafting", "Craftable horse armor", true);
+		Property ice = config.get("Drop tweaks", "Ice drop tweak", true);
+		Property mobFilter = config.get("Mob filter", "Enabled", false);
+		Property mobFilterList = config.get("Mob filter", "Filter list", new String[] { "Example1", "Example2", "Example3" });
+		Property mossStone = config.get("Crafting", "Craftable moss stone", true);
+		Property nametags = config.get("Crafting", "Craftable nametags", true);
+		Property rottenFleshToLeather = config.get("Rotten Flesh to Leather", "Rotten flesh to leather", true);
+		Property hardLeatherRecipe = config.get("Rotten Flesh to Leather", "Hard leather recipe", true);
+		Property otherMeats = config.get("Rotten Flesh to Leather", "Other meats", true);
+		Property fleshyHideID = config.get("Rotten Flesh to Leather", "Fleshy Hide ID", 1010);
+		Property saddles = config.get("Crafting", "Craftable saddles", true);
+		Property smeltableItems = config.get("Crafting", "Smeltable Items", true);
+		Property moreArmor = config.get("More Armor", "Enabled", true);
+		Property moreArmorID = config.get("More Armor", "Starting ID", 1011);
 
 		// Set the comments of the configuration properties.
 		apples.comment = "Set to 'true' to alter the drop rate of apples.";
@@ -144,8 +151,9 @@ public class BetterVanilla
 				+ "other mods from spawning.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
-		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather.";
+		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather or crafted into Fleshy Hides, depending on other settings.";
 		hardLeatherRecipe.comment = "Set to 'true' to disable directly smelting rotten flesh into leather, instead introducing an intermediate product (Fleshy Hide).";
+		otherMeats.comment = "Set to 'true' to allow other meats to be crafted into Fleshy Hides as well.";
 		fleshyHideID.comment = "Sets the item ID of Fleshy Hide.";
 		saddles.comment = "Set to 'true' to allow the crafting of saddles.";
 		smeltableItems.comment = "Set to 'true' to allow most iron and golden items to be smelted into ingots.";
@@ -174,6 +182,7 @@ public class BetterVanilla
 		Nametags = nametags.getBoolean(true);
 		RottenFleshToLeather = rottenFleshToLeather.getBoolean(true);
 		HardLeatherRecipe = hardLeatherRecipe.getBoolean(true);
+		OtherMeats = otherMeats.getBoolean(true);
 		FleshyHideID = fleshyHideID.getInt();
 		Saddles = saddles.getBoolean(true);
 		SmeltableItems = smeltableItems.getBoolean(true);
@@ -182,10 +191,13 @@ public class BetterVanilla
 		
 		config.save();
 	}
-
+	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{
+		Block stairsSmooth = (new BlockStairs(2000, Block.wood, 0)).setUnlocalizedName("stairsSmooth");
+		GameRegistry.registerBlock(stairsSmooth, "stairsSmooth");
+		
 		if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -376,7 +388,13 @@ public class BetterVanilla
 				Item fleshyHide = (new Item(FleshyHideID)).setUnlocalizedName("fleshy_hide").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("bettervanilla:fleshy_hide");
 				LanguageRegistry.addName(fleshyHide, "Fleshy Hide");
 				GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.rottenFlesh);
-				GameRegistry.addSmelting(fleshyHide.itemID, new ItemStack(Item.leather), 0.1F);				
+				GameRegistry.addSmelting(fleshyHide.itemID, new ItemStack(Item.leather), 0.1F);
+				if (OtherMeats) 
+				{
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.beefRaw);
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.porkRaw);
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.chickenRaw);
+				}
 			} 
 			else 
 			{
