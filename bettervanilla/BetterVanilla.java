@@ -54,7 +54,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "BetterVanilla", name = "BetterVanilla", version = "0.1.8")
+@Mod(modid = "BetterVanilla", name = "BetterVanilla", version = "0.1.9")
 @NetworkMod(clientSideRequired = true)
 public class BetterVanilla 
 {	
