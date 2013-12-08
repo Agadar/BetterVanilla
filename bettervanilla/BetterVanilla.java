@@ -76,6 +76,11 @@ public class BetterVanilla
 	public static boolean Ice;
 	public static boolean MobFilter;
 	public static String[] MobFilterList;
+	public static boolean MoreArmor;
+	public static int MoreArmorID;
+	public static boolean MoreStairs;
+	public static int MoreStairsID;
+	public static String[] StairsMaterials;
 	public static boolean MossStone;
 	public static boolean Nametags;
 	public static boolean RottenFleshToLeather;
@@ -84,8 +89,6 @@ public class BetterVanilla
 	public static int FleshyHideID;
 	public static boolean Saddles;
 	public static boolean SmeltableItems;
-	public static boolean MoreArmor;
-	public static int MoreArmorID;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -118,6 +121,11 @@ public class BetterVanilla
 		Property ice = config.get("Drop tweaks", "Ice drop tweak", true);
 		Property mobFilter = config.get("Mob filter", "Enabled", false);
 		Property mobFilterList = config.get("Mob filter", "Filter list", new String[] { "Example1", "Example2", "Example3" });
+		Property moreArmor = config.get("More armor", "Enabled", true);
+		Property moreArmorID = config.get("More armor", "Starting ID", 1011);
+		Property moreStairs = config.get("More stairs", "Enabled", true);
+		Property moreStairsID = config.get("More stairs", "Starting ID", 1050);
+		Property stairsMaterials = config.get("More Stairs", "Materials", new String[] { "Stone", "Bookshelf" });
 		Property mossStone = config.get("Crafting", "Craftable moss stone", true);
 		Property nametags = config.get("Crafting", "Craftable nametags", true);
 		Property rottenFleshToLeather = config.get("Rotten Flesh to Leather", "Rotten flesh to leather", true);
@@ -126,8 +134,6 @@ public class BetterVanilla
 		Property fleshyHideID = config.get("Rotten Flesh to Leather", "Fleshy Hide ID", 1010);
 		Property saddles = config.get("Crafting", "Craftable saddles", true);
 		Property smeltableItems = config.get("Crafting", "Smeltable Items", true);
-		Property moreArmor = config.get("More Armor", "Enabled", true);
-		Property moreArmorID = config.get("More Armor", "Starting ID", 1011);
 
 		// Set the comments of the configuration properties.
 		apples.comment = "Set to 'true' to alter the drop rate of apples.";
@@ -149,6 +155,11 @@ public class BetterVanilla
 		mobFilterList.comment = "Insert into this list the names of mobs you wish to stop from spawning naturally. "
 				+ "Invalid or wrongly-typed mob names are ignored. Ensure that this mod is loaded last if you want to prevent mobs added by "
 				+ "other mods from spawning.";
+		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
+		moreArmorID.comment = "Sets the starting ID of the More Armor ID range. As there are a total of 28 items in this range, the last ID in the range is this value plus 27.";
+		moreStairs.comment = "Set to 'true' to allow the crafting of stairs made from the materials as written in the materials list in this module.";
+		moreStairsID.comment = "Sets the starting ID of the More Stairs ID range. The last ID in the range is the starting ID plus the number of materials minus 1.";
+		stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
 		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather or crafted into Fleshy Hides, depending on other settings.";
@@ -157,8 +168,6 @@ public class BetterVanilla
 		fleshyHideID.comment = "Sets the item ID of Fleshy Hide.";
 		saddles.comment = "Set to 'true' to allow the crafting of saddles.";
 		smeltableItems.comment = "Set to 'true' to allow most iron and golden items to be smelted into ingots.";
-		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
-		moreArmorID.comment = "Sets the starting ID of the More Armor ID range. As there are a total of 20 items in this range, the last ID in the range is this value plus 19.";
 				
 		// Get the values of the configuration properties.
 		Apples = apples.getBoolean(true);
@@ -178,6 +187,11 @@ public class BetterVanilla
 		Ice = ice.getBoolean(true);
 		MobFilter = mobFilter.getBoolean(false);
 		MobFilterList = mobFilterList.getStringList();
+		MoreArmor = moreArmor.getBoolean(true);
+		MoreArmorID = moreArmorID.getInt(); 
+		MoreStairs = moreStairs.getBoolean(true);
+		MoreStairsID = moreStairsID.getInt();
+		StairsMaterials = stairsMaterials.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
 		RottenFleshToLeather = rottenFleshToLeather.getBoolean(true);
@@ -186,8 +200,6 @@ public class BetterVanilla
 		FleshyHideID = fleshyHideID.getInt();
 		Saddles = saddles.getBoolean(true);
 		SmeltableItems = smeltableItems.getBoolean(true);
-		MoreArmor = moreArmor.getBoolean(true);
-		MoreArmorID = moreArmorID.getInt(); 
 		
 		config.save();
 	}
@@ -195,9 +207,6 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{
-		Block stairsSmooth = (new BlockStairs(2000, Block.wood, 0)).setUnlocalizedName("stairsSmooth");
-		GameRegistry.registerBlock(stairsSmooth, "stairsSmooth");
-		
 		if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -309,98 +318,6 @@ public class BetterVanilla
 					"  x", "xyx", "xxx", 'x', Item.diamond, 'y', new ItemStack(
 							Block.cloth, 1, 11));
 		}
-		if (MossStone) {
-			// Add the moss stone, mossy bricks, chiseled bricks, and cracked bricks recipes.
-			GameRegistry.addRecipe(new ItemStack(Block.cobblestoneMossy, 8), "xxx", "xyx",
-					"xxx", 'x', Block.cobblestone, 'y', Block.vine);
-			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 8, 1), "xxx", "xyx",
-					"xxx", 'x', new ItemStack(Block.stoneBrick, 1, 0), 'y', Block.vine);
-			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 4, 2), "xx",
-					"xx", 'x', new ItemStack(Block.stoneBrick, 1, 0));
-			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 1, 3), "x", "x",
-					'x', new ItemStack(Block.stoneSingleSlab, 1, 5));
-		}
-		if (Nametags) {
-			// Add the name-tag recipe.
-			GameRegistry.addRecipe(new ItemStack(Item.nameTag), "  x", " y ",
-					"y  ", 'x', Item.silk, 'y', Item.paper);
-		}
-		if (Saddles) {
-			// Add the saddle recipe.
-			GameRegistry.addRecipe(new ItemStack(Item.saddle), "xxx", "yxy",
-					"z z", 'x', Item.leather, 'y', Item.silk, 'z',
-					Item.ingotIron);
-		}
-		if (SmeltableItems)
-		{
-			// Register all the smeltable recipes for iron.
-			GameRegistry.addSmelting(Item.doorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
-			GameRegistry.addSmelting(Item.bucketEmpty.itemID, new ItemStack(Item.ingotIron, 3), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.shears.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-			GameRegistry.addSmelting(Block.pressurePlateIron.blockID, new ItemStack(Item.ingotIron, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.helmetIron.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.plateIron.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.legsIron.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.bootsIron.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
-			GameRegistry.addSmelting(Item.minecartEmpty.itemID, new ItemStack(Item.ingotIron, 5), 0);
-			GameRegistry.addSmelting(Item.cauldron.itemID, new ItemStack(Item.ingotIron, 7), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.swordIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.shovelIron.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.pickaxeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.hoeIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.axeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
-			GameRegistry.addSmelting(Block.railDetector.blockID, new ItemStack(Item.ingotIron, 1), 0);
-			GameRegistry.addSmelting(Block.railActivator.blockID, new ItemStack(Item.ingotIron, 1), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.flintAndSteel.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
-			GameRegistry.addSmelting(Item.compass.itemID, new ItemStack(Item.ingotIron, 4), 0);
-			FurnaceRecipes.smelting().addSmelting(Block.anvil.blockID, 0, new ItemStack(Item.ingotIron, 31), 0);
-			GameRegistry.addSmelting(Block.pistonBase.blockID, new ItemStack(Item.ingotIron, 1), 0);
-			GameRegistry.addSmelting(Block.pistonStickyBase.blockID, new ItemStack(Item.ingotIron, 5), 0);
-			GameRegistry.addSmelting(Block.hopperBlock.blockID, new ItemStack(Item.ingotIron, 5), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.helmetChain.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.plateChain.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.legsChain.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.bootsChain.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
-			GameRegistry.addSmelting(Item.horseArmorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
-			
-			// Register all the smeltable recipes for gold.
-			GameRegistry.addSmelting(Item.pocketSundial.itemID, new ItemStack(Item.ingotGold, 4), 0);
-			GameRegistry.addSmelting(Block.railPowered.blockID, new ItemStack(Item.ingotGold, 1), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 1, new ItemStack(Block.blockGold, 8), 0);
-			GameRegistry.addSmelting(Block.pressurePlateGold.blockID, new ItemStack(Item.ingotGold, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.helmetGold.itemID, 0, new ItemStack(Item.ingotGold, 5), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.plateGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.legsGold.itemID, 0, new ItemStack(Item.ingotGold, 7), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.bootsGold.itemID, 0, new ItemStack(Item.ingotGold, 4), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.swordGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.shovelGold.itemID, 0, new ItemStack(Item.ingotGold, 1), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.pickaxeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.hoeGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
-			FurnaceRecipes.smelting().addSmelting(Item.axeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
-			GameRegistry.addSmelting(Item.horseArmorGold.itemID, new ItemStack(Item.ingotGold, 6), 0);
-		}
-		if (RottenFleshToLeather) 
-		{
-			// Add the rotten flesh to leather recipe.
-			if (HardLeatherRecipe) 
-			{
-				Item fleshyHide = (new Item(FleshyHideID)).setUnlocalizedName("fleshy_hide").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("bettervanilla:fleshy_hide");
-				LanguageRegistry.addName(fleshyHide, "Fleshy Hide");
-				GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.rottenFlesh);
-				GameRegistry.addSmelting(fleshyHide.itemID, new ItemStack(Item.leather), 0.1F);
-				if (OtherMeats) 
-				{
-					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.beefRaw);
-					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.porkRaw);
-					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.chickenRaw);
-				}
-			} 
-			else 
-			{
-				GameRegistry.addSmelting(Item.rottenFlesh.itemID, new ItemStack(Item.leather), 0.1F);
-			}
-		}
 		if (MoreArmor) {
 			// Create our new armor material.
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
@@ -418,34 +335,34 @@ public class BetterVanilla
 			int melon = proxy.addArmor("melon");
 			
 			// Create our new armor items.
-			OakArmor helmetOak = (OakArmor) new OakArmor(MoreArmorID, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
-			OakArmor plateOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
-			OakArmor legsOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
-			OakArmor bootsOak = (OakArmor) new OakArmor(MoreArmorID += 1, armorWOOD, oak, 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
-			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
-			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
-			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
-			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID += 1, armorWOOD, spruce, 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
-			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
-			BirchArmor plateBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
-			BirchArmor legsBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
-			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(MoreArmorID += 1, armorWOOD, birch, 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
-			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
-			JungleArmor plateJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
-			JungleArmor legsJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
-			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(MoreArmorID += 1, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
-			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("helmetPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
-			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("platePumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
-			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("legsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
-			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID += 1, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("bootsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
-			CactusArmor helmetCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 0).setUnlocalizedName("helmetCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_helmet");
-			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 1).setUnlocalizedName("plateCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
-			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 2).setUnlocalizedName("legsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
-			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID += 1, armorCACTUS, cactus, 3).setUnlocalizedName("bootsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
-			MelonArmor helmetMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 0).setUnlocalizedName("helmetMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_helmet");
-			MelonArmor plateMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 1).setUnlocalizedName("plateMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_chestplate");
-			MelonArmor legsMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 2).setUnlocalizedName("legsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_leggings");
-			MelonArmor bootMelon = (MelonArmor) new MelonArmor(MoreArmorID += 1, armorMELON, melon, 3).setUnlocalizedName("bootsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_boots");
+			OakArmor helmetOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 0).setUnlocalizedName("helmetOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
+			OakArmor plateOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 1).setUnlocalizedName("plateOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
+			OakArmor legsOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 2).setUnlocalizedName("legsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
+			OakArmor bootsOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 3).setUnlocalizedName("bootsOak").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
+			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 0).setUnlocalizedName("helmetSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
+			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 1).setUnlocalizedName("plateSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
+			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 2).setUnlocalizedName("legsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
+			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 3).setUnlocalizedName("bootsSpruce").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
+			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 0).setUnlocalizedName("helmetBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
+			BirchArmor plateBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 1).setUnlocalizedName("plateBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
+			BirchArmor legsBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 2).setUnlocalizedName("legsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
+			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 3).setUnlocalizedName("bootsBirch").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
+			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 0).setUnlocalizedName("helmetJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
+			JungleArmor plateJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 1).setUnlocalizedName("plateJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
+			JungleArmor legsJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 2).setUnlocalizedName("legsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
+			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 3).setUnlocalizedName("bootsJungle").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
+			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("helmetPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
+			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("platePumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
+			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("legsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
+			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("bootsPumpkin").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
+			CactusArmor helmetCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 0).setUnlocalizedName("helmetCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_helmet");
+			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 1).setUnlocalizedName("plateCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
+			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 2).setUnlocalizedName("legsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
+			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 3).setUnlocalizedName("bootsCactus").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
+			MelonArmor helmetMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 0).setUnlocalizedName("helmetMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_helmet");
+			MelonArmor plateMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 1).setUnlocalizedName("plateMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_chestplate");
+			MelonArmor legsMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 2).setUnlocalizedName("legsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_leggings");
+			MelonArmor bootMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 3).setUnlocalizedName("bootsMelon").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_boots");
 			
 			// Register out items in the LanguageRegistry.
 			LanguageRegistry.addName(helmetOak, "Oak Helmet");
@@ -506,6 +423,116 @@ public class BetterVanilla
 			GameRegistry.addRecipe(new ItemStack(plateMelon), "x x", "xxx", "xxx", 'x', new ItemStack(Block.melon));
 			GameRegistry.addRecipe(new ItemStack(legsMelon), "xxx", "x x", "x x", 'x', new ItemStack(Block.melon));
 			GameRegistry.addRecipe(new ItemStack(bootMelon), "x x", "x x", 'x', new ItemStack(Block.melon));
+		}
+		if (MoreStairs)
+		{
+			// Add the new stairs styles to the appropiate registries.
+			LanguageRegistry.addName(Block.stairsCobblestone, "Cobblestone Stairs");
+			for (String blockName : StairsMaterials) 
+			{
+				for (Block block : Block.blocksList)
+				{
+					if (block != null && block.getLocalizedName().equals(blockName)) 
+					{
+						Block stairs = (new BlockStairs(MoreStairsID++, block, 0)).setUnlocalizedName(blockName + "Stairs");
+						GameRegistry.registerBlock(stairs, blockName + "Stairs");
+						LanguageRegistry.addName(stairs, blockName + " Stairs");
+						GameRegistry.addRecipe(new ItemStack(stairs), "x  ", "xx ", "xxx", 'x', block);
+					}
+				}
+			}
+		}
+		if (MossStone) {
+			// Add the moss stone, mossy bricks, chiseled bricks, and cracked bricks recipes.
+			GameRegistry.addRecipe(new ItemStack(Block.cobblestoneMossy, 8), "xxx", "xyx",
+					"xxx", 'x', Block.cobblestone, 'y', Block.vine);
+			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 8, 1), "xxx", "xyx",
+					"xxx", 'x', new ItemStack(Block.stoneBrick, 1, 0), 'y', Block.vine);
+			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 4, 2), "xx",
+					"xx", 'x', new ItemStack(Block.stoneBrick, 1, 0));
+			GameRegistry.addRecipe(new ItemStack(Block.stoneBrick, 1, 3), "x", "x",
+					'x', new ItemStack(Block.stoneSingleSlab, 1, 5));
+		}
+		if (Nametags) {
+			// Add the name-tag recipe.
+			GameRegistry.addRecipe(new ItemStack(Item.nameTag), "  x", " y ",
+					"y  ", 'x', Item.silk, 'y', Item.paper);
+		}
+		if (Saddles) {
+			// Add the saddle recipe.
+			GameRegistry.addRecipe(new ItemStack(Item.saddle), "xxx", "yxy",
+					"z z", 'x', Item.leather, 'y', Item.silk, 'z',
+					Item.ingotIron);
+		}
+		if (SmeltableItems)
+		{
+			// Register all the smeltable recipes for iron.
+			GameRegistry.addSmelting(Item.doorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
+			GameRegistry.addSmelting(Item.bucketEmpty.itemID, new ItemStack(Item.ingotIron, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shears.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			GameRegistry.addSmelting(Block.pressurePlateIron.blockID, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetIron.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateIron.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsIron.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsIron.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
+			GameRegistry.addSmelting(Item.minecartEmpty.itemID, new ItemStack(Item.ingotIron, 5), 0);
+			GameRegistry.addSmelting(Item.cauldron.itemID, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.swordIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shovelIron.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.pickaxeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.hoeIron.itemID, 0, new ItemStack(Item.ingotIron, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.axeIron.itemID, 0, new ItemStack(Item.ingotIron, 3), 0);
+			GameRegistry.addSmelting(Block.railDetector.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Block.railActivator.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.flintAndSteel.itemID, 0, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Item.compass.itemID, new ItemStack(Item.ingotIron, 4), 0);
+			FurnaceRecipes.smelting().addSmelting(Block.anvil.blockID, 0, new ItemStack(Item.ingotIron, 31), 0);
+			GameRegistry.addSmelting(Block.pistonBase.blockID, new ItemStack(Item.ingotIron, 1), 0);
+			GameRegistry.addSmelting(Block.pistonStickyBase.blockID, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetChain.itemID, 0, new ItemStack(Item.ingotIron, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateChain.itemID, 0, new ItemStack(Item.ingotIron, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsChain.itemID, 0, new ItemStack(Item.ingotIron, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsChain.itemID, 0, new ItemStack(Item.ingotIron, 4), 0);
+			GameRegistry.addSmelting(Item.horseArmorIron.itemID, new ItemStack(Item.ingotIron, 6), 0);
+			if (!CheaperHoppers) GameRegistry.addSmelting(Block.hopperBlock.blockID, new ItemStack(Item.ingotIron, 5), 0);
+			
+			// Register all the smeltable recipes for gold.
+			GameRegistry.addSmelting(Item.pocketSundial.itemID, new ItemStack(Item.ingotGold, 4), 0);
+			GameRegistry.addSmelting(Block.railPowered.blockID, new ItemStack(Item.ingotGold, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.appleGold.itemID, 1, new ItemStack(Block.blockGold, 8), 0);
+			GameRegistry.addSmelting(Block.pressurePlateGold.blockID, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.helmetGold.itemID, 0, new ItemStack(Item.ingotGold, 5), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.plateGold.itemID, 0, new ItemStack(Item.ingotGold, 8), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.legsGold.itemID, 0, new ItemStack(Item.ingotGold, 7), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.bootsGold.itemID, 0, new ItemStack(Item.ingotGold, 4), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.swordGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.shovelGold.itemID, 0, new ItemStack(Item.ingotGold, 1), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.pickaxeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.hoeGold.itemID, 0, new ItemStack(Item.ingotGold, 2), 0);
+			FurnaceRecipes.smelting().addSmelting(Item.axeGold.itemID, 0, new ItemStack(Item.ingotGold, 3), 0);
+			GameRegistry.addSmelting(Item.horseArmorGold.itemID, new ItemStack(Item.ingotGold, 6), 0);
+		}
+		if (RottenFleshToLeather) 
+		{
+			// Add the rotten flesh to leather recipe.
+			if (HardLeatherRecipe) 
+			{
+				Item fleshyHide = (new Item(FleshyHideID)).setUnlocalizedName("fleshy_hide").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("bettervanilla:fleshy_hide");
+				LanguageRegistry.addName(fleshyHide, "Fleshy Hide");
+				GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.rottenFlesh);
+				GameRegistry.addSmelting(fleshyHide.itemID, new ItemStack(Item.leather), 0.1F);
+				if (OtherMeats) 
+				{
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.beefRaw);
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.porkRaw);
+					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.chickenRaw);
+				}
+			} 
+			else 
+			{
+				GameRegistry.addSmelting(Item.rottenFlesh.itemID, new ItemStack(Item.leather), 0.1F);
+			}
 		}
 	}
 
