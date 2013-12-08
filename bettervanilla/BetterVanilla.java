@@ -68,6 +68,8 @@ public class BetterVanilla
 	public static boolean Cauldrons;
 	public static boolean CheaperHoppers;
 	public static boolean CraftableCobwebs;
+	public static boolean CraftableEndstone;
+	public static boolean CraftableFlint;
 	public static boolean CraftableGrass;
 	public static boolean CraftableRottenFlesh;
 	public static boolean Dispensers;
@@ -114,6 +116,8 @@ public class BetterVanilla
 		Property cauldrons = config.get("Miscellaneous", "Cauldron tweak", true);
 		Property cheaperHoppers = config.get("Crafting", "Cheaper hoppers", true);
 		Property craftableCobwebs = config.get("Crafting", "Craftable cobwebs", true);
+		Property craftableEndstone = config.get("Crafting", "Craftable endstone", true);
+		Property craftableFlint = config.get("Crafting", "Craftable flint", true);
 		Property craftableGrass = config.get("Crafting", "Craftable grass", true);
 		Property craftableRottenFlesh = config.get("Crafting", "Craftable rotten flesh", true);
 		Property dispensers = config.get("Miscellaneous", "Dispenser overhaul", true);
@@ -147,6 +151,8 @@ public class BetterVanilla
 		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
+		craftableEndstone.comment = "Set to 'true' to allow the crafting of endstone.";
+		craftableFlint.comment = "Set to 'true' to allow the crafting of flint.";
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		craftableRottenFlesh.comment = "Set to 'true' to allow the crafting of rotten flesh.";
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
@@ -182,6 +188,8 @@ public class BetterVanilla
 		Cauldrons = cauldrons.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);
+		CraftableEndstone = craftableEndstone.getBoolean(true);
+		CraftableFlint = craftableFlint.getBoolean(true);
 		CraftableGrass = craftableGrass.getBoolean(true);
 		CraftableRottenFlesh = craftableRottenFlesh.getBoolean(true);
 		Dispensers = dispensers.getBoolean(true);
@@ -282,6 +290,16 @@ public class BetterVanilla
 		{
 			// Add the recipe for cobwebs.
 			GameRegistry.addRecipe(new ItemStack(Block.web), "x x", " x ", "x x", 'x', Item.silk);
+		}
+		if (CraftableEndstone)
+		{
+			// Add the recipe for endstone.
+			GameRegistry.addRecipe(new ItemStack(Block.whiteStone, 8), "xxx", "xyx", "xxx", 'x', Block.cobblestone, 'y', Item.enderPearl);
+		}
+		if (CraftableFlint)
+		{
+			// Add the recipe for flint.
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.flint), Block.gravel);
 		}
 		if (CraftableGrass)
 		{
