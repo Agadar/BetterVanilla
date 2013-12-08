@@ -69,6 +69,7 @@ public class BetterVanilla
 	public static boolean CheaperHoppers;
 	public static boolean CraftableCobwebs;
 	public static boolean CraftableGrass;
+	public static boolean CraftableRottenFlesh;
 	public static boolean Dispensers;
 	public static boolean Doors;
 	public static boolean EnderChests;
@@ -113,7 +114,8 @@ public class BetterVanilla
 		Property cauldrons = config.get("Miscellaneous", "Cauldron tweak", true);
 		Property cheaperHoppers = config.get("Crafting", "Cheaper hoppers", true);
 		Property craftableCobwebs = config.get("Crafting", "Craftable cobwebs", true);
-		Property craftableGrass = config.get("Crafting", "Craftable Grass", true);
+		Property craftableGrass = config.get("Crafting", "Craftable grass", true);
+		Property craftableRottenFlesh = config.get("Crafting", "Craftable rotten flesh", true);
 		Property dispensers = config.get("Miscellaneous", "Dispenser overhaul", true);
 		Property doors = config.get("Miscellaneous", "Stackable doors", true);
 		Property enderChests = config.get("Drop tweaks", "Ender chest drop tweak", true);
@@ -128,7 +130,7 @@ public class BetterVanilla
 		Property stairsMaterials = config.get("More Stairs", "Materials", new String[] { "Stone", "Bookshelf" });
 		Property mossStone = config.get("Crafting", "Craftable moss stone", true);
 		Property nametags = config.get("Crafting", "Craftable nametags", true);
-		Property rottenFleshToLeather = config.get("Rotten Flesh to Leather", "Rotten flesh to leather", true);
+		Property rottenFleshToLeather = config.get("Rotten Flesh to Leather", "Enabled", true);
 		Property hardLeatherRecipe = config.get("Rotten Flesh to Leather", "Hard leather recipe", true);
 		Property otherMeats = config.get("Rotten Flesh to Leather", "Other meats", true);
 		Property fleshyHideID = config.get("Rotten Flesh to Leather", "Fleshy Hide ID", 1010);
@@ -146,6 +148,7 @@ public class BetterVanilla
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
+		craftableRottenFlesh.comment = "Set to 'true' to allow the crafting of rotten flesh.";
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
@@ -167,7 +170,7 @@ public class BetterVanilla
 		otherMeats.comment = "Set to 'true' to allow other meats to be crafted into Fleshy Hides as well.";
 		fleshyHideID.comment = "Sets the item ID of Fleshy Hide.";
 		saddles.comment = "Set to 'true' to allow the crafting of saddles.";
-		smeltableItems.comment = "Set to 'true' to allow most iron and golden items to be smelted into ingots.";
+		smeltableItems.comment = "Set to 'true' to allow most iron and golden items to be smelted back into ingots.";
 				
 		// Get the values of the configuration properties.
 		Apples = apples.getBoolean(true);
@@ -180,6 +183,7 @@ public class BetterVanilla
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);
 		CraftableGrass = craftableGrass.getBoolean(true);
+		CraftableRottenFlesh = craftableRottenFlesh.getBoolean(true);
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
 		EnderChests = enderChests.getBoolean(true);
@@ -285,6 +289,13 @@ public class BetterVanilla
 			GameRegistry.addShapelessRecipe(new ItemStack(Block.grass), Block.dirt, Item.seeds);
 			GameRegistry.addShapelessRecipe(new ItemStack(Block.mycelium), Block.dirt, Block.mushroomBrown);
 			GameRegistry.addShapelessRecipe(new ItemStack(Block.mycelium), Block.dirt, Block.mushroomRed);
+		}
+		if (CraftableRottenFlesh)
+		{
+			// Add the recipes for rotten flesh.
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.rottenFlesh, 2), Item.fermentedSpiderEye, Item.beefRaw);
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.rottenFlesh, 2), Item.fermentedSpiderEye, Item.porkRaw);
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.rottenFlesh, 2), Item.fermentedSpiderEye, Item.chickenRaw);
 		}
 		if (Dispensers) {
 			// Register our dispenser behaviors
