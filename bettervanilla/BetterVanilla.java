@@ -26,6 +26,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
+import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
 import bettervanilla.events.BonemealHook;
@@ -473,7 +474,7 @@ public class BetterVanilla
 				{
 					if (block != null && block.getLocalizedName().equals(blockName)) 
 					{
-						Block stairs = (new BlockStairs(MoreStairsID++, block, 0)).setUnlocalizedName(blockName + "Stairs");
+						Block stairs = (new BlockStairsCustom(MoreStairsID++, block, 0)).setUnlocalizedName(blockName + "Stairs");
 						GameRegistry.registerBlock(stairs, blockName + "Stairs");
 						LanguageRegistry.addName(stairs, blockName + " Stairs");
 						GameRegistry.addRecipe(new ItemStack(stairs), "x  ", "xx ", "xxx", 'x', block);
