@@ -71,11 +71,13 @@ public class BetterVanilla
 	public static boolean Cacti;
 	public static boolean Cauldrons;
 	public static boolean CheaperHoppers;
+	public static boolean CraftableBottleOEnchant;
 	public static boolean CraftableCobwebs;
 	public static boolean CraftableEndstone;
 	public static boolean CraftableFlint;
 	public static boolean CraftableGrass;
 	public static boolean CraftableRottenFlesh;
+	public static boolean CraftableSlimeBalls;
 	public static boolean Dispensers;
 	public static boolean Doors;
 	public static boolean EnderChests;
@@ -135,11 +137,13 @@ public class BetterVanilla
 		Property cacti = config.get(misc, "Cacti placement tweak", true);
 		Property cauldrons = config.get(misc, "Cauldron tweak", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
+		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
 		Property craftableCobwebs = config.get(crafting, "Craftable cobwebs", true);
 		Property craftableEndstone = config.get(crafting, "Craftable endstone", true);
 		Property craftableFlint = config.get(crafting, "Craftable flint", true);
 		Property craftableGrass = config.get(crafting, "Craftable grass", true);
 		Property craftableRottenFlesh = config.get(crafting, "Craftable rotten flesh", true);
+		Property craftableSlimeBalls = config.get(crafting, "Craftable slimeballs", true);
 		Property dispensers = config.get(misc, "Dispenser overhaul", true);
 		Property doors = config.get(misc, "Stackable doors", true);
 		Property enderChests = config.get(dropTweaks, "Ender chest drop tweak", true);
@@ -172,11 +176,13 @@ public class BetterVanilla
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
+		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
 		craftableEndstone.comment = "Set to 'true' to allow the crafting of endstone.";
 		craftableFlint.comment = "Set to 'true' to allow the crafting of flint.";
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		craftableRottenFlesh.comment = "Set to 'true' to allow the crafting of rotten flesh.";
+		craftableSlimeBalls.comment = "Set to 'true' to allow the crafting of slimeballs. Requires the harder variant of the Rotten Flesh to Leather recipe to be enabled, as this recipe uses Fleshy Hide.";
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
@@ -211,11 +217,13 @@ public class BetterVanilla
 		Cacti = cacti.getBoolean(true);
 		Cauldrons = cauldrons.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
+		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);
 		CraftableEndstone = craftableEndstone.getBoolean(true);
 		CraftableFlint = craftableFlint.getBoolean(true);
 		CraftableGrass = craftableGrass.getBoolean(true);
 		CraftableRottenFlesh = craftableRottenFlesh.getBoolean(true);
+		CraftableSlimeBalls = craftableSlimeBalls.getBoolean(true);
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
 		EnderChests = enderChests.getBoolean(true);
@@ -311,6 +319,11 @@ public class BetterVanilla
 			// Remove the old recipe for hoppers, and add the new one.
 			removeRecipe(new ItemStack(Block.hopperBlock));
 			GameRegistry.addRecipe(new ItemStack(Block.hopperBlock), "x x", "xyx", " x ", 'x', Block.stone, 'y', Item.redstone);
+		}
+		if (CraftableBottleOEnchant)
+		{
+			// Add the recipe for Bottle o' Enchanting.
+			GameRegistry.addRecipe(new ItemStack(Item.expBottle), "xxx", "xyx", "xxx", 'x', Item.goldNugget, 'y', new ItemStack(Item.potion, 1, 16));
 		}
 		if (CraftableCobwebs) 
 		{
@@ -595,6 +608,11 @@ public class BetterVanilla
 					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.beefRaw);
 					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.porkRaw);
 					GameRegistry.addRecipe(new ItemStack(fleshyHide), "xx", "xx", 'x', Item.chickenRaw);
+				}
+				// Add the slimeballs recipe.
+				if (CraftableSlimeBalls)
+				{
+					GameRegistry.addShapelessRecipe(new ItemStack(Item.slimeBall), fleshyHide, Item.bucketWater, new ItemStack(Item.dyePowder, 1, 2));
 				}
 			} 
 			else 

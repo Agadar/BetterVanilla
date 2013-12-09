@@ -12,7 +12,7 @@ public class EntityInteractHook
 	@ForgeSubscribe
 	public void onEntityInteract(EntityInteractEvent event) 
 	{
-		if (!event.entityPlayer.worldObj.isRemote && event.entityPlayer.getCurrentEquippedItem() != null && 
+		if (event.entityPlayer.getCurrentEquippedItem() != null && 
 				event.entityPlayer.getCurrentEquippedItem().itemID == Item.glassBottle.itemID && 
 				event.target.getClass() == EntityCow.class) 
 		{
@@ -20,11 +20,7 @@ public class EntityInteractHook
 			if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(BetterVanilla.milkBottle)))
             {
 				event.entityPlayer.dropPlayerItem(new ItemStack(BetterVanilla.milkBottle));
-            } 
-			else
-            {
-				event.entityPlayer.inventoryContainer.detectAndSendChanges();	
-            }			
+            }		
 		}
 	}
 }
