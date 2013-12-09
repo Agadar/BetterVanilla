@@ -12,6 +12,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -31,6 +32,7 @@ import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
 import bettervanilla.events.BonemealHook;
 import bettervanilla.events.BreakHook;
+import bettervanilla.events.EntityInteractHook;
 import bettervanilla.events.HarvestDropsHook;
 import bettervanilla.events.PlayerInteractHook;
 import bettervanilla.items.BirchArmor;
@@ -38,6 +40,7 @@ import bettervanilla.items.CactusArmor;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
 import bettervanilla.items.MelonArmor;
+import bettervanilla.items.MilkBottle;
 import bettervanilla.items.OakArmor;
 import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
@@ -78,6 +81,8 @@ public class BetterVanilla
 	public static boolean EnderChests;
 	public static boolean HorseArmor;
 	public static boolean Ice;
+	public static boolean MilkBottles;
+	public static int MilkBottlesID;
 	public static boolean MobFilter;
 	public static String[] MobFilterList;
 	public static boolean MoreArmor;
@@ -93,6 +98,9 @@ public class BetterVanilla
 	public static int FleshyHideID;
 	public static boolean Saddles;
 	public static boolean SmeltableItems;
+	
+	// Blocks & Items
+	public static Item milkBottle;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -111,6 +119,7 @@ public class BetterVanilla
 		String applesTweak = "Apples tweak";
 		String crafting = "Crafting";
 		String dropTweaks = "Drop tweaks";
+		String milk = "Milk bottles";
 		String misc = "Miscellaneous";
 		String mobFil = "Mob filter";
 		String moarArmor = "More armor";
@@ -136,6 +145,8 @@ public class BetterVanilla
 		Property enderChests = config.get(dropTweaks, "Ender chest drop tweak", true);
 		Property horseArmor = config.get(crafting, "Craftable horse armor", true);
 		Property ice = config.get(dropTweaks, "Ice drop tweak", true);
+		Property milkBottles = config.get(milk, "Milk bottles", true);
+		Property milkBottlesID = config.get(milk, "Milk Bottle ID", 1060);
 		Property mobFilter = config.get(mobFil, "Enabled", false);
 		Property mobFilterList = config.get(mobFil, "Filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property moreArmor = config.get(moarArmor, "Enabled", true);
@@ -171,6 +182,8 @@ public class BetterVanilla
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
 		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";
 		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";
+		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";
+		milkBottlesID.comment = "Sets the item ID of Milk Bottle.";
 		mobFilter.comment = "Set to 'true' to prevent the mobs of which the names are entered into the mob filter list from spawning naturally.";
 		mobFilterList.comment = "Insert into this list the names of mobs you wish to stop from spawning naturally. "
 				+ "Invalid or wrongly-typed mob names are ignored. Ensure that this mod is loaded last if you want to prevent mobs added by "
@@ -208,6 +221,8 @@ public class BetterVanilla
 		EnderChests = enderChests.getBoolean(true);
 		HorseArmor = horseArmor.getBoolean(true);
 		Ice = ice.getBoolean(true);
+		MilkBottles = milkBottles.getBoolean(true);
+		MilkBottlesID = milkBottlesID.getInt();
 		MobFilter = mobFilter.getBoolean(false);
 		MobFilterList = mobFilterList.getStringList();
 		MoreArmor = moreArmor.getBoolean(true);
@@ -229,7 +244,7 @@ public class BetterVanilla
 	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
-	{
+	{		
 		if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -358,6 +373,19 @@ public class BetterVanilla
 					"  x", "xyx", "xxx", 'x', Item.diamond, 'y', new ItemStack(
 							Block.cloth, 1, 11));
 		}
+		if (MilkBottles)
+		{
+			// Register the Milk Bottle in the appropriate registers.
+			milkBottle = (new MilkBottle(MilkBottlesID)).setUnlocalizedName("milkBottle").setTextureName("bettervanilla:milk_bottle");
+			GameRegistry.registerItem(milkBottle, milkBottle.getUnlocalizedName());
+			LanguageRegistry.addName(milkBottle, "Milk Bottle");
+			
+			// Register the event hook for using an empty bottle on a cow.
+			MinecraftForge.EVENT_BUS.register(new EntityInteractHook());
+			
+			// Add a crafting recipe for Milk Bottle.
+			GameRegistry.addShapelessRecipe(new ItemStack(milkBottle, 3), Item.bucketMilk, Item.glassBottle, Item.glassBottle, Item.glassBottle);
+		}
 		if (MoreArmor) {
 			// Create our new armor material.
 			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
@@ -477,7 +505,7 @@ public class BetterVanilla
 						Block stairs = (new BlockStairsCustom(MoreStairsID++, block, 0)).setUnlocalizedName(blockName + "Stairs");
 						GameRegistry.registerBlock(stairs, blockName + "Stairs");
 						LanguageRegistry.addName(stairs, blockName + " Stairs");
-						GameRegistry.addRecipe(new ItemStack(stairs), "x  ", "xx ", "xxx", 'x', block);
+						GameRegistry.addRecipe(new ItemStack(stairs, 4), "x  ", "xx ", "xxx", 'x', block);
 					}
 				}
 			}

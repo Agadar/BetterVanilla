@@ -10,7 +10,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 public class PlayerInteractHook {
 
 	@ForgeSubscribe
-	public void onPlayerInteract(PlayerInteractEvent event) {
+	public void onPlayerInteract(PlayerInteractEvent event) 
+	{
 		World world = event.entityPlayer.worldObj;
 
 		if (event.action == Action.RIGHT_CLICK_BLOCK && world.getBlockId(event.x, event.y, event.z) == Block.cauldron.blockID) 
