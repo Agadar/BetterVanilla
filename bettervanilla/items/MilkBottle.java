@@ -1,5 +1,6 @@
 package bettervanilla.items;
 
+import bettervanilla.BetterVanilla;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityCow;
@@ -28,7 +29,16 @@ public class MilkBottle extends Item
         if (!par3EntityPlayer.capabilities.isCreativeMode)
         {
         	--par1ItemStack.stackSize;
-            par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
+        	
+        	if (par1ItemStack.stackSize <= 0)
+            {
+                return new ItemStack(Item.glassBottle);
+            }
+        	
+            if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle)))
+            {
+            	par3EntityPlayer.dropPlayerItem(new ItemStack(Item.glassBottle));
+            }
         }
 
         return par1ItemStack;
