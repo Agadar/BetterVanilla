@@ -1,5 +1,6 @@
 package bettervanilla;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IPlantable;
@@ -30,6 +32,7 @@ import bettervanilla.blocks.BlockCactusOverride;
 import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
+import bettervanilla.entities.PluckedChicken;
 import bettervanilla.events.BonemealHook;
 import bettervanilla.events.BreakHook;
 import bettervanilla.events.EntityInteractHook;
@@ -253,7 +256,17 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{		
-		if (Apples || Ice) {
+		int id = 100;
+		id++;
+		EntityRegistry.registerGlobalEntityID(PluckedChicken.class, "PluckedChicken", id, 5, 5);
+		proxy.registerRenderThings();
+        proxy.registerSound();
+        LanguageRegistry.instance().addStringLocalization("entity.PluckedChicken.name", "en_US","Plucked Chicken");
+        
+		
+        
+        
+        if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
 		}
