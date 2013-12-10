@@ -9,7 +9,9 @@ import net.minecraft.block.BlockGlowStone;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -32,7 +34,7 @@ import bettervanilla.blocks.BlockCactusOverride;
 import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
-import bettervanilla.entities.PluckedChicken;
+import bettervanilla.entities.PluckableChicken;
 import bettervanilla.events.BonemealHook;
 import bettervanilla.events.BreakHook;
 import bettervanilla.events.EntityInteractHook;
@@ -256,12 +258,20 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{		
-		int id = 100;
-		id++;
-		EntityRegistry.registerGlobalEntityID(PluckedChicken.class, "PluckedChicken", id, 5, 5);
+		
+		
+		// Register our pluckable chicken and its spawn egg, and remove the normal chicken's spawn egg.
+		EntityList.entityEggs.remove(93);
+		EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId(), 10592673, 16711680);
+		
+		
+		
+		//EntityRegistry.removeSpawn(EntityChicken.class, EnumCreatureType.ambient, biomes);
+		
+		// Register rendering and sound stuff on the client side.
 		proxy.registerRenderThings();
         proxy.registerSound();
-        LanguageRegistry.instance().addStringLocalization("entity.PluckedChicken.name", "en_US","Plucked Chicken");
+        
         
 		
         

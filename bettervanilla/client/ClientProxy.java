@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import bettervanilla.CommonProxy;
-import bettervanilla.entities.PluckedChicken;
-import bettervanilla.entities.RenderPluckedChicken;
+import bettervanilla.entities.PluckableChicken;
+import bettervanilla.entities.RenderPluckableChicken;
 
 public class ClientProxy extends CommonProxy 
 {
@@ -20,7 +20,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void registerRenderThings() 
 	{
-		RenderingRegistry.registerEntityRenderingHandler(PluckedChicken.class, new RenderPluckedChicken(new ModelChicken(), 0.3F));
+		RenderingRegistry.registerEntityRenderingHandler(PluckableChicken.class, new RenderPluckableChicken(new ModelChicken(), 0.3F));
     }
     
 	@Override
