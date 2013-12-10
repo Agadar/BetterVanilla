@@ -10,8 +10,11 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -28,7 +31,11 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
 import bettervanilla.blocks.BlockStairsCustom;
@@ -261,10 +268,10 @@ public class BetterVanilla
 		
 		
 		// Register our pluckable chicken and its spawn egg, and remove the normal chicken's spawn egg.
-		EntityList.entityEggs.remove(93);
-		EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId(), 10592673, 16711680);
+		//EntityList.entityEggs.remove(93);
+		EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId());//, 10592673, 16711680);
 		
-		
+		MinecraftForge.EVENT_BUS.register(this);
 		
 		//EntityRegistry.removeSpawn(EntityChicken.class, EnumCreatureType.ambient, biomes);
 		
@@ -681,6 +688,21 @@ public class BetterVanilla
 		}
 	}
 
+	@ForgeSubscribe
+	public void onSpecialSpawn(EntityJoinWorldEvent event)
+	{
+		if (event.entity.getClass() == EntityChicken.class)
+		{
+			PluckableChicken chicken = new PluckableChicken(event.world);
+			chicken.setLocationAndAngles(event.entity.posX, event.entity.posY, event.entity.posZ, event.entity.rotationYaw, event.entity.rotationPitch);
+			chicken.setHealth(((EntityLivingBase) event.entity).getHealth());
+			chicken.renderYawOffset = ((EntityLivingBase) event.entity).renderYawOffset;
+	        event.world.spawnEntityInWorld(chicken);
+			event.setCanceled(true);
+		}
+	}
+	
+	
 	/**
 	 * Removes all recipes from the CraftingManager's recipe list that have an
 	 * output equal to resultItem.
