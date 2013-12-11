@@ -18,13 +18,8 @@ public class ClientProxy extends CommonProxy
 	}
 	
 	@Override
-	public void registerRenderThings() 
+	public void registerPluckableChicken() 
 	{
 		RenderingRegistry.registerEntityRenderingHandler(PluckableChicken.class, new RenderPluckableChicken(new ModelChicken(), 0.3F));
-    }
-    
-	@Override
-    public void registerSound() 
-    {
     }
 }

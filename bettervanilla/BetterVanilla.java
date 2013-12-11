@@ -45,6 +45,7 @@ import bettervanilla.entities.PluckableChicken;
 import bettervanilla.events.BonemealHook;
 import bettervanilla.events.BreakHook;
 import bettervanilla.events.EntityInteractHook;
+import bettervanilla.events.EntityJoinWorldHook;
 import bettervanilla.events.HarvestDropsHook;
 import bettervanilla.events.PlayerInteractHook;
 import bettervanilla.items.BirchArmor;
@@ -106,6 +107,7 @@ public class BetterVanilla
 	public static String[] StairsMaterials;
 	public static boolean MossStone;
 	public static boolean Nametags;
+	public static boolean PluckableChickens;
 	public static boolean RottenFleshToLeather;
 	public static boolean HardLeatherRecipe;
 	public static boolean OtherMeats;
@@ -130,6 +132,7 @@ public class BetterVanilla
 		config.load();
 
 		// Some standard category names.
+		String animals = "Animals";
 		String applesTweak = "Apples tweak";
 		String crafting = "Crafting";
 		String dropTweaks = "Drop tweaks";
@@ -172,6 +175,7 @@ public class BetterVanilla
 		Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf" });
 		Property mossStone = config.get(crafting, "Craftable moss stone", true);
 		Property nametags = config.get(crafting, "Craftable nametags", true);
+		Property pluckableChickens = config.get(animals, "Pluckable chickens", true);
 		Property rottenFleshToLeather = config.get(rotToLeath, "Enabled", true);
 		Property hardLeatherRecipe = config.get(rotToLeath, "Hard leather recipe", true);
 		Property otherMeats = config.get(rotToLeath, "Other meats", true);
@@ -213,6 +217,7 @@ public class BetterVanilla
 		stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
+		pluckableChickens.comment = "Set to 'true' to allow players to pluck chickens using shears.";
 		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather or crafted into Fleshy Hides, depending on other settings.";
 		hardLeatherRecipe.comment = "Set to 'true' to disable directly smelting rotten flesh into leather, instead introducing an intermediate product (Fleshy Hide).";
 		otherMeats.comment = "Set to 'true' to allow other meats to be crafted into Fleshy Hides as well.";
@@ -252,6 +257,7 @@ public class BetterVanilla
 		StairsMaterials = stairsMaterials.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
+		PluckableChickens = pluckableChickens.getBoolean(true);
 		RottenFleshToLeather = rottenFleshToLeather.getBoolean(true);
 		HardLeatherRecipe = hardLeatherRecipe.getBoolean(true);
 		OtherMeats = otherMeats.getBoolean(true);
@@ -265,24 +271,6 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{		
-		
-		
-		// Register our pluckable chicken and its spawn egg, and remove the normal chicken's spawn egg.
-		//EntityList.entityEggs.remove(93);
-		EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId());//, 10592673, 16711680);
-		
-		MinecraftForge.EVENT_BUS.register(this);
-		
-		//EntityRegistry.removeSpawn(EntityChicken.class, EnumCreatureType.ambient, biomes);
-		
-		// Register rendering and sound stuff on the client side.
-		proxy.registerRenderThings();
-        proxy.registerSound();
-        
-        
-		
-        
-        
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -569,6 +557,15 @@ public class BetterVanilla
 			GameRegistry.addRecipe(new ItemStack(Item.nameTag), "  x", " y ",
 					"y  ", 'x', Item.silk, 'y', Item.paper);
 		}
+		if (PluckableChickens)
+		{
+			// Register our pluckable chicken and its renderer.
+			EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId());
+			proxy.registerPluckableChicken();
+			
+			// Register the event hook for intercepting chickens spawning.
+			MinecraftForge.EVENT_BUS.register(new EntityJoinWorldHook());
+		}
 		if (Saddles) {
 			// Add the saddle recipe.
 			GameRegistry.addRecipe(new ItemStack(Item.saddle), "xxx", "yxy",
@@ -687,21 +684,6 @@ public class BetterVanilla
 			}
 		}
 	}
-
-	@ForgeSubscribe
-	public void onSpecialSpawn(EntityJoinWorldEvent event)
-	{
-		if (event.entity.getClass() == EntityChicken.class)
-		{
-			PluckableChicken chicken = new PluckableChicken(event.world);
-			chicken.setLocationAndAngles(event.entity.posX, event.entity.posY, event.entity.posZ, event.entity.rotationYaw, event.entity.rotationPitch);
-			chicken.setHealth(((EntityLivingBase) event.entity).getHealth());
-			chicken.renderYawOffset = ((EntityLivingBase) event.entity).renderYawOffset;
-	        event.world.spawnEntityInWorld(chicken);
-			event.setCanceled(true);
-		}
-	}
-	
 	
 	/**
 	 * Removes all recipes from the CraftingManager's recipe list that have an

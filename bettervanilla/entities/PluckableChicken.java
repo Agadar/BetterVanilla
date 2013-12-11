@@ -13,9 +13,24 @@ import net.minecraftforge.common.IShearable;
 
 public class PluckableChicken extends EntityChicken implements IShearable
 {
+	/** The time until the feathers grow back. */
+	public int timeUntilFeathers;
+	
 	public PluckableChicken(World par1World) 
 	{
-		super(par1World);	
+		super(par1World);
+		this.timeUntilFeathers = this.rand.nextInt(3000) + 3000;
+	}
+	
+	@Override
+	public void onLivingUpdate()
+	{		
+		super.onLivingUpdate();
+		if (!this.isChild() && !this.worldObj.isRemote && this.getSheared() && --this.timeUntilFeathers <= 0)
+        {
+			this.setSheared(false);
+            this.timeUntilFeathers = this.rand.nextInt(3000) + 3000;
+        }
 	}
 	
 	@Override

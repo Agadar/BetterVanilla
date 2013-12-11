@@ -7,11 +7,8 @@ public class CommonProxy
 		return 0;
 	}    
 	
-	public void registerRenderThings() 
+	public void registerPluckableChicken()
 	{
-    }
-    
-    public void registerSound() 
-    {
-    }
+		
+	}
 }
