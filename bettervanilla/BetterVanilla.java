@@ -85,6 +85,7 @@ public class BetterVanilla
 	public static boolean Cauldrons;
 	public static boolean CheaperHoppers;
 	public static boolean CraftableBottleOEnchant;
+	public static boolean CraftableClay;
 	public static boolean CraftableCobwebs;
 	public static boolean CraftableEndstone;
 	public static boolean CraftableFlint;
@@ -153,6 +154,7 @@ public class BetterVanilla
 		Property cauldrons = config.get(misc, "Cauldron tweak", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
 		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
+		Property craftableClay = config.get(crafting, "Craftable clay", true);
 		Property craftableCobwebs = config.get(crafting, "Craftable cobwebs", true);
 		Property craftableEndstone = config.get(crafting, "Craftable endstone", true);
 		Property craftableFlint = config.get(crafting, "Craftable flint", true);
@@ -193,6 +195,7 @@ public class BetterVanilla
 		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
+		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
 		craftableEndstone.comment = "Set to 'true' to allow the crafting of endstone.";
 		craftableFlint.comment = "Set to 'true' to allow the crafting of flint.";
@@ -235,6 +238,7 @@ public class BetterVanilla
 		Cauldrons = cauldrons.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
+		CraftableClay = craftableClay.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);
 		CraftableEndstone = craftableEndstone.getBoolean(true);
 		CraftableFlint = craftableFlint.getBoolean(true);
@@ -342,6 +346,11 @@ public class BetterVanilla
 		{
 			// Add the recipe for Bottle o' Enchanting.
 			GameRegistry.addRecipe(new ItemStack(Item.expBottle), "xxx", "xyx", "xxx", 'x', Item.goldNugget, 'y', new ItemStack(Item.potion, 1, 16));
+		}
+		if (CraftableClay)
+		{
+			// Add the recipe for clay.
+			GameRegistry.addShapelessRecipe(new ItemStack(Item.clay, 4), Block.dirt, Block.sand, Block.gravel, Item.bucketWater);
 		}
 		if (CraftableCobwebs) 
 		{
