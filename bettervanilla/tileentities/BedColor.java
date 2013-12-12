@@ -5,30 +5,31 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 
-public class BedDirection extends TileEntity {
-	private static final String VARIABLENAME = "_direction";
-	private int _direction;
+public class BedColor extends TileEntity {
+	private static final String VARIABLENAME = "_color";
+	private int _color;
 	
-	public int getDirection() {
-		return _direction;
+	public int getColor() {
+		return _color;
 	}
 	
-	public void setDirection(int direction) {
-		_direction = direction;
+	public void setColor(int color) {
+		_color = MathHelper.clamp_int(color, 0, 15);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound var1)
 	{
-		var1.setInteger(VARIABLENAME, _direction);
+		var1.setInteger(VARIABLENAME, _color);
 	    super.writeToNBT(var1);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound var1)
 	{
-		_direction = var1.getInteger(VARIABLENAME);
+		_color = MathHelper.clamp_int(var1.getInteger(VARIABLENAME), 0, 15);
 	    super.readFromNBT(var1);
 	}
 	

@@ -24,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IPlantable;
@@ -57,7 +56,7 @@ import bettervanilla.items.MilkBottle;
 import bettervanilla.items.OakArmor;
 import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
-import bettervanilla.tileentities.BedDirection;
+import bettervanilla.tileentities.BedColor;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -116,8 +115,12 @@ public class BetterVanilla
 	public static boolean Saddles;
 	public static boolean SmeltableItems;
 	
-	// Blocks & Items
+	// Items
 	public static Item milkBottle;
+	public static Item itemBedOverride;
+	
+	// Blocks
+	public static Block blockBedOverride;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -147,7 +150,7 @@ public class BetterVanilla
 		// Load/create the configuration properties.
 		Property apples = config.get(applesTweak, "Enabled", true);
 		Property applesRate = config.get(applesTweak, "Drop rate", 5);
-		Property beds = config.get(misc, "Colored beds", false);
+		Property beds = config.get(misc, "Colored beds", true);
 		Property boneMeal = config.get(misc, "Bonemeal tweak", true);
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
 		Property cacti = config.get(misc, "Cacti placement tweak", true);
@@ -231,7 +234,7 @@ public class BetterVanilla
 		// Get the values of the configuration properties.
 		Apples = apples.getBoolean(true);
 		ApplesRate = applesRate.getDouble(5) * 2;
-		Beds = beds.getBoolean(false);
+		Beds = beds.getBoolean(true);
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
@@ -283,8 +286,8 @@ public class BetterVanilla
 			// Replace the original bed item with our overridden bed item.
 			int itemBedId = Item.bed.itemID;
 			Item.itemsList[itemBedId] = null;
-			Item itemBedOverride = (new ItemBedOverride(itemBedId)).setMaxStackSize(1).setUnlocalizedName("bedItem").setTextureName("bettervanilla:bed");
-
+			itemBedOverride = (new ItemBedOverride(itemBedId)).setMaxStackSize(1).setUnlocalizedName("bed").setTextureName("bettervanilla:bed");
+			
 			// Add all of the names for the bed item's subitems.
 			LanguageRegistry.addName(new ItemStack(itemBedOverride, 1, 0), "White Bed");
 			LanguageRegistry.addName(new ItemStack(itemBedOverride, 1, 1), "Orange Bed");
@@ -311,10 +314,10 @@ public class BetterVanilla
 			// Replace the original bed block with our overridden bed block.
 			int blockBedId = Block.bed.blockID;
 			Block.blocksList[blockBedId] = null;
-			(new BlockBedOverride(blockBedId)).setHardness(0.2F).setUnlocalizedName("bedBlock").setTextureName("bettervanilla:bed");
+			blockBedOverride = (new BlockBedOverride(blockBedId)).setHardness(0.2F).setUnlocalizedName("bed").setTextureName("bettervanilla:bed");
 			
 			// Register the tile entity that is responsible for storing the bed's direction.
-			GameRegistry.registerTileEntity(BedDirection.class, "BedDirection");
+			GameRegistry.registerTileEntity(BedColor.class, "BedColor");
 		}
 		if (BoneMeal) {
 			// Register the event hook for using bonemeal on reeds, cacti, and warts.
