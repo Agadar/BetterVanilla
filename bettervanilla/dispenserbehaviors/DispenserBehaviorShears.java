@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
@@ -30,18 +31,26 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
         int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
         
         AxisAlignedBB box = AxisAlignedBB.getBoundingBox(i, j, k, i+1, j+1, k+1);
-        @SuppressWarnings("unchecked")
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(IShearable.class, box);
-        if (entities.size() > 0) {
-        	FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);
-        	ItemShears shears = (ItemShears) par2ItemStack.getItem();
-        	shears.itemInteractionForEntity(par2ItemStack, fakePlayerEntity, entities.get(0));
-        } else {       
+		FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);
+		ItemShears shears = (ItemShears) par2ItemStack.getItem();
+		if (entities.size() > 0)
+		{
+			for (EntityLivingBase entity : entities)
+			{
+				if (((IShearable) entity).isShearable(par2ItemStack, entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ))
+				{
+					shears.itemInteractionForEntity(par2ItemStack, fakePlayerEntity, entity);
+					break;
+				}
+			}
+        } 
+		else 
+        {       
         	int blockId = world.getBlockId(i, j, k);
         	Block block = Block.blocksList[blockId];
-        	if (block instanceof IShearable) {
-        		FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);  
-        		ItemShears shears = (ItemShears) par2ItemStack.getItem();
+        	if (block instanceof IShearable) 
+        	{
         		shears.onBlockStartBreak(par2ItemStack, i, j, k, fakePlayerEntity);
         		world.destroyBlock(i, j, k, false);
         	}

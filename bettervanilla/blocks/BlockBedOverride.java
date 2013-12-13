@@ -98,7 +98,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 	@Override
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return 0;//isBlockHeadOfBed(par1) ? 0 : BetterVanilla.itemBedOverride.itemID;
+        return 0;
     }
 
     private void setBounds()

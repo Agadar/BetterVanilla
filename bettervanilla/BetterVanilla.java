@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockGlowStone;
 import net.minecraft.block.BlockStairs;
@@ -37,6 +38,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
+import bettervanilla.blocks.BlockCauldronOverride;
 import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
@@ -56,7 +58,9 @@ import bettervanilla.items.MilkBottle;
 import bettervanilla.items.OakArmor;
 import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
+import bettervanilla.renderers.BlockCauldronOverrideRenderer;
 import bettervanilla.tileentities.BedColor;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -121,6 +125,10 @@ public class BetterVanilla
 	
 	// Blocks
 	public static Block blockBedOverride;
+	public static BlockCauldronOverride cauldronOverride;
+	
+	// Renderers
+	public static ISimpleBlockRenderingHandler blockCauldronOverrideRenderer;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -134,7 +142,7 @@ public class BetterVanilla
 		Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		config.load();
-
+		
 		// Some standard category names.
 		String animals = "Animals";
 		String applesTweak = "Apples tweak";
@@ -277,7 +285,16 @@ public class BetterVanilla
 	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
-	{		
+	{				
+		int blockCauldronId = Block.cauldron.blockID;
+		Block.blocksList[blockCauldronId] = null;
+		cauldronOverride = (BlockCauldronOverride) (new BlockCauldronOverride(blockCauldronId)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
+		
+		blockCauldronOverrideRenderer = new BlockCauldronOverrideRenderer();
+		RenderingRegistry.registerBlockHandler(blockCauldronOverrideRenderer);
+		
+		
+		
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
