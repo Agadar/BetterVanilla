@@ -2,7 +2,15 @@ package bettervanilla.events;
 
 import bettervanilla.BetterVanilla;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -14,15 +22,29 @@ public class PlayerInteractHook {
 	public void onPlayerInteract(PlayerInteractEvent event) 
 	{
 		World world = event.entityPlayer.worldObj;
-
-		if (event.action == Action.RIGHT_CLICK_BLOCK) 
-		{			
-			int id = world.getBlockId(event.x, event.y, event.z);
-			
-			if (id == Block.cauldron.blockID)
+		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, event.entityPlayer, true);
+		
+		if (event.action == Action.RIGHT_CLICK_BLOCK && movingobjectposition != null && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
+		{
+			int i = movingobjectposition.blockX;
+            int j = movingobjectposition.blockY;
+            int k = movingobjectposition.blockZ;
+            int id = world.getBlockId(i, j, k);
+    		ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
+            
+            if (world.getBlockMaterial(i, j, k) == Material.lava && stack.itemID == Item.glassBottle.itemID && BetterVanilla.CauldronsLava)
+            {
+            	world.setBlockToAir(i, j, k);        	
+    			event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
+    			
+    			if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(BetterVanilla.lavaBottle))) 
+    			{
+    				event.entityPlayer.dropPlayerItem(new ItemStack(BetterVanilla.lavaBottle));
+    			}
+            }
+            else if (id == Block.cauldron.blockID && BetterVanilla.CauldronsWash)
 			{
-				ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
-				int metadata = world.getBlockMetadata(event.x, event.y, event.z);
+				int metadata = world.getBlockMetadata(i, j, k);
 
 				if (stack.itemID == Block.stainedClay.blockID && metadata > 0) 
 				{
@@ -36,8 +58,8 @@ public class PlayerInteractHook {
 					{
 						stack.stackSize -= numberToWash;
 						event.entityPlayer.inventoryContainer.detectAndSendChanges();
-						world.setBlockMetadataWithNotify(event.x, event.y,event.z, metadata - 1, 2);
-						world.func_96440_m(event.x, event.y, event.z, Block.cauldron.blockID);
+						world.setBlockMetadataWithNotify(i, j, k, metadata - 1, 2);
+						world.func_96440_m(i, j, k, Block.cauldron.blockID);
 					}
 				}
 				else if (stack.itemID == Block.cloth.blockID && stack.getItemDamage() != 0 && metadata > 0) 
@@ -52,11 +74,36 @@ public class PlayerInteractHook {
 					{
 						stack.stackSize -= numberToWash;
 						event.entityPlayer.inventoryContainer.detectAndSendChanges();
-						world.setBlockMetadataWithNotify(event.x, event.y, event.z, metadata - 1, 2);
-						world.func_96440_m(event.x, event.y, event.z, Block.cauldron.blockID);
+						world.setBlockMetadataWithNotify(i, j, k, metadata - 1, 2);
+						world.func_96440_m(i, j, k, Block.cauldron.blockID);
 					}
 				}		
 			}
 		}
 	}
+	
+	// Directly copied from the Item class, is needed in order to properly discover whether a player clicked a fluid.
+	private MovingObjectPosition getMovingObjectPositionFromPlayer(World par1World, EntityPlayer par2EntityPlayer, boolean par3)
+    {
+        float f = 1.0F;
+        float f1 = par2EntityPlayer.prevRotationPitch + (par2EntityPlayer.rotationPitch - par2EntityPlayer.prevRotationPitch) * f;
+        float f2 = par2EntityPlayer.prevRotationYaw + (par2EntityPlayer.rotationYaw - par2EntityPlayer.prevRotationYaw) * f;
+        double d0 = par2EntityPlayer.prevPosX + (par2EntityPlayer.posX - par2EntityPlayer.prevPosX) * (double)f;
+        double d1 = par2EntityPlayer.prevPosY + (par2EntityPlayer.posY - par2EntityPlayer.prevPosY) * (double)f + (double)(par1World.isRemote ? par2EntityPlayer.getEyeHeight() - par2EntityPlayer.getDefaultEyeHeight() : par2EntityPlayer.getEyeHeight()); // isRemote check to revert changes to ray trace position due to adding the eye height clientside and player yOffset differences
+        double d2 = par2EntityPlayer.prevPosZ + (par2EntityPlayer.posZ - par2EntityPlayer.prevPosZ) * (double)f;
+        Vec3 vec3 = par1World.getWorldVec3Pool().getVecFromPool(d0, d1, d2);
+        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float)Math.PI);
+        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float)Math.PI);
+        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
+        float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        float f7 = f4 * f5;
+        float f8 = f3 * f5;
+        double d3 = 5.0D;
+        if (par2EntityPlayer instanceof EntityPlayerMP)
+        {
+            d3 = ((EntityPlayerMP)par2EntityPlayer).theItemInWorldManager.getBlockReachDistance();
+        }
+        Vec3 vec31 = vec3.addVector((double)f7 * d3, (double)f6 * d3, (double)f8 * d3);
+        return par1World.rayTraceBlocks_do_do(vec3, vec31, par3, !par3);
+    }
 }

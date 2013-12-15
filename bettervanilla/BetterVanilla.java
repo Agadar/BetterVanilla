@@ -302,6 +302,10 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{			
+		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
+		// It is checked in the hook itself whether these modules are enabled. 
+		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
+		
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -359,10 +363,6 @@ public class BetterVanilla
 					.setStepSound(Block.soundClothFootstep)
 					.setUnlocalizedName("cactus").setTextureName("cactus");
 		}
-		if (CauldronsWash) {
-			// Register the event hook for using clay and wool on a cauldron.
-			MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
-		}
 		if (CauldronsLava)
 		{
 			// Replace the original cauldron block with our water cauldron block.
@@ -382,6 +382,9 @@ public class BetterVanilla
 			lavaBottle = (new LavaBottle(LavaPotionID)).setUnlocalizedName("lavaBottle").setTextureName("bettervanilla:lava_bottle");
 			GameRegistry.registerItem(lavaBottle, lavaBottle.getUnlocalizedName());
 			LanguageRegistry.addName(lavaBottle, "Lava Bottle");
+			
+			// Add a crafting recipe for Lava Bottle.
+			GameRegistry.addShapelessRecipe(new ItemStack(lavaBottle, 3), Item.bucketLava, Item.glassBottle, Item.glassBottle, Item.glassBottle);
 		}
 		if (CheaperHoppers)
 		{

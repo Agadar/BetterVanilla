@@ -30,15 +30,10 @@ public class MilkBottle extends Item
         {
         	--par1ItemStack.stackSize;
         	
-        	if (par1ItemStack.stackSize <= 0)
-            {
-                return new ItemStack(Item.glassBottle);
-            }
+        	if (par1ItemStack.stackSize <= 0) return new ItemStack(Item.glassBottle);
         	
             if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle)))
-            {
             	par3EntityPlayer.dropPlayerItem(new ItemStack(Item.glassBottle));
-            }
         }
 
         return par1ItemStack;
