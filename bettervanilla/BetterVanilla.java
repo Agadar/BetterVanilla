@@ -38,8 +38,9 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
-import bettervanilla.blocks.BlockCauldronOverride;
 import bettervanilla.blocks.BlockStairsCustom;
+import bettervanilla.blocks.CauldronLava;
+import bettervanilla.blocks.CauldronWater;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
 import bettervanilla.entities.PluckableChicken;
@@ -58,8 +59,9 @@ import bettervanilla.items.MilkBottle;
 import bettervanilla.items.OakArmor;
 import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
-import bettervanilla.renderers.BlockCauldronOverrideRenderer;
+import bettervanilla.renderers.CauldronWaterRenderer;
 import bettervanilla.tileentities.BedColor;
+import bettervanilla.tileentities.CauldronContents;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
@@ -125,10 +127,11 @@ public class BetterVanilla
 	
 	// Blocks
 	public static Block blockBedOverride;
-	public static BlockCauldronOverride cauldronOverride;
+	public static CauldronWater cauldronWater;
+	public static CauldronLava cauldronLava;
 	
 	// Renderers
-	public static ISimpleBlockRenderingHandler blockCauldronOverrideRenderer;
+	public static ISimpleBlockRenderingHandler cauldronWaterRenderer;
 	
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
@@ -285,15 +288,24 @@ public class BetterVanilla
 	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
-	{				
+	{			
+		// Replace the original cauldron block with our water cauldron block.
 		int blockCauldronId = Block.cauldron.blockID;
 		Block.blocksList[blockCauldronId] = null;
-		cauldronOverride = (BlockCauldronOverride) (new BlockCauldronOverride(blockCauldronId)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
+		cauldronWater = (CauldronWater) (new CauldronWater(blockCauldronId)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
 		
-		blockCauldronOverrideRenderer = new BlockCauldronOverrideRenderer();
-		RenderingRegistry.registerBlockHandler(blockCauldronOverrideRenderer);
+		// Add the lava cauldron block.
+		cauldronLava = (CauldronLava) (new CauldronLava(1070)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
+		GameRegistry.registerBlock(cauldronLava, "cauldronLava");
 		
+		// Register the tile entity that is responsible for storing the cauldron's contents.
+		//GameRegistry.registerTileEntity(CauldronContents.class, "CauldronContents");
 		
+		// Register the renderer for our cauldrons.
+		cauldronWaterRenderer = new CauldronWaterRenderer();
+		RenderingRegistry.registerBlockHandler(cauldronWaterRenderer);
+		
+
 		
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.

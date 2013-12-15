@@ -1,19 +1,17 @@
 package bettervanilla.renderers;
 
-import bettervanilla.BetterVanilla;
-import bettervanilla.blocks.BlockCauldronOverride;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+import bettervanilla.BetterVanilla;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
-public class BlockCauldronOverrideRenderer implements ISimpleBlockRenderingHandler 
+public class CauldronWaterRenderer implements ISimpleBlockRenderingHandler 
 {
 	private final int renderId = RenderingRegistry.getNextAvailableRenderId();
 	
@@ -53,15 +51,18 @@ public class BlockCauldronOverrideRenderer implements ISimpleBlockRenderingHandl
         renderer.renderFaceXNeg(block, (double)((float)x + 1.0F - f4), (double)y, (double)z, icon);
         renderer.renderFaceZPos(block, (double)x, (double)y, (double)((float)z - 1.0F + f4), icon);
         renderer.renderFaceZNeg(block, (double)x, (double)y, (double)((float)z + 1.0F - f4), icon);
-        Icon icon1 = BetterVanilla.cauldronOverride.field_94378_a;
+        Icon icon1 = BetterVanilla.cauldronWater.getCauldronIcon("inner");
         renderer.renderFaceYPos(block, (double)x, (double)((float)y - 1.0F + 0.25F), (double)z, icon1);
         renderer.renderFaceYNeg(block, (double)x, (double)((float)y + 1.0F - 0.75F), (double)z, icon1);
         int i1 = renderer.blockAccess.getBlockMetadata(x, y, z);
 
         if (i1 > 0)
         {
-            Icon icon2 = BlockFluid.getFluidIcon("water_still");
-
+        	Icon icon2;
+        	
+        	if (block.blockID == BetterVanilla.cauldronLava.blockID) icon2 = BlockFluid.getFluidIcon("lava_still");
+        	else icon2 = BlockFluid.getFluidIcon("water_still");
+        	
             if (i1 > 3)
             {
                 i1 = 3;
