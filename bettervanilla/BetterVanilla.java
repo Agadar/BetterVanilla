@@ -54,6 +54,7 @@ import bettervanilla.items.BirchArmor;
 import bettervanilla.items.CactusArmor;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
+import bettervanilla.items.LavaBottle;
 import bettervanilla.items.MelonArmor;
 import bettervanilla.items.MilkBottle;
 import bettervanilla.items.OakArmor;
@@ -61,7 +62,6 @@ import bettervanilla.items.PumpkinArmor;
 import bettervanilla.items.SpruceArmor;
 import bettervanilla.renderers.CauldronWaterRenderer;
 import bettervanilla.tileentities.BedColor;
-import bettervanilla.tileentities.CauldronContents;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
@@ -76,7 +76,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "BetterVanilla", name = "BetterVanilla", version = "0.1.9")
+@Mod(modid = "BetterVanilla", name = "BetterVanilla", version = "0.2.0")
 @NetworkMod(clientSideRequired = true)
 public class BetterVanilla 
 {	
@@ -87,7 +87,10 @@ public class BetterVanilla
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
 	public static boolean Cacti;
-	public static boolean Cauldrons;
+	public static boolean CauldronsWash;
+	public static boolean CauldronsLava;
+	public static int CauldronLavaID;
+	public static int LavaPotionID;
 	public static boolean CheaperHoppers;
 	public static boolean CraftableBottleOEnchant;
 	public static boolean CraftableClay;
@@ -124,6 +127,7 @@ public class BetterVanilla
 	// Items
 	public static Item milkBottle;
 	public static Item itemBedOverride;
+	public static Item lavaBottle;
 	
 	// Blocks
 	public static Block blockBedOverride;
@@ -151,7 +155,7 @@ public class BetterVanilla
 		String applesTweak = "Apples tweak";
 		String crafting = "Crafting";
 		String dropTweaks = "Drop tweaks";
-		String milk = "Milk bottles";
+		String pots = "Potions & Cauldrons";
 		String misc = "Miscellaneous";
 		String mobFil = "Mob filter";
 		String moarArmor = "More armor";
@@ -165,7 +169,10 @@ public class BetterVanilla
 		Property boneMeal = config.get(misc, "Bonemeal tweak", true);
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
 		Property cacti = config.get(misc, "Cacti placement tweak", true);
-		Property cauldrons = config.get(misc, "Cauldron tweak", true);
+		Property cauldronsWash = config.get(pots, "Washable wool and clay", true);
+		Property cauldronsLava = config.get(pots, "Lava inside cauldrons", true);
+		Property cauldronLavaID = config.get(pots, "Lava Cauldron ID", 1070);
+		Property lavaPotionID = config.get(pots, "Lava Bottle ID", 1071);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
 		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
 		Property craftableClay = config.get(crafting, "Craftable clay", true);
@@ -180,8 +187,8 @@ public class BetterVanilla
 		Property enderChests = config.get(dropTweaks, "Ender chest drop tweak", true);
 		Property horseArmor = config.get(crafting, "Craftable horse armor", true);
 		Property ice = config.get(dropTweaks, "Ice drop tweak", true);
-		Property milkBottles = config.get(milk, "Milk bottles", true);
-		Property milkBottlesID = config.get(milk, "Milk Bottle ID", 1060);
+		Property milkBottles = config.get(pots, "Milk bottles", true);
+		Property milkBottlesID = config.get(pots, "Milk Bottle ID", 1060);
 		Property mobFilter = config.get(mobFil, "Enabled", false);
 		Property mobFilterList = config.get(mobFil, "Filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property moreArmor = config.get(moarArmor, "Enabled", true);
@@ -206,7 +213,10 @@ public class BetterVanilla
 		boneMeal.comment = "Set to 'true' to allow bonemeal to be used on cacti, sugar canes, and nether warts.";
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
-		cauldrons.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
+		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
+		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
+		cauldronLavaID.comment = "Sets the block ID of the lava cauldron.";
+		lavaPotionID.comment = "Sets the item ID of Lava Bottle.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
@@ -249,7 +259,10 @@ public class BetterVanilla
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
-		Cauldrons = cauldrons.getBoolean(true);
+		CauldronsWash = cauldronsWash.getBoolean(true);
+		CauldronsLava = cauldronsLava.getBoolean(true);
+		CauldronLavaID = cauldronLavaID.getInt();
+		LavaPotionID = lavaPotionID.getInt();
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
 		CraftableClay = craftableClay.getBoolean(true);
@@ -289,24 +302,6 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{			
-		// Replace the original cauldron block with our water cauldron block.
-		int blockCauldronId = Block.cauldron.blockID;
-		Block.blocksList[blockCauldronId] = null;
-		cauldronWater = (CauldronWater) (new CauldronWater(blockCauldronId)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
-		
-		// Add the lava cauldron block.
-		cauldronLava = (CauldronLava) (new CauldronLava(1070)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
-		GameRegistry.registerBlock(cauldronLava, "cauldronLava");
-		
-		// Register the tile entity that is responsible for storing the cauldron's contents.
-		//GameRegistry.registerTileEntity(CauldronContents.class, "CauldronContents");
-		
-		// Register the renderer for our cauldrons.
-		cauldronWaterRenderer = new CauldronWaterRenderer();
-		RenderingRegistry.registerBlockHandler(cauldronWaterRenderer);
-		
-
-		
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			MinecraftForge.EVENT_BUS.register(new BreakHook());
@@ -364,9 +359,29 @@ public class BetterVanilla
 					.setStepSound(Block.soundClothFootstep)
 					.setUnlocalizedName("cactus").setTextureName("cactus");
 		}
-		if (Cauldrons) {
+		if (CauldronsWash) {
 			// Register the event hook for using clay and wool on a cauldron.
 			MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
+		}
+		if (CauldronsLava)
+		{
+			// Replace the original cauldron block with our water cauldron block.
+			int blockCauldronId = Block.cauldron.blockID;
+			Block.blocksList[blockCauldronId] = null;
+			cauldronWater = (CauldronWater) (new CauldronWater(blockCauldronId)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
+			
+			// Add the lava cauldron block.
+			cauldronLava = (CauldronLava) (new CauldronLava(CauldronLavaID)).setHardness(2.0F).setUnlocalizedName("cauldron").setTextureName("cauldron");
+			GameRegistry.registerBlock(cauldronLava, "cauldronLava");
+			
+			// Register the renderer for our cauldrons.
+			cauldronWaterRenderer = new CauldronWaterRenderer();
+			RenderingRegistry.registerBlockHandler(cauldronWaterRenderer);
+			
+			// Register the Lava Bottle in the appropriate registers.
+			lavaBottle = (new LavaBottle(LavaPotionID)).setUnlocalizedName("lavaBottle").setTextureName("bettervanilla:lava_bottle");
+			GameRegistry.registerItem(lavaBottle, lavaBottle.getUnlocalizedName());
+			LanguageRegistry.addName(lavaBottle, "Lava Bottle");
 		}
 		if (CheaperHoppers)
 		{

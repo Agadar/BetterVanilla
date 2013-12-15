@@ -19,8 +19,7 @@ public class PlayerInteractHook {
 		{			
 			int id = world.getBlockId(event.x, event.y, event.z);
 			
-			if (id == Block.cauldron.blockID || (BetterVanilla.cauldronWater != null 
-					&& id == BetterVanilla.cauldronWater.blockID))
+			if (id == Block.cauldron.blockID)
 			{
 				ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
 				int metadata = world.getBlockMetadata(event.x, event.y, event.z);
