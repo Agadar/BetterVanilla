@@ -38,6 +38,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
+import bettervanilla.blocks.BlockHalfSlabCustom;
 import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.blocks.CauldronLava;
 import bettervanilla.blocks.CauldronWater;
@@ -52,6 +53,7 @@ import bettervanilla.events.HarvestDropsHook;
 import bettervanilla.events.PlayerInteractHook;
 import bettervanilla.items.BirchArmor;
 import bettervanilla.items.CactusArmor;
+import bettervanilla.items.EnderPotion;
 import bettervanilla.items.ItemBedOverride;
 import bettervanilla.items.JungleArmor;
 import bettervanilla.items.LavaBottle;
@@ -301,7 +303,18 @@ public class BetterVanilla
 	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
-	{			
+	{	
+		// testing ender potion
+		Item enderPotion = (new EnderPotion(1100)).setUnlocalizedName("enderPotion").setTextureName("bettervanilla:ender_potion");
+		GameRegistry.registerItem(enderPotion, enderPotion.getUnlocalizedName());
+		LanguageRegistry.addName(enderPotion, "Potion of Ender");
+		
+		
+		// testing slabs
+		BlockHalfSlabCustom test = new BlockHalfSlabCustom(1090, Block.bookShelf);
+		GameRegistry.registerBlock(test, "test");
+		LanguageRegistry.addName(test, "test");
+		
 		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
 		// It is checked in the hook itself whether these modules are enabled. 
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
