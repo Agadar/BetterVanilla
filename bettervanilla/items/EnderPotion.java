@@ -30,7 +30,7 @@ public class EnderPotion extends Item
 	@Override
 	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-		if (!par2World.isRemote) this.teleportPlayerRandomly(par2World, par3EntityPlayer);
+		this.teleportPlayerRandomly(par2World, par3EntityPlayer);
 		
         if (!par3EntityPlayer.capabilities.isCreativeMode)
         {
@@ -66,28 +66,21 @@ public class EnderPotion extends Item
 	
 	private void teleportPlayerRandomly(World par1World, EntityPlayer par2EntityPlayer)
 	{       
-		double d3 = par2EntityPlayer.posX;
-        double d4 = par2EntityPlayer.posY;
-        double d5 = par2EntityPlayer.posZ;
         boolean flag = false;
         
-        while (!flag)
+        double x0 = par2EntityPlayer.posX;
+        double y0 = par2EntityPlayer.posY;
+        double z0 = par2EntityPlayer.posZ;
+        
+        while (!par1World.isRemote && !flag)
         {
-        	par2EntityPlayer.posX = d3;
-        	par2EntityPlayer.posY = d4;
-        	par2EntityPlayer.posZ = d5;
+        	double x1 = x0 + (par1World.rand.nextDouble() - 0.5D) * 64.0D;
+        	double y1 = y0 + (double)(par1World.rand.nextInt(64) - 32);
+        	double z1 = z0 + (par1World.rand.nextDouble() - 0.5D) * 64.0D;  
 
-        	double par1 = par2EntityPlayer.posX + (par1World.rand.nextDouble() - 0.5D) * 64.0D;
-        	double par3 = par2EntityPlayer.posY + (double)(par1World.rand.nextInt(64) - 32);
-        	double par5 = par2EntityPlayer.posZ + (par1World.rand.nextDouble() - 0.5D) * 64.0D;  
-
-        	par2EntityPlayer.posX = par1;
-        	par2EntityPlayer.posY = par3;
-        	par2EntityPlayer.posZ = par5;
-
-        	int i = MathHelper.floor_double(par2EntityPlayer.posX);
-        	int j = MathHelper.floor_double(par2EntityPlayer.posY);
-        	int k = MathHelper.floor_double(par2EntityPlayer.posZ);
+        	int i = MathHelper.floor_double(x1);
+        	int j = MathHelper.floor_double(y1);
+        	int k = MathHelper.floor_double(z1);
         	int l;
 
         	if (par1World.blockExists(i, j, k))
@@ -104,22 +97,42 @@ public class EnderPotion extends Item
         			}
         			else
         			{
-        				--par2EntityPlayer.posY;
+        				--y1;
         				--j;
         			}
         		}
 
         		if (flag1)
         		{
-        			par2EntityPlayer.setPositionAndUpdate(par2EntityPlayer.posX, par2EntityPlayer.posY, par2EntityPlayer.posZ);
-
-        			if (par1World.getCollidingBoundingBoxes(par2EntityPlayer, par2EntityPlayer.boundingBox).isEmpty())// && !par1World.isAnyLiquid(par2EntityPlayer.boundingBox))
+        			par2EntityPlayer.setPositionAndUpdate(x1, y1, z1);
+        			
+        			if (par1World.getCollidingBoundingBoxes(par2EntityPlayer, par2EntityPlayer.boundingBox).isEmpty())
+        			{      				
+        				flag = true;    				
+        			}
+        			else
         			{
-        				flag = true;
+        				par2EntityPlayer.setPositionAndUpdate(x0, y0, z0);
         			}
         		}
         	}
         }
-	}
+        
+        short short1 = 128;
 
+        for (int l = 0; l < short1; ++l)
+        {
+            double d6 = (double)l / ((double)short1 - 1.0D);
+            float f = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+            float f1 = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+            float f2 = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+            double d7 = x0 + (par2EntityPlayer.posX - x0) * d6 + (par1World.rand.nextDouble() - 0.5D) * (double)par2EntityPlayer.width * 2.0D;
+            double d8 = y0 - 2 + (par2EntityPlayer.posY - y0 + 2) * d6 + par1World.rand.nextDouble() * (double)par2EntityPlayer.height;
+            double d9 = z0 + (par2EntityPlayer.posZ - z0) * d6 + (par1World.rand.nextDouble() - 0.5D) * (double)par2EntityPlayer.width * 2.0D;
+            par1World.spawnParticle("portal", d7, d8, d9, (double)f, (double)f1, (double)f2);
+        }
+
+        par1World.playSoundEffect(x0, y0, z0, "mob.endermen.portal", 1.0F, 1.0F);
+        par2EntityPlayer.playSound("mob.endermen.portal", 1.0F, 1.0F);
+	}
 }

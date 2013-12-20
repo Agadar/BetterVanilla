@@ -308,16 +308,25 @@ public class BetterVanilla
 		Item enderPotion = (new EnderPotion(1100)).setUnlocalizedName("enderPotion").setTextureName("bettervanilla:ender_potion");
 		GameRegistry.registerItem(enderPotion, enderPotion.getUnlocalizedName());
 		LanguageRegistry.addName(enderPotion, "Potion of Ender");
-		
-		
+				
 		// testing slabs
-		BlockHalfSlabCustom test = new BlockHalfSlabCustom(1090, Block.bookShelf);
+		BlockHalfSlabCustom test = new BlockHalfSlabCustom(1090, false, Block.glass);
 		GameRegistry.registerBlock(test, "test");
 		LanguageRegistry.addName(test, "test");
+		BlockHalfSlabCustom test1 = new BlockHalfSlabCustom(1091, true, Block.glass);
+		GameRegistry.registerBlock(test1, "test1");
+		LanguageRegistry.addName(test1, "test1");
+		
+		
+		
 		
 		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
 		// It is checked in the hook itself whether these modules are enabled. 
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
+				
+		// Register the event hook for intercepting chickens spawning for the pluckable chickens module, as well
+		// as ALL spawning for the mob filter module. It is checked in the hook itself whether these modules are enabled.
+		MinecraftForge.EVENT_BUS.register(new EntityJoinWorldHook());
 		
         if (Apples || Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
@@ -634,9 +643,6 @@ public class BetterVanilla
 			// Register our pluckable chicken and its renderer.
 			EntityRegistry.registerGlobalEntityID(PluckableChicken.class, "Chicken", EntityRegistry.findGlobalUniqueEntityId());
 			proxy.registerPluckableChicken();
-			
-			// Register the event hook for intercepting chickens spawning.
-			MinecraftForge.EVENT_BUS.register(new EntityJoinWorldHook());
 		}
 		if (Saddles) {
 			// Add the saddle recipe.
@@ -724,37 +730,6 @@ public class BetterVanilla
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) 
 	{
-		/*
-		 * We are forced to check whether the biomes we're trying to remove a
-		 * spawning behavior from are not null, because there are a ton of null
-		 * values in BiomeGenBase.biomeList, and so we would get a
-		 * NullPointerException otherwise. We are also forced to wrap the
-		 * EntityRegistry.removeSpawn-calls in an ugly try-catch statement with
-		 * an empty catch, because calling this method with a mob name that is
-		 * not known in the registry throws, you guessed it, a
-		 * NullPointerException, because Mojang's code doesn't properly check
-		 * for null values.
-		 */
-		if (MobFilter) {
-			for (String mobName : MobFilterList) {
-				for (BiomeGenBase biome : BiomeGenBase.biomeList) {
-					if (biome != null) {
-						try {
-							EntityRegistry.removeSpawn(mobName,
-									EnumCreatureType.ambient, biome);
-							EntityRegistry.removeSpawn(mobName,
-									EnumCreatureType.creature, biome);
-							EntityRegistry.removeSpawn(mobName,
-									EnumCreatureType.monster, biome);
-							EntityRegistry.removeSpawn(mobName,
-									EnumCreatureType.waterCreature, biome);
-						} catch (NullPointerException e) {
-							break;
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	/**
