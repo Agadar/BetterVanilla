@@ -38,7 +38,6 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import bettervanilla.blocks.BlockBedOverride;
 import bettervanilla.blocks.BlockCactusOverride;
-import bettervanilla.blocks.BlockHalfSlabCustom;
 import bettervanilla.blocks.BlockStairsCustom;
 import bettervanilla.blocks.CauldronLava;
 import bettervanilla.blocks.CauldronWater;
@@ -116,6 +115,9 @@ public class BetterVanilla
 	public static boolean MoreStairs;
 	public static int MoreStairsID;
 	public static String[] StairsMaterials;
+	public static boolean MoreSlabs;
+	public static int MoreSlabsID;
+	public static String[] SlabsMaterials;
 	public static boolean MossStone;
 	public static boolean Nametags;
 	public static boolean PluckableChickens;
@@ -162,6 +164,7 @@ public class BetterVanilla
 		String mobFil = "Mob filter";
 		String moarArmor = "More armor";
 		String moarStairs = "More stairs";
+		String moarSlabs = "More slabs";
 		String rotToLeath = "Rotten Flesh to Leather";
 		
 		// Load/create the configuration properties.
@@ -197,7 +200,10 @@ public class BetterVanilla
 		Property moreArmorID = config.get(moarArmor, "Starting ID", 1011);
 		Property moreStairs = config.get(moarStairs, "Enabled", true);
 		Property moreStairsID = config.get(moarStairs, "Starting ID", 1050);
-		Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf" });
+		Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf", "Glowstone" });
+		Property moreSlabs = config.get(moarSlabs, "Enabled", true);
+		Property moreSlabsID = config.get(moarSlabs, "Starting ID", 1080);
+		Property slabsMaterials = config.get(moarSlabs, "Materials", new String[] { "Bookshelf", "Glowstone" });
 		Property mossStone = config.get(crafting, "Craftable moss stone", true);
 		Property nametags = config.get(crafting, "Craftable nametags", true);
 		Property pluckableChickens = config.get(animals, "Pluckable chickens", true);
@@ -244,6 +250,9 @@ public class BetterVanilla
 		moreStairs.comment = "Set to 'true' to allow the crafting of stairs made from the materials as written in the materials list in this module.";
 		moreStairsID.comment = "Sets the starting ID of the More Stairs ID range. The last ID in the range is the starting ID plus the number of materials minus 1.";
 		stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
+		moreSlabs.comment = "Set to 'true' to allow the crafting of slabs made from the materials as written in the materials list in this module.";
+		moreSlabsID.comment = "Sets the starting ID of the More Slabs ID range. The last ID in the range is the starting ID plus the number of materials times two, minus 1.";
+		slabsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into slabs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft slabs out of blocks added by other mods.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
 		pluckableChickens.comment = "Set to 'true' to allow players to pluck chickens using shears.";
@@ -288,6 +297,9 @@ public class BetterVanilla
 		MoreStairs = moreStairs.getBoolean(true);
 		MoreStairsID = moreStairsID.getInt();
 		StairsMaterials = stairsMaterials.getStringList();
+		MoreSlabs = moreSlabs.getBoolean(true);
+		MoreSlabsID = moreSlabsID.getInt();
+		SlabsMaterials = slabsMaterials.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
 		PluckableChickens = pluckableChickens.getBoolean(true);
@@ -308,18 +320,7 @@ public class BetterVanilla
 		Item enderPotion = (new EnderPotion(1100)).setUnlocalizedName("enderPotion").setTextureName("bettervanilla:ender_potion");
 		GameRegistry.registerItem(enderPotion, enderPotion.getUnlocalizedName());
 		LanguageRegistry.addName(enderPotion, "Potion of Ender");
-				
-		// testing slabs
-		BlockHalfSlabCustom test = new BlockHalfSlabCustom(1090, false, Block.glass);
-		GameRegistry.registerBlock(test, "test");
-		LanguageRegistry.addName(test, "test");
-		BlockHalfSlabCustom test1 = new BlockHalfSlabCustom(1091, true, Block.glass);
-		GameRegistry.registerBlock(test1, "test1");
-		LanguageRegistry.addName(test1, "test1");
-		
-		
-		
-		
+			
 		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
 		// It is checked in the hook itself whether these modules are enabled. 
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());

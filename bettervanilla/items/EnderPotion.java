@@ -131,8 +131,7 @@ public class EnderPotion extends Item
             double d9 = z0 + (par2EntityPlayer.posZ - z0) * d6 + (par1World.rand.nextDouble() - 0.5D) * (double)par2EntityPlayer.width * 2.0D;
             par1World.spawnParticle("portal", d7, d8, d9, (double)f, (double)f1, (double)f2);
         }
-
-        par1World.playSoundEffect(x0, y0, z0, "mob.endermen.portal", 1.0F, 1.0F);
+        
         par2EntityPlayer.playSound("mob.endermen.portal", 1.0F, 1.0F);
 	}
 }

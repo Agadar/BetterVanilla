@@ -23,7 +23,7 @@ public class PlayerInteractHook {
 	{
 		World world = event.entityPlayer.worldObj;
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, event.entityPlayer, true);
-		
+
 		if (event.action == Action.RIGHT_CLICK_BLOCK && movingobjectposition != null && movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
 		{
 			int i = movingobjectposition.blockX;
