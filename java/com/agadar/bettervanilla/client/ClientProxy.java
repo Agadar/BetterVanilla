@@ -5,9 +5,6 @@ import com.agadar.bettervanilla.entities.PluckableChicken;
 import com.agadar.bettervanilla.entities.RenderPluckableChicken;
 
 import net.minecraft.client.model.ModelChicken;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderEntity;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy 

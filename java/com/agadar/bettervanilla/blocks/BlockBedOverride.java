@@ -15,17 +15,17 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumStatus;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -35,15 +35,16 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
 	@SideOnly(Side.CLIENT)
-    private Icon[][] field_94472_b;
+    private IIcon[][] field_94472_b;
     @SideOnly(Side.CLIENT)
-    private Icon[][] bedSideIcons;
+    private IIcon[][] bedSideIcons;
     @SideOnly(Side.CLIENT)
-    private Icon[][] bedTopIcons;
+    private IIcon[][] bedTopIcons;
     
-	public BlockBedOverride(int par1) 
+	public BlockBedOverride() 
 	{
-		super(par1, Material.cloth);
+		super(Material.cloth);
+		this.setBlockName("bed");
         this.setBounds();
 		this.disableStats();
 	}
@@ -73,7 +74,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
     }
 	
 	@Override
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5)
     {
         int i1 = par1World.getBlockMetadata(par2, par3, par4);
         int j1 = getDirection(i1);
@@ -94,12 +95,6 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
                 this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
             }
         }
-    }
-
-	@Override
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
-        return 0;
     }
 
     private void setBounds()
@@ -171,11 +166,11 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
         return 1;
     }
 
-    @SideOnly(Side.CLIENT)
+    //@SideOnly(Side.CLIENT)
     @Override
-    public int idPicked(World par1World, int par2, int par3, int par4)
+    public Item getItemDropped(int par1, Random par2, int par3)
     {
-        return BetterVanilla.itemBedOverride.itemID;
+        return BetterVanilla.itemBedOverride;
     }
     
     @Override
@@ -297,12 +292,12 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	public IIcon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
     {
 		int meta = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		int color = 0;
 		
-		BedColor tileEntity = (BedColor) par1IBlockAccess.getBlockTileEntity(par2, par3, par4);
+		BedColor tileEntity = (BedColor) par1IBlockAccess.getTileEntity(par2, par3, par4);
 		if (tileEntity != null)
 		{
 			color = tileEntity.getColor();
@@ -310,7 +305,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 
         if (par5 == 0)
         {
-            return Block.planks.getBlockTextureFromSide(par5);
+            return Blocks.planks.getBlockTextureFromSide(par5);
         }
         else
         {
@@ -323,74 +318,75 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerBlockIcons(IIconRegister par1IconRegister)
     {
-    	Icon head_end = par1IconRegister.registerIcon(this.getTextureName() + "_head_end");
-        this.bedTopIcons = new Icon[][] { 
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_white")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_orange"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_orange")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_magenta"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_magenta")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_light_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_light_blue")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_yellow"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_yellow")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_lime"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_lime")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_pink"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_pink")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_gray"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_gray")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_silver"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_silver")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_cyan"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_cyan")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_purple"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_purple")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_blue")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_brown"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_brown")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_green"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_green")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_red"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_red")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_black")}};
-        this.field_94472_b = new Icon[][] {
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_white"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_orange"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_magenta"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_light_blue"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_yellow"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_lime"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_pink"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_gray"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_silver"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_cyan"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_purple"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_blue"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_brown"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_green"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_red"), head_end},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_black"), head_end}};
-        this.bedSideIcons = new Icon[][] {
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_white")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_orange"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_orange")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_magenta"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_magenta")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_light_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_light_blue")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_yellow"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_yellow")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_lime"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_lime")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_pink"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_pink")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_gray"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_gray")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_silver"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_silver")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_cyan"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_cyan")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_purple"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_purple")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_blue")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_brown"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_brown")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_green"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_green")},
-        		new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_red"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_red")}, new Icon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_black")}};
+		IIcon head_end = par1IconRegister.registerIcon(this.getTextureName() + "_head_end");
+        this.bedTopIcons = new IIcon[][] { 
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_white")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_orange"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_orange")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_magenta"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_magenta")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_light_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_light_blue")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_yellow"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_yellow")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_lime"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_lime")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_pink"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_pink")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_gray"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_gray")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_silver"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_silver")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_cyan"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_cyan")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_purple"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_purple")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_blue")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_brown"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_brown")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_green"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_green")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_red"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_red")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_black")}};
+        this.field_94472_b = new IIcon[][] {
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_white"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_orange"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_magenta"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_light_blue"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_yellow"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_lime"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_pink"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_gray"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_silver"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_cyan"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_purple"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_blue"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_brown"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_green"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_red"), head_end},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_black"), head_end}};
+        this.bedSideIcons = new IIcon[][] {
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_white")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_orange"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_orange")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_magenta"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_magenta")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_light_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_light_blue")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_yellow"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_yellow")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_lime"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_lime")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_pink"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_pink")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_gray"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_gray")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_silver"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_silver")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_cyan"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_cyan")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_purple"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_purple")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_blue"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_blue")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_brown"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_brown")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_green"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_green")},
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_red"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_red")}, 
+        		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_black")}};
     }
 
 	@Override
-	public TileEntity createNewTileEntity(World world) 
+	public TileEntity createNewTileEntity(World var1, int var2) 
 	{
 		return new BedColor();
 	}
-	
+
 	@Override
-	public void breakBlock(World world, int x, int y, int z, int i, int j) 
+	public void breakBlock(World world, int x, int y, int z, Block block, int j) 
 	{
 		if (!world.isRemote && !isBlockHeadOfBed(j) && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
 			int color = 0;			
-			BedColor tileEntity = (BedColor) world.getBlockTileEntity(x, y, z);
+			BedColor tileEntity = (BedColor) world.getTileEntity(x, y, z);
 			if (tileEntity != null)
 			{
 				color = tileEntity.getColor();
@@ -407,7 +403,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
         }
 		
 		super.breakBlock(world, x, y, z, i, j);
-		world.removeBlockTileEntity(x, y, z);
+		world.removeTileEntity(x, y, z);
 	}
 }
 

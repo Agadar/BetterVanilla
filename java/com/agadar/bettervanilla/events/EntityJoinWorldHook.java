@@ -6,7 +6,7 @@ import com.agadar.bettervanilla.entities.PluckableChicken;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraftforge.event.ForgeSubscribe;
+//import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class EntityJoinWorldHook 

@@ -22,7 +22,7 @@ public class EnderPotion extends Item
 {
 	public EnderPotion(int par1) 
 	{
-		super(par1);
+		//super(par1);
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.tabBrewing);
 	}

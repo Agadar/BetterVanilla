@@ -2,7 +2,7 @@ package com.agadar.bettervanilla.blocks;
 
 import net.minecraft.block.BlockCactus;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+//import net.minecraftforge.common.ForgeDirection;
 
 public class BlockCactusOverride extends BlockCactus {
 

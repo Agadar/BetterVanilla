@@ -3,11 +3,11 @@ package com.agadar.bettervanilla.renderers;
 import com.agadar.bettervanilla.BetterVanilla;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
+//import net.minecraft.block.BlockFluid;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Icon;
+//import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;

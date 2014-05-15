@@ -1,8 +1,8 @@
 package com.agadar.bettervanilla.events;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.event.Event.Result;
-import net.minecraftforge.event.ForgeSubscribe;
+//import net.minecraftforge.event.Event.Result;
+//import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class BonemealHook {
