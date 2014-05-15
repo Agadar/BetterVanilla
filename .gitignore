@@ -24,3 +24,7 @@ forge_at.cfg
 forge_logo.png
 mcpmod.info
 Start.java
+
+.classpath
+.project
+.settings/org.eclipse.jdt.core.prefs
