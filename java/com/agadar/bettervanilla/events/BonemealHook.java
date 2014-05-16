@@ -1,36 +1,38 @@
 package com.agadar.bettervanilla.events;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
-//import net.minecraftforge.event.Event.Result;
-//import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraft.block.BlockCactus;
+import net.minecraft.block.BlockReed;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class BonemealHook {
-
-	@ForgeSubscribe
+	@SubscribeEvent 
 	public void onBoneMealUse(BonemealEvent event) {
-		int blockID = event.world.getBlockId(event.X, event.Y, event.Z);
-		if (blockID == Block.reed.blockID || blockID == Block.cactus.blockID) {
-			if (event.world.isAirBlock(event.X, event.Y + 1, event.Z)) {
-				if (event.world.getBlockId(event.X, event.Y - 2, event.Z) != blockID) {
-					event.world.setBlock(event.X, event.Y + 1, event.Z, blockID);
-					event.world.setBlockMetadataWithNotify(event.X, event.Y, event.Z, 0, 4);
+		Block block = event.world.getBlock(event.x, event.y, event.z);
+		if (block instanceof BlockReed || block instanceof BlockCactus) {
+			if (event.world.isAirBlock(event.x, event.y + 1, event.z)) {
+				if (event.world.getBlock(event.x, event.y - 2, event.z) != block) {
+					event.world.setBlock(event.x, event.y + 1, event.z, block);
+					event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 0, 4);
 					event.setResult(Result.ALLOW);
 				}
-			} else if (event.world.isAirBlock(event.X, event.Y + 2, event.Z)) {
-				if (event.world.getBlockId(event.X, event.Y + 1, event.Z) == blockID
-						&& event.world.getBlockId(event.X, event.Y - 1, event.Z) != blockID) {
-					event.world.setBlock(event.X, event.Y + 2, event.Z, blockID);
-					event.world.setBlockMetadataWithNotify(event.X, event.Y + 1, event.Z, 0, 4);
+			} else if (event.world.isAirBlock(event.x, event.y + 2, event.z)) {
+				if (event.world.getBlock(event.x, event.y + 1, event.z) == block
+						&& event.world.getBlock(event.x, event.y - 1, event.z) != block) {
+					event.world.setBlock(event.x, event.y + 2, event.z, block);
+					event.world.setBlockMetadataWithNotify(event.x, event.y + 1, event.z, 0, 4);
 					event.setResult(Result.ALLOW);
 				}
 			}
-		} else if (blockID == Block.netherStalk.blockID) {
-			int l = event.world.getBlockMetadata(event.X, event.Y, event.Z);
+		} else if (block == Blocks.nether_wart) {
+			int l = event.world.getBlockMetadata(event.x, event.y, event.z);
 	        if (l < 3)
 	        {
 	            ++l;
-	            event.world.setBlockMetadataWithNotify(event.X, event.Y, event.Z, l, 2);
+	            event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, l, 2);
 	            event.setResult(Result.ALLOW);
 	        }
 		}

@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
@@ -26,12 +25,13 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
     {        
     	World world = par1IBlockSource.getWorld(); 
     	
-    	EnumFacing enumfacing = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
+    	EnumFacing enumfacing = BlockDispenser.func_149937_b(par1IBlockSource.getBlockMetadata());
         int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
         int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
         int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
         
         AxisAlignedBB box = AxisAlignedBB.getBoundingBox(i, j, k, i+1, j+1, k+1);
+		@SuppressWarnings("unchecked")
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(IShearable.class, box);
 		FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);
 		ItemShears shears = (ItemShears) par2ItemStack.getItem();
@@ -47,13 +47,12 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
 			}
         } 
 		else 
-        {       
-        	int blockId = world.getBlockId(i, j, k);
-        	Block block = Block.blocksList[blockId];
+        {     
+			Block block = world.getBlock(i, j, k);
         	if (block instanceof IShearable) 
         	{
         		shears.onBlockStartBreak(par2ItemStack, i, j, k, fakePlayerEntity);
-        		world.destroyBlock(i, j, k, false);
+        		world.func_147480_a(i, j, k, false);
         	}
         }
     	return par2ItemStack;   

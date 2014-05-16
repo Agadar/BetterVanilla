@@ -3,15 +3,14 @@ package com.agadar.bettervanilla.events;
 import com.agadar.bettervanilla.BetterVanilla;
 import com.agadar.bettervanilla.entities.PluckableChicken;
 
-import net.minecraft.entity.EntityLiving;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
-//import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class EntityJoinWorldHook 
 {
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{		
 		// Intercept chickens spawning and substitute the chicken with our pluckable chicken.
@@ -26,7 +25,7 @@ public class EntityJoinWorldHook
 		}
 		
 		// Intercept all spawning and filter the mobs in the filter list. 
-		if (BetterVanilla.MobFilter && event.entity instanceof EntityLiving)
+		/*if (BetterVanilla.MobFilter && event.entity instanceof EntityLiving)
 		{
 			for (String name : BetterVanilla.MobFilterList)
 			{
@@ -36,6 +35,6 @@ public class EntityJoinWorldHook
 					break;
 				}
 			}
-		}
+		}*/
 	}
 }

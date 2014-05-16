@@ -2,12 +2,11 @@ package com.agadar.bettervanilla.entities;
 
 import java.util.ArrayList;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
@@ -42,17 +41,17 @@ public class PluckableChicken extends EntityChicken implements IShearable
         {
         	for (int k = 0; k < j; ++k)
         	{
-        		this.dropItem(Item.feather.itemID, 1);
+        		this.dropItem(Items.feather, 1);
         	}
         }
 
         if (this.isBurning())
         {
-            this.dropItem(Item.chickenCooked.itemID, 1);
+            this.dropItem(Items.cooked_chicken, 1);
         }
         else
         {
-            this.dropItem(Item.chickenRaw.itemID, 1);
+            this.dropItem(Items.chicken, 1);
         }
     }
 	
@@ -76,26 +75,6 @@ public class PluckableChicken extends EntityChicken implements IShearable
         super.entityInit();
         this.dataWatcher.addObject(16, new Byte((byte)0));
     }
-	
-	@Override
-    public boolean isShearable(ItemStack item, World world, int X, int Y, int Z)
-    {
-        return !getSheared() && !isChild();
-    }
-
-    @Override
-    public ArrayList<ItemStack> onSheared(ItemStack item, World world, int X, int Y, int Z, int fortune)
-    {
-        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        setSheared(true);
-        int i = rand.nextInt(3) + 2;
-        for (int j = 0; j < i; j++)
-        {
-            ret.add(new ItemStack(Item.feather));
-        }
-        this.worldObj.playSoundAtEntity(this, "mob.sheep.shear", 1.0F, 1.0F);
-        return ret;
-    }
     
     public boolean getSheared()
     {
@@ -115,4 +94,25 @@ public class PluckableChicken extends EntityChicken implements IShearable
             this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -17)));
         }
     }
+
+
+    @Override
+	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z) 
+    {
+    	return !getSheared() && !isChild();
+	}
+    
+
+	@Override
+	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        setSheared(true);
+        int i = rand.nextInt(3) + 2;
+        for (int j = 0; j < i; j++)
+        {
+            ret.add(new ItemStack(Items.feather));
+        }
+        this.worldObj.playSoundAtEntity(this, "mob.sheep.shear", 1.0F, 1.0F);
+        return ret;
+	}
 }

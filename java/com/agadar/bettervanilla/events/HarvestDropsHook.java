@@ -2,18 +2,18 @@ package com.agadar.bettervanilla.events;
 
 import com.agadar.bettervanilla.BetterVanilla;
 
-import net.minecraft.block.Block;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-//import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 public class HarvestDropsHook {
 	
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void onHarvestDrops(HarvestDropsEvent event) 
 	{
-		if ((event.block.blockID == Block.enderChest.blockID && BetterVanilla.EnderChests) ||
-				((event.block.blockID == Block.bookShelf.blockID && BetterVanilla.BookShelves))) 
+		if ((event.block == Blocks.ender_chest && BetterVanilla.EnderChests) ||
+				((event.block == Blocks.bookshelf && BetterVanilla.BookShelves))) 
 		{
 			event.drops.clear();
 			event.drops.add(new ItemStack(event.block));
