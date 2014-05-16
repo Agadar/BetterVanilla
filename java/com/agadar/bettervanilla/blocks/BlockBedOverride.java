@@ -1,17 +1,15 @@
 package com.agadar.bettervanilla.blocks;
 
-import java.util.ArrayList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import java.util.Iterator;
 import java.util.Random;
 
 import com.agadar.bettervanilla.BetterVanilla;
 import com.agadar.bettervanilla.tileentities.BedColor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -23,6 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
@@ -32,194 +31,61 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BlockBedOverride extends BlockDirectional implements ITileEntityProvider
 {
-	/** Maps the foot-of-bed block to the head-of-bed block. */
-    public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
-	@SideOnly(Side.CLIENT)
-    private IIcon[][] field_94472_b;
+    public static final int[][] field_149981_a = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
+    @SideOnly(Side.CLIENT)
+    private IIcon[][] bedEndIcons;
     @SideOnly(Side.CLIENT)
     private IIcon[][] bedSideIcons;
     @SideOnly(Side.CLIENT)
     private IIcon[][] bedTopIcons;
-    
-	public BlockBedOverride() 
-	{
-		super(Material.cloth);
-		this.setBlockName("bed");
+    @SuppressWarnings("unused")
+	private static final String __OBFID = "CL_00000198";
+
+    public BlockBedOverride()
+    {
+        super(Material.cloth);
         this.setBounds();
+		this.setHardness(0.2F);
+        this.setBlockName("bed");
 		this.disableStats();
-	}
-	
-	@Override
-	public int getRenderType()
-    {
-        return 14;
-    }
-	
-	@Override
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-	
-	@Override
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-	
-	@Override
-    public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
-    {
-        this.setBounds();
-    }
-	
-	@Override
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5)
-    {
-        int i1 = par1World.getBlockMetadata(par2, par3, par4);
-        int j1 = getDirection(i1);
-
-        if (isBlockHeadOfBed(i1))
-        {
-            if (par1World.getBlockId(par2 - footBlockToHeadBlockMap[j1][0], par3, par4 - footBlockToHeadBlockMap[j1][1]) != this.blockID)
-            {
-                par1World.setBlockToAir(par2, par3, par4);
-            }
-        }
-        else if (par1World.getBlockId(par2 + footBlockToHeadBlockMap[j1][0], par3, par4 + footBlockToHeadBlockMap[j1][1]) != this.blockID)
-        {
-            par1World.setBlockToAir(par2, par3, par4);
-
-            if (!par1World.isRemote)
-            {
-                this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
-            }
-        }
+		this.setBlockTextureName("bettervanilla:bed");
     }
 
-    private void setBounds()
-    {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
-    }
-
-    public static boolean isBlockHeadOfBed(int par0)
-    {
-        return (par0 & 8) != 0;
-    }
-
-    public static boolean isBedOccupied(int par0)
-    {
-        return (par0 & 4) != 0;
-    }
-
-    public static void setBedOccupied(World par0World, int par1, int par2, int par3, boolean par4)
-    {
-        int l = par0World.getBlockMetadata(par1, par2, par3);
-
-        if (par4)
-        {
-            l |= 4;
-        }
-        else
-        {
-            l &= -5;
-        }
-
-        par0World.setBlockMetadataWithNotify(par1, par2, par3, l, 4);
-    }
-
-    public static ChunkCoordinates getNearestEmptyChunkCoordinates(World par0World, int par1, int par2, int par3, int par4)
-    {
-        int i1 = par0World.getBlockMetadata(par1, par2, par3);
-        int j1 = BlockDirectional.getDirection(i1);
-
-        for (int k1 = 0; k1 <= 1; ++k1)
-        {
-            int l1 = par1 - footBlockToHeadBlockMap[j1][0] * k1 - 1;
-            int i2 = par3 - footBlockToHeadBlockMap[j1][1] * k1 - 1;
-            int j2 = l1 + 2;
-            int k2 = i2 + 2;
-
-            for (int l2 = l1; l2 <= j2; ++l2)
-            {
-                for (int i3 = i2; i3 <= k2; ++i3)
-                {
-                    if (par0World.doesBlockHaveSolidTopSurface(l2, par2 - 1, i3) && !par0World.getBlockMaterial(l2, par2, i3).isOpaque() && !par0World.getBlockMaterial(l2, par2 + 1, i3).isOpaque())
-                    {
-                        if (par4 <= 0)
-                        {
-                            return new ChunkCoordinates(l2, par2, i3);
-                        }
-
-                        --par4;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
+    /**
+     * Called upon block activation (right click on the block.)
+     */
     @Override
-    public int getMobilityFlag()
+    public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
-        return 1;
-    }
-
-    //@SideOnly(Side.CLIENT)
-    @Override
-    public Item getItemDropped(int par1, Random par2, int par3)
-    {
-        return BetterVanilla.itemBedOverride;
-    }
-    
-    @Override
-    public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
-    {
-        if (par6EntityPlayer.capabilities.isCreativeMode && isBlockHeadOfBed(par5))
-        {
-            int i1 = getDirection(par5);
-            par2 -= footBlockToHeadBlockMap[i1][0];
-            par4 -= footBlockToHeadBlockMap[i1][1];
-
-            if (par1World.getBlockId(par2, par3, par4) == this.blockID)
-            {
-                par1World.setBlockToAir(par2, par3, par4);
-            }
-        }
-    }
-	
-    @Override
-	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-        if (par1World.isRemote)
+        if (p_149727_1_.isRemote)
         {
             return true;
         }
         else
         {
-            int i1 = par1World.getBlockMetadata(par2, par3, par4);
+            int i1 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
 
             if (!isBlockHeadOfBed(i1))
             {
                 int j1 = getDirection(i1);
-                par2 += footBlockToHeadBlockMap[j1][0];
-                par4 += footBlockToHeadBlockMap[j1][1];
+                p_149727_2_ += field_149981_a[j1][0];
+                p_149727_4_ += field_149981_a[j1][1];
 
-                if (par1World.getBlockId(par2, par3, par4) != this.blockID)
+                if (p_149727_1_.getBlock(p_149727_2_, p_149727_3_, p_149727_4_) != this)
                 {
                     return true;
                 }
 
-                i1 = par1World.getBlockMetadata(par2, par3, par4);
+                i1 = p_149727_1_.getBlockMetadata(p_149727_2_, p_149727_3_, p_149727_4_);
             }
 
-            if (par1World.provider.canRespawnHere() && par1World.getBiomeGenForCoords(par2, par4) != BiomeGenBase.hell)
+            if (p_149727_1_.provider.canRespawnHere() && p_149727_1_.getBiomeGenForCoords(p_149727_2_, p_149727_4_) != BiomeGenBase.hell)
             {
-                if (isBedOccupied(i1))
+                if (func_149976_c(i1))
                 {
                     EntityPlayer entityplayer1 = null;
-                    Iterator iterator = par1World.playerEntities.iterator();
+                    @SuppressWarnings("rawtypes")
+					Iterator iterator = p_149727_1_.playerEntities.iterator();
 
                     while (iterator.hasNext())
                     {
@@ -229,7 +95,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
                         {
                             ChunkCoordinates chunkcoordinates = entityplayer2.playerLocation;
 
-                            if (chunkcoordinates.posX == par2 && chunkcoordinates.posY == par3 && chunkcoordinates.posZ == par4)
+                            if (chunkcoordinates.posX == p_149727_2_ && chunkcoordinates.posY == p_149727_3_ && chunkcoordinates.posZ == p_149727_4_)
                             {
                                 entityplayer1 = entityplayer2;
                             }
@@ -238,29 +104,29 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
 
                     if (entityplayer1 != null)
                     {
-                        par5EntityPlayer.addChatMessage("tile.bed.occupied");
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied", new Object[0]));
                         return true;
                     }
 
-                    setBedOccupied(par1World, par2, par3, par4, false);
+                    func_149979_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, false);
                 }
 
-                EnumStatus enumstatus = par5EntityPlayer.sleepInBedAt(par2, par3, par4);
+                EntityPlayer.EnumStatus enumstatus = p_149727_5_.sleepInBedAt(p_149727_2_, p_149727_3_, p_149727_4_);
 
-                if (enumstatus == EnumStatus.OK)
+                if (enumstatus == EntityPlayer.EnumStatus.OK)
                 {
-                    setBedOccupied(par1World, par2, par3, par4, true);
+                    func_149979_a(p_149727_1_, p_149727_2_, p_149727_3_, p_149727_4_, true);
                     return true;
                 }
                 else
                 {
-                    if (enumstatus == EnumStatus.NOT_POSSIBLE_NOW)
+                    if (enumstatus == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW)
                     {
-                        par5EntityPlayer.addChatMessage("tile.bed.noSleep");
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep", new Object[0]));
                     }
-                    else if (enumstatus == EnumStatus.NOT_SAFE)
+                    else if (enumstatus == EntityPlayer.EnumStatus.NOT_SAFE)
                     {
-                        par5EntityPlayer.addChatMessage("tile.bed.notSafe");
+                        p_149727_5_.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe", new Object[0]));
                     }
 
                     return true;
@@ -268,33 +134,53 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
             }
             else
             {
-                double d0 = (double)par2 + 0.5D;
-                double d1 = (double)par3 + 0.5D;
-                double d2 = (double)par4 + 0.5D;
-                par1World.setBlockToAir(par2, par3, par4);
+                double d2 = (double)p_149727_2_ + 0.5D;
+                double d0 = (double)p_149727_3_ + 0.5D;
+                double d1 = (double)p_149727_4_ + 0.5D;
+                p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
                 int k1 = getDirection(i1);
-                par2 += footBlockToHeadBlockMap[k1][0];
-                par4 += footBlockToHeadBlockMap[k1][1];
+                p_149727_2_ += field_149981_a[k1][0];
+                p_149727_4_ += field_149981_a[k1][1];
 
-                if (par1World.getBlockId(par2, par3, par4) == this.blockID)
+                if (p_149727_1_.getBlock(p_149727_2_, p_149727_3_, p_149727_4_) == this)
                 {
-                    par1World.setBlockToAir(par2, par3, par4);
-                    d0 = (d0 + (double)par2 + 0.5D) / 2.0D;
-                    d1 = (d1 + (double)par3 + 0.5D) / 2.0D;
-                    d2 = (d2 + (double)par4 + 0.5D) / 2.0D;
+                    p_149727_1_.setBlockToAir(p_149727_2_, p_149727_3_, p_149727_4_);
+                    d2 = (d2 + (double)p_149727_2_ + 0.5D) / 2.0D;
+                    d0 = (d0 + (double)p_149727_3_ + 0.5D) / 2.0D;
+                    d1 = (d1 + (double)p_149727_4_ + 0.5D) / 2.0D;
                 }
 
-                par1World.newExplosion((Entity)null, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), 5.0F, true, true);
+                p_149727_1_.newExplosion((Entity)null, (double)((float)p_149727_2_ + 0.5F), (double)((float)p_149727_3_ + 0.5F), (double)((float)p_149727_4_ + 0.5F), 5.0F, true, true);
                 return true;
             }
         }
     }
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+
+    /**
+     * Gets the block's texture. Args: side, meta
+     *//*
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
-		int meta = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+        if (p_149691_1_ == 0)
+        {
+            return Blocks.planks.getBlockTextureFromSide(p_149691_1_);
+        }
+        else
+        {
+            int k = getDirection(p_149691_2_);
+            int l = Direction.bedDirection[k][p_149691_1_];
+            int i1 = isBlockHeadOfBed(p_149691_2_) ? 1 : 0;
+            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedTopIcons[i1] : this.bedSideIcons[i1]) : this.bedEndIcons[i1];
+        }
+    }*/
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+    {
+    	int meta = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		int color = 0;
 		
 		BedColor tileEntity = (BedColor) par1IBlockAccess.getTileEntity(par2, par3, par4);
@@ -312,15 +198,15 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
             int k = getDirection(meta);
             int l = Direction.bedDirection[k][par5];
             int i1 = isBlockHeadOfBed(meta) ? 1 : 0;
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedTopIcons[color][i1] : this.bedSideIcons[color][i1]) : this.field_94472_b[color][i1];
+            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedTopIcons[color][i1] : this.bedSideIcons[color][i1]) : this.bedEndIcons[color][i1];
         }
     }
-	
-	@SideOnly(Side.CLIENT)
-	@Override
+
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerBlockIcons(IIconRegister par1IconRegister)
     {
-		IIcon head_end = par1IconRegister.registerIcon(this.getTextureName() + "_head_end");
+    	IIcon head_end = par1IconRegister.registerIcon(this.getTextureName() + "_head_end");
         this.bedTopIcons = new IIcon[][] { 
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_white")},
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_orange"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_orange")},
@@ -338,7 +224,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_green"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_green")},
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_red"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_red")},
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_black")}};
-        this.field_94472_b = new IIcon[][] {
+        this.bedEndIcons = new IIcon[][] {
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_white"), head_end},
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_orange"), head_end},
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_end_magenta"), head_end},
@@ -374,13 +260,180 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_side_black"), par1IconRegister.registerIcon(this.getTextureName() + "_head_side_black")}};
     }
 
-	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) 
-	{
-		return new BedColor();
-	}
+    /**
+     * The type of render function that is called for this block
+     */
+    @Override
+    public int getRenderType()
+    {
+        return 14;
+    }
 
-	@Override
+    /**
+     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
+     */
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    /**
+     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
+     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+     */
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    /**
+     * Updates the blocks bounds based on its current state. Args: world, x, y, z
+     */
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
+    {
+        this.setBounds();
+    }
+
+    /**
+     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
+     * their own) Args: x, y, z, neighbor Block
+     */
+    @Override
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    {
+        int l = p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_);
+        int i1 = getDirection(l);
+
+        if (isBlockHeadOfBed(l))
+        {
+            if (p_149695_1_.getBlock(p_149695_2_ - field_149981_a[i1][0], p_149695_3_, p_149695_4_ - field_149981_a[i1][1]) != this)
+            {
+                p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
+            }
+        }
+        else if (p_149695_1_.getBlock(p_149695_2_ + field_149981_a[i1][0], p_149695_3_, p_149695_4_ + field_149981_a[i1][1]) != this)
+        {
+            p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
+
+            if (!p_149695_1_.isRemote)
+            {
+                this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, l, 0);
+            }
+        }
+    }
+
+    @Override
+    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+        /**
+         * Returns whether or not this bed block is the head of the bed.
+         */
+        return isBlockHeadOfBed(p_149650_1_) ? Item.getItemById(0) : BetterVanilla.itemBedOverride;
+    }
+
+    private void setBounds()
+    {
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
+    }
+
+    /**
+     * Returns whether or not this bed block is the head of the bed.
+     */
+    public static boolean isBlockHeadOfBed(int p_149975_0_)
+    {
+        return (p_149975_0_ & 8) != 0;
+    }
+
+    public static boolean func_149976_c(int p_149976_0_)
+    {
+        return (p_149976_0_ & 4) != 0;
+    }
+
+    public static void func_149979_a(World p_149979_0_, int p_149979_1_, int p_149979_2_, int p_149979_3_, boolean p_149979_4_)
+    {
+        int l = p_149979_0_.getBlockMetadata(p_149979_1_, p_149979_2_, p_149979_3_);
+
+        if (p_149979_4_)
+        {
+            l |= 4;
+        }
+        else
+        {
+            l &= -5;
+        }
+
+        p_149979_0_.setBlockMetadataWithNotify(p_149979_1_, p_149979_2_, p_149979_3_, l, 4);
+    }
+
+    public static ChunkCoordinates func_149977_a(World p_149977_0_, int p_149977_1_, int p_149977_2_, int p_149977_3_, int p_149977_4_)
+    {
+        int i1 = p_149977_0_.getBlockMetadata(p_149977_1_, p_149977_2_, p_149977_3_);
+        int j1 = BlockDirectional.getDirection(i1);
+
+        for (int k1 = 0; k1 <= 1; ++k1)
+        {
+            int l1 = p_149977_1_ - field_149981_a[j1][0] * k1 - 1;
+            int i2 = p_149977_3_ - field_149981_a[j1][1] * k1 - 1;
+            int j2 = l1 + 2;
+            int k2 = i2 + 2;
+
+            for (int l2 = l1; l2 <= j2; ++l2)
+            {
+                for (int i3 = i2; i3 <= k2; ++i3)
+                {
+                    if (World.doesBlockHaveSolidTopSurface(p_149977_0_, l2, p_149977_2_ - 1, i3) && !p_149977_0_.getBlock(l2, p_149977_2_, i3).getMaterial().isOpaque() && !p_149977_0_.getBlock(l2, p_149977_2_ + 1, i3).getMaterial().isOpaque())
+                    {
+                        if (p_149977_4_ <= 0)
+                        {
+                            return new ChunkCoordinates(l2, p_149977_2_, i3);
+                        }
+
+                        --p_149977_4_;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Drops the block items with a specified chance of dropping the specified items
+     */
+    @Override
+    public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
+    {
+        if (!isBlockHeadOfBed(p_149690_5_))
+        {
+            super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, 0);
+        }
+    }
+
+    /**
+     * Returns the mobility information of the block, 0 = free, 1 = can't push but can move over, 2 = total immobility
+     * and stop pistons
+     */
+    @Override
+    public int getMobilityFlag()
+    {
+        return 1;
+    }
+
+    /**
+     * Gets an item for the block being called on. Args: world, x, y, z
+     *//*
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    {
+        return BetterVanilla.itemBedOverride
+    }*/
+    
+    // copied this from the old BlockBedOverride
+    @Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int j) 
 	{
 		if (!world.isRemote && !isBlockHeadOfBed(j) && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
@@ -402,8 +455,32 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
             world.spawnEntityInWorld(entityitem);
         }
 		
-		super.breakBlock(world, x, y, z, i, j);
+		super.breakBlock(world, x, y, z, block, j);
 		world.removeTileEntity(x, y, z);
 	}
-}
 
+    /**
+     * Called when the block is attempted to be harvested
+     */
+    @Override
+    public void onBlockHarvested(World p_149681_1_, int p_149681_2_, int p_149681_3_, int p_149681_4_, int p_149681_5_, EntityPlayer p_149681_6_)
+    {
+        if (p_149681_6_.capabilities.isCreativeMode && isBlockHeadOfBed(p_149681_5_))
+        {
+            int i1 = getDirection(p_149681_5_);
+            p_149681_2_ -= field_149981_a[i1][0];
+            p_149681_4_ -= field_149981_a[i1][1];
+
+            if (p_149681_1_.getBlock(p_149681_2_, p_149681_3_, p_149681_4_) == this)
+            {
+                p_149681_1_.setBlockToAir(p_149681_2_, p_149681_3_, p_149681_4_);
+            }
+        }
+    }
+
+	@Override
+	public TileEntity createNewTileEntity(World var1, int var2) 
+	{
+		return new BedColor();
+	}
+}

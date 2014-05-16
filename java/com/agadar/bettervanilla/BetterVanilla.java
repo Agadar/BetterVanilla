@@ -322,6 +322,7 @@ public class BetterVanilla
 		}
 		if (Beds) {
 			// Replace the original bed item with our overridden bed item.
+			Item.itemRegistry.putObject(par1Obj, par2Obj);;
 			int itemBedId = Items.bed.itemID;
 			Items.itemsList[itemBedId] = null;
 			itemBedOverride = (new ItemBedOverride(itemBedId)).setMaxStackSize(1).setUnlocalizedName("bed").setTextureName("bettervanilla:bed");
@@ -354,6 +355,8 @@ public class BetterVanilla
 			(new BlockCactusOverride(cactusId)).setHardness(0.4F)
 					.setStepSound(Block.soundTypeCloth)
 					.setBlockName("cactus").setBlockTextureName("cactus");
+			
+			
 		}
 		if (CauldronsLava)
 		{
