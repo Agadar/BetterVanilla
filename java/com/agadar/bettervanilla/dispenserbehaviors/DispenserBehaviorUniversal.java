@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.dispenserbehaviors;
 
-import com.agadar.bettervanilla.misc.FakeEntityPlayer;
+import java.lang.ref.WeakReference;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -8,6 +8,9 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 
 
 public class DispenserBehaviorUniversal extends BehaviorDefaultDispenseItem 
@@ -24,8 +27,8 @@ public class DispenserBehaviorUniversal extends BehaviorDefaultDispenseItem
         int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
         int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();    
         
-    	FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);  
-    	par2ItemStack.getItem().onItemUse(par2ItemStack, fakePlayerEntity, world, i, j - 1, k, 1, 0, 0, 0);
+        WeakReference<FakePlayer> fakePlayerEntity = new WeakReference<FakePlayer>(FakePlayerFactory.getMinecraft((WorldServer) world));  
+    	par2ItemStack.getItem().onItemUse(par2ItemStack, fakePlayerEntity.get(), world, i, j - 1, k, 1, 0, 0, 0);
     	return par2ItemStack;
     }
 }

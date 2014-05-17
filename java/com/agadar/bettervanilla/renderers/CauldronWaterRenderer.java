@@ -3,11 +3,12 @@ package com.agadar.bettervanilla.renderers;
 import com.agadar.bettervanilla.BetterVanilla;
 
 import net.minecraft.block.Block;
-//import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-//import net.minecraft.util.Icon;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -46,23 +47,23 @@ public class CauldronWaterRenderer implements ISimpleBlockRenderingHandler
         }
 
         tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);
-        Icon icon = block.getBlockTextureFromSide(2);
+        IIcon icon = block.getBlockTextureFromSide(2);
         f4 = 0.125F;
         renderer.renderFaceXPos(block, (double)((float)x - 1.0F + f4), (double)y, (double)z, icon);
         renderer.renderFaceXNeg(block, (double)((float)x + 1.0F - f4), (double)y, (double)z, icon);
         renderer.renderFaceZPos(block, (double)x, (double)y, (double)((float)z - 1.0F + f4), icon);
         renderer.renderFaceZNeg(block, (double)x, (double)y, (double)((float)z + 1.0F - f4), icon);
-        Icon icon1 = BetterVanilla.cauldronWater.getCauldronIcon("inner");
+        IIcon icon1 = BetterVanilla.cauldronWater.getCauldronIcon("inner");
         renderer.renderFaceYPos(block, (double)x, (double)((float)y - 1.0F + 0.25F), (double)z, icon1);
         renderer.renderFaceYNeg(block, (double)x, (double)((float)y + 1.0F - 0.75F), (double)z, icon1);
         int i1 = renderer.blockAccess.getBlockMetadata(x, y, z);
 
         if (i1 > 0)
         {
-        	Icon icon2;
+        	IIcon icon2;
         	
-        	if (block.blockID == BetterVanilla.cauldronLava.blockID) icon2 = BlockFluid.getFluidIcon("lava_still");
-        	else icon2 = BlockFluid.getFluidIcon("water_still");
+        	if (block == BetterVanilla.cauldronLava) icon2 = BlockLiquid.getLiquidIcon("lava_still");
+        	else icon2 = BlockLiquid.getLiquidIcon("water_still");
         	
             if (i1 > 3)
             {
@@ -75,15 +76,16 @@ public class CauldronWaterRenderer implements ISimpleBlockRenderingHandler
         return true;
 	}
 
-	@Override
-	public boolean shouldRender3DInInventory() 
-	{
-		return false;
-	}
 
 	@Override
 	public int getRenderId() 
 	{
 		return renderId;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelId) 
+	{
+		return false;
 	}
 }

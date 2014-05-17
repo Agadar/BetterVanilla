@@ -1,8 +1,7 @@
 package com.agadar.bettervanilla.dispenserbehaviors;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
-
-import com.agadar.bettervanilla.misc.FakeEntityPlayer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -14,7 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 
 public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem 
 {
@@ -33,7 +35,7 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
         AxisAlignedBB box = AxisAlignedBB.getBoundingBox(i, j, k, i+1, j+1, k+1);
 		@SuppressWarnings("unchecked")
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(IShearable.class, box);
-		FakeEntityPlayer fakePlayerEntity = new FakeEntityPlayer(world, null);
+		WeakReference<FakePlayer> fakePlayerEntity = new WeakReference<FakePlayer>(FakePlayerFactory.getMinecraft((WorldServer) world));
 		ItemShears shears = (ItemShears) par2ItemStack.getItem();
 		if (entities.size() > 0)
 		{
@@ -41,7 +43,7 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
 			{
 				if (((IShearable) entity).isShearable(par2ItemStack, entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ))
 				{
-					shears.itemInteractionForEntity(par2ItemStack, fakePlayerEntity, entity);
+					shears.itemInteractionForEntity(par2ItemStack, fakePlayerEntity.get(), entity);
 					break;
 				}
 			}
@@ -51,7 +53,7 @@ public class DispenserBehaviorShears extends BehaviorDefaultDispenseItem
 			Block block = world.getBlock(i, j, k);
         	if (block instanceof IShearable) 
         	{
-        		shears.onBlockStartBreak(par2ItemStack, i, j, k, fakePlayerEntity);
+        		shears.onBlockStartBreak(par2ItemStack, i, j, k, fakePlayerEntity.get());
         		world.func_147480_a(i, j, k, false);
         	}
         }
