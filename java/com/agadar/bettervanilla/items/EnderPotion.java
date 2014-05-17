@@ -1,28 +1,20 @@
 package com.agadar.bettervanilla.items;
 
-import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 public class EnderPotion extends Item
 {
-	public EnderPotion(int par1) 
+	public EnderPotion() 
 	{
-		//super(par1);
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.tabBrewing);
 	}
@@ -36,10 +28,10 @@ public class EnderPotion extends Item
         {
         	--par1ItemStack.stackSize;
         	
-        	if (par1ItemStack.stackSize <= 0) return new ItemStack(Item.glassBottle);
+        	if (par1ItemStack.stackSize <= 0) return new ItemStack(Items.glass_bottle);
         	
-            if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle)))
-	            par3EntityPlayer.dropPlayerItem(new ItemStack(Item.glassBottle));
+            if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle)))
+	            par3EntityPlayer.dropItem(Items.glass_bottle, 1);
         }       
                 
         return par1ItemStack;
@@ -81,7 +73,7 @@ public class EnderPotion extends Item
         	int i = MathHelper.floor_double(x1);
         	int j = MathHelper.floor_double(y1);
         	int k = MathHelper.floor_double(z1);
-        	int l;
+        	Block l;
 
         	if (par1World.blockExists(i, j, k))
         	{
@@ -89,9 +81,9 @@ public class EnderPotion extends Item
 
         		while (!flag1 && j > 0)
         		{
-        			l = par1World.getBlockId(i, j - 1, k);
+        			l = par1World.getBlock(i, j - 1, k);
 
-        			if (l != 0 && Block.blocksList[l].blockMaterial.blocksMovement())
+        			if (l != Blocks.air && l.getMaterial().blocksMovement())
         			{
         				flag1 = true;
         			}

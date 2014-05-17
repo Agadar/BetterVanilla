@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import com.agadar.bettervanilla.CommonProxy;
+import com.agadar.bettervanilla.help.Reference;
 import com.agadar.bettervanilla.blocks.BlockBedOverride;
 import com.agadar.bettervanilla.blocks.BlockCactusOverride;
 import com.agadar.bettervanilla.blocks.CauldronLava;
@@ -44,6 +45,7 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemGlassBottle;
 import net.minecraft.item.ItemHoe;
@@ -56,6 +58,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -75,13 +78,9 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = BetterVanilla.MODID, version = BetterVanilla.VERSION)
+@Mod(modid = Reference.MODID, version = Reference.VERSION)
 public class BetterVanilla 
 {	
-	// Mod data
-	public static final String MODID = "BetterVanilla";
-    public static final String VERSION = "0.2.1";	
-	
 	// Values from the configuration file.
 	public static boolean Apples;
 	public static double ApplesRate;
@@ -130,6 +129,42 @@ public class BetterVanilla
 	public static Item milkBottle;
 	public static Item itemBedOverride;
 	public static Item lavaBottle;
+	
+	// Items (Armor)
+	public static OakArmor helmetOak;
+	public static OakArmor plateOak;
+	public static OakArmor legsOak;
+	public static OakArmor bootsOak;
+	public static SpruceArmor helmetSpruce;
+	public static SpruceArmor plateSpruce;
+	public static SpruceArmor legsSpruce;
+	public static SpruceArmor bootsSpruce;
+	public static BirchArmor helmetBirch;
+	public static BirchArmor plateBirch;
+	public static BirchArmor legsBirch;
+	public static BirchArmor bootsBirch;
+	public static JungleArmor helmetJungle;
+	public static JungleArmor plateJungle;
+	public static JungleArmor legsJungle;
+	public static JungleArmor bootsJungle;
+	public static PumpkinArmor helmetPumpkin;
+	public static PumpkinArmor platePumpkin;
+	public static PumpkinArmor legsPumpkin;
+	public static PumpkinArmor bootPumpkin;
+	public static CactusArmor helmetCactus;
+	public static CactusArmor plateCactus;
+	public static CactusArmor legsCactus;
+	public static CactusArmor bootCactus;
+	public static MelonArmor helmetMelon;
+	public static MelonArmor plateMelon;
+	public static MelonArmor legsMelon;
+	public static MelonArmor bootMelon;
+	
+	// Armor Materials
+	public static ItemArmor.ArmorMaterial armorWOOD; 
+	public static ItemArmor.ArmorMaterial armorPUMPKIN; 
+	public static ItemArmor.ArmorMaterial armorCACTUS; 
+	public static ItemArmor.ArmorMaterial armorMELON;
 	
 	// Blocks
 	public static Block blockBedOverride;
@@ -473,10 +508,10 @@ public class BetterVanilla
 		}
 		if (MoreArmor) {
 			// Create our new armor material.
-			EnumArmorMaterial armorWOOD = net.minecraftforge.common.EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
-			EnumArmorMaterial armorPUMPKIN = net.minecraftforge.common.EnumHelper.addArmorMaterial("PUMPKIN", 5, new int[]{1, 3, 2, 1}, 15);
-			EnumArmorMaterial armorCACTUS = net.minecraftforge.common.EnumHelper.addArmorMaterial("CACTUS", 5, new int[]{1, 3, 2, 1}, 15);
-			EnumArmorMaterial armorMELON = net.minecraftforge.common.EnumHelper.addArmorMaterial("MELON", 5, new int[]{1, 3, 2, 1}, 15);
+			armorWOOD = EnumHelper.addArmorMaterial("WOOD", 5, new int[]{1, 3, 2, 1}, 15);
+			armorPUMPKIN = EnumHelper.addArmorMaterial("PUMPKIN", 5, new int[]{1, 3, 2, 1}, 15);
+			armorCACTUS = EnumHelper.addArmorMaterial("CACTUS", 5, new int[]{1, 3, 2, 1}, 15);
+			armorMELON = EnumHelper.addArmorMaterial("MELON", 5, new int[]{1, 3, 2, 1}, 15);
 			
 			// Register whatever it is these integers represent.
 			int oak = proxy.addArmor("oak");
@@ -488,34 +523,34 @@ public class BetterVanilla
 			int melon = proxy.addArmor("melon");
 
 			// Create our new armor items.
-			OakArmor helmetOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 0).setUnlocalizedName("oak_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_helmet");
-			OakArmor plateOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 1).setUnlocalizedName("oak_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_chestplate");
-			OakArmor legsOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 2).setUnlocalizedName("oak_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_leggings");
-			OakArmor bootsOak = (OakArmor) new OakArmor(MoreArmorID++, armorWOOD, oak, 3).setUnlocalizedName("oak_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:oak_boots");
-			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 0).setUnlocalizedName("spruce_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_helmet");
-			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 1).setUnlocalizedName("spruce_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_chestplate");
-			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 2).setUnlocalizedName("spruce_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_leggings");
-			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(MoreArmorID++, armorWOOD, spruce, 3).setUnlocalizedName("spruce_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:spruce_boots");
-			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 0).setUnlocalizedName("birch_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_helmet");
-			BirchArmor plateBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 1).setUnlocalizedName("birch_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_chestplate");
-			BirchArmor legsBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 2).setUnlocalizedName("birch_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_leggings");
-			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(MoreArmorID++, armorWOOD, birch, 3).setUnlocalizedName("birch_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:birch_boots");	
-			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 0).setUnlocalizedName("jungle_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_helmet");
-			JungleArmor plateJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 1).setUnlocalizedName("jungle_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_chestplate");
-			JungleArmor legsJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 2).setUnlocalizedName("jungle_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_leggings");
-			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(MoreArmorID++, armorWOOD, jungle, 3).setUnlocalizedName("jungle_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:jungle_boots");
-			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 0).setUnlocalizedName("pumpkin_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_helmet");
-			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 1).setUnlocalizedName("pumpkin_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_chestplate");
-			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 2).setUnlocalizedName("pumpkin_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_leggings");
-			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(MoreArmorID++, armorPUMPKIN, pumpkin, 3).setUnlocalizedName("pumpkin_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:pumpkin_boots");
-			CactusArmor helmetCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 0).setUnlocalizedName("cactus_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_helmet");
-			CactusArmor plateCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 1).setUnlocalizedName("cactus_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_chestplate");
-			CactusArmor legsCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 2).setUnlocalizedName("cactus_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_leggings");
-			CactusArmor bootCactus = (CactusArmor) new CactusArmor(MoreArmorID++, armorCACTUS, cactus, 3).setUnlocalizedName("cactus_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:cactus_boots");
-			MelonArmor helmetMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 0).setUnlocalizedName("melon_helmet").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_helmet");
-			MelonArmor plateMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 1).setUnlocalizedName("melon_chestplate").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_chestplate");
-			MelonArmor legsMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 2).setUnlocalizedName("melon_leggings").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_leggings");
-			MelonArmor bootMelon = (MelonArmor) new MelonArmor(MoreArmorID++, armorMELON, melon, 3).setUnlocalizedName("melon_boots").setCreativeTab(CreativeTabs.tabCombat).setTextureName("bettervanilla:melon_boots");			
+			OakArmor helmetOak = (OakArmor) new OakArmor(oak, 0).setUnlocalizedName("oak_helmet").setTextureName("bettervanilla:oak_helmet");
+			OakArmor plateOak = (OakArmor) new OakArmor(oak, 1).setUnlocalizedName("oak_chestplate").setTextureName("bettervanilla:oak_chestplate");
+			OakArmor legsOak = (OakArmor) new OakArmor(oak, 2).setUnlocalizedName("oak_leggings").setTextureName("bettervanilla:oak_leggings");
+			OakArmor bootsOak = (OakArmor) new OakArmor(oak, 3).setUnlocalizedName("oak_boots").setTextureName("bettervanilla:oak_boots");
+			SpruceArmor helmetSpruce = (SpruceArmor) new SpruceArmor(spruce, 0).setUnlocalizedName("spruce_helmet").setTextureName("bettervanilla:spruce_helmet");
+			SpruceArmor plateSpruce = (SpruceArmor) new SpruceArmor(spruce, 1).setUnlocalizedName("spruce_chestplate").setTextureName("bettervanilla:spruce_chestplate");
+			SpruceArmor legsSpruce = (SpruceArmor) new SpruceArmor(spruce, 2).setUnlocalizedName("spruce_leggings").setTextureName("bettervanilla:spruce_leggings");
+			SpruceArmor bootsSpruce = (SpruceArmor) new SpruceArmor(spruce, 3).setUnlocalizedName("spruce_boots").setTextureName("bettervanilla:spruce_boots");
+			BirchArmor helmetBirch = (BirchArmor) new BirchArmor(birch, 0).setUnlocalizedName("birch_helmet").setTextureName("bettervanilla:birch_helmet");
+			BirchArmor plateBirch = (BirchArmor) new BirchArmor(birch, 1).setUnlocalizedName("birch_chestplate").setTextureName("bettervanilla:birch_chestplate");
+			BirchArmor legsBirch = (BirchArmor) new BirchArmor(birch, 2).setUnlocalizedName("birch_leggings").setTextureName("bettervanilla:birch_leggings");
+			BirchArmor bootsBirch = (BirchArmor) new BirchArmor(birch, 3).setUnlocalizedName("birch_boots").setTextureName("bettervanilla:birch_boots");	
+			JungleArmor helmetJungle = (JungleArmor) new JungleArmor(jungle, 0).setUnlocalizedName("jungle_helmet").setTextureName("bettervanilla:jungle_helmet");
+			JungleArmor plateJungle = (JungleArmor) new JungleArmor(jungle, 1).setUnlocalizedName("jungle_chestplate").setTextureName("bettervanilla:jungle_chestplate");
+			JungleArmor legsJungle = (JungleArmor) new JungleArmor(jungle, 2).setUnlocalizedName("jungle_leggings").setTextureName("bettervanilla:jungle_leggings");
+			JungleArmor bootsJungle = (JungleArmor) new JungleArmor(jungle, 3).setUnlocalizedName("jungle_boots").setTextureName("bettervanilla:jungle_boots");
+			PumpkinArmor helmetPumpkin = (PumpkinArmor) new PumpkinArmor(pumpkin, 0).setUnlocalizedName("pumpkin_helmet").setTextureName("bettervanilla:pumpkin_helmet");
+			PumpkinArmor platePumpkin = (PumpkinArmor) new PumpkinArmor(pumpkin, 1).setUnlocalizedName("pumpkin_chestplate").setTextureName("bettervanilla:pumpkin_chestplate");
+			PumpkinArmor legsPumpkin = (PumpkinArmor) new PumpkinArmor(pumpkin, 2).setUnlocalizedName("pumpkin_leggings").setTextureName("bettervanilla:pumpkin_leggings");
+			PumpkinArmor bootPumpkin = (PumpkinArmor) new PumpkinArmor(pumpkin, 3).setUnlocalizedName("pumpkin_boots").setTextureName("bettervanilla:pumpkin_boots");
+			CactusArmor helmetCactus = (CactusArmor) new CactusArmor(cactus, 0).setUnlocalizedName("cactus_helmet").setTextureName("bettervanilla:cactus_helmet");
+			CactusArmor plateCactus = (CactusArmor) new CactusArmor(cactus, 1).setUnlocalizedName("cactus_chestplate").setTextureName("bettervanilla:cactus_chestplate");
+			CactusArmor legsCactus = (CactusArmor) new CactusArmor(cactus, 2).setUnlocalizedName("cactus_leggings").setTextureName("bettervanilla:cactus_leggings");
+			CactusArmor bootCactus = (CactusArmor) new CactusArmor(cactus, 3).setUnlocalizedName("cactus_boots").setTextureName("bettervanilla:cactus_boots");
+			MelonArmor helmetMelon = (MelonArmor) new MelonArmor(melon, 0).setUnlocalizedName("melon_helmet").setTextureName("bettervanilla:melon_helmet");
+			MelonArmor plateMelon = (MelonArmor) new MelonArmor(melon, 1).setUnlocalizedName("melon_chestplate").setTextureName("bettervanilla:melon_chestplate");
+			MelonArmor legsMelon = (MelonArmor) new MelonArmor(melon, 2).setUnlocalizedName("melon_leggings").setTextureName("bettervanilla:melon_leggings");
+			MelonArmor bootMelon = (MelonArmor) new MelonArmor(melon, 3).setUnlocalizedName("melon_boots").setTextureName("bettervanilla:melon_boots");			
 			
 			// Add the recipes of our items to the GameRegistry.
 			GameRegistry.addRecipe(new ItemStack(helmetOak), "xxx", "x x", 'x', new ItemStack(Blocks.log, 1, 0));

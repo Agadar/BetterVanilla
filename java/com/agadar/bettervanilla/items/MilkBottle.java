@@ -1,11 +1,8 @@
 package com.agadar.bettervanilla.items;
 
-import com.agadar.bettervanilla.BetterVanilla;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,9 +10,9 @@ import net.minecraft.world.World;
 
 public class MilkBottle extends Item 
 {
-	public MilkBottle(int par1) 
+	public MilkBottle() 
 	{
-		super(par1);
+		super();
         this.setMaxStackSize(4);
         this.setCreativeTab(CreativeTabs.tabBrewing);
 	}
@@ -25,17 +22,17 @@ public class MilkBottle extends Item
     {
         if (!par2World.isRemote)
         {
-            par3EntityPlayer.curePotionEffects(new ItemStack(Item.bucketMilk));
+            par3EntityPlayer.curePotionEffects(new ItemStack(Items.milk_bucket));
         }
 
         if (!par3EntityPlayer.capabilities.isCreativeMode)
         {
         	--par1ItemStack.stackSize;
         	
-        	if (par1ItemStack.stackSize <= 0) return new ItemStack(Item.glassBottle);
+        	if (par1ItemStack.stackSize <= 0) return new ItemStack(Items.glass_bottle);
         	
-            if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle)))
-            	par3EntityPlayer.dropPlayerItem(new ItemStack(Item.glassBottle));
+            if (!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle)))
+            	par3EntityPlayer.dropItem(Items.glass_bottle, 1);
         }
 
         return par1ItemStack;

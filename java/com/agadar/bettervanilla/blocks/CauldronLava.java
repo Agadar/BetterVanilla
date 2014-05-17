@@ -7,21 +7,21 @@ import com.agadar.bettervanilla.BetterVanilla;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-//import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class CauldronLava extends CauldronWater
 {
-	public CauldronLava(int par1) 
+	public CauldronLava() 
 	{
-		super(par1);
-		this.setLightValue(1.0f);
+		super();
+		this.setLightLevel(1.0F);
 	}
 	
 	@Override
@@ -40,29 +40,28 @@ public class CauldronLava extends CauldronWater
         }
         
         int i1 = par1World.getBlockMetadata(par2, par3, par4);
-        int j1 = func_111045_h_(i1);
+        int j1 = func_150027_b(i1);
 
-        if (itemstack.itemID == Item.bucketLava.itemID && j1 < 3)
+        if (itemstack.getItem() == Items.lava_bucket && j1 < 3)
         {      	
         	if (!par5EntityPlayer.capabilities.isCreativeMode)
         	{
-        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Item.bucketEmpty));
+        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.bucket));
         	}
 
-        	par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
-        	par1World.func_96440_m(par2, par3, par4, this.blockID);       	
+        	this.func_150024_a(par1World, par2, par3, par4, 3);      	
         }
-        else if (itemstack.itemID == Item.bucketEmpty.itemID && j1 >= 3)
+        else if (itemstack.getItem() == Items.bucket && j1 >= 3)
         {
         	if (!par5EntityPlayer.capabilities.isCreativeMode)
         	{
-        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Item.bucketLava));
+        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.lava_bucket));
         	}
 
-        	par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater.blockID, 0, 2);
-        	par1World.func_96440_m(par2, par3, par4, BetterVanilla.cauldronWater.blockID);       	
+        	par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater, 0, 2);
+        	par1World.func_147453_f(par2, par3, par4, BetterVanilla.cauldronWater);       	
         }
-        else if (itemstack.itemID == Item.glassBottle.itemID && j1 > 0)
+        else if (itemstack.getItem() == Items.glass_bottle && j1 > 0)
         {		
         	ItemStack itemstack1 = new ItemStack(BetterVanilla.lavaBottle);
 
@@ -86,23 +85,22 @@ public class CauldronLava extends CauldronWater
         	
         	if (j1 > 0)
         	{
-        		par1World.setBlockMetadataWithNotify(par2, par3, par4, j1, 2);
-        		par1World.func_96440_m(par2, par3, par4, this.blockID);     
+        		this.func_150024_a(par1World, par2, par3, par4, j1);     
         	}
         	else
         	{
-        		par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater.blockID, 0, 2);
-            	par1World.func_96440_m(par2, par3, par4, BetterVanilla.cauldronWater.blockID);
+        		par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater, 0, 2);
+            	par1World.func_147453_f(par2, par3, par4, BetterVanilla.cauldronWater);
         	}
         }
         return true;
     }
 	
-	 @SideOnly(Side.CLIENT)
-	 @Override
-	 public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	 {
-		 if (par1World.getBlockMaterial(par2, par3 + 1, par4) == Material.air && !par1World.isBlockOpaqueCube(par2, par3 + 1, par4))
+		 if (par1World.getBlock(par2, par3 + 1, par4).getMaterial() == Material.air && !par1World.getBlock(par2, par3 + 1, par4).isOpaqueCube())
 	        {
 	            if (par5Random.nextInt(100) == 0)
 	            {
@@ -123,5 +121,21 @@ public class CauldronLava extends CauldronWater
 	@Override
     public void fillWithRain(World par1World, int par2, int par3, int par4)
     {
+    }
+	
+	/**
+     * Triggered whenever an entity collides with this block (enters into the block). Args: world, x, y, z, entity
+     */
+    @Override
+    public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
+    {
+        int l = func_150027_b(p_149670_1_.getBlockMetadata(p_149670_2_, p_149670_3_, p_149670_4_));
+        float f = (float)p_149670_3_ + (6.0F + (float)(3 * l)) / 16.0F;
+
+        if (!p_149670_1_.isRemote && l > 0 && p_149670_5_.boundingBox.minY <= (double)f)
+        {
+        	p_149670_5_.attackEntityFrom(DamageSource.lava, 4.0F);
+        	p_149670_5_.setFire(15);
+        }
     }
 }
