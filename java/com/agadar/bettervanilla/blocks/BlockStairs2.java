@@ -4,9 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 
 // We need this class in order to access BlockStair's constructor, which is protected.
-public class BlockStairsCustom extends BlockStairs {
+public class BlockStairs2 extends BlockStairs {
 
-	public BlockStairsCustom(int par1, Block par2Block, int par3) 
+	public BlockStairs2(int par1, Block par2Block, int par3) 
 	{
 		super(par2Block, par3);
 	}

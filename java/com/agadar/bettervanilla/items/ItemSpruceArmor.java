@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
-public class CactusArmor extends ItemArmor {
+public class ItemSpruceArmor extends ItemArmor {
 	
-	public CactusArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemSpruceArmor(ArmorMaterial material, int armorType, String unlocalizedName)
 	{
 		super(material, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
@@ -24,16 +24,16 @@ public class CactusArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		if(stack.getItem() != BetterVanilla.legsCactus)
+		if(stack.getItem() != BetterVanilla.legsSpruce)
 		{
-			return Reference.MODID + ":textures/models/armor/cactus_layer_1.png";
+			return Reference.MODID + ":textures/models/armor/spruce_layer_1.png";
 		}
-		return Reference.MODID + ":textures/models/armor/cactus_layer_2.png";
+		return Reference.MODID + ":textures/models/armor/spruce_layer_2.png";
 	}
 	
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.cactus);
+        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.log) && par2ItemStack.getItemDamage() == 1;
     }
 }

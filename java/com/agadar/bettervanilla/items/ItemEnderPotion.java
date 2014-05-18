@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EnderPotion extends Item
+public class ItemEnderPotion extends Item
 {
-	public EnderPotion() 
+	public ItemEnderPotion() 
 	{
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.tabBrewing);

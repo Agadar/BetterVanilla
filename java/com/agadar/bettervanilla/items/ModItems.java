@@ -54,7 +54,7 @@ public class ModItems
 	{
 		if (ModConfigurations.EnderPotions)
 		{
-			ender_potion = new EnderPotion();
+			ender_potion = new ItemEnderPotion();
 			RegisterHelper.registerItem(ender_potion);
 		}
 	}

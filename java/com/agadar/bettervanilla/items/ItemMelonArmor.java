@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
-public class BirchArmor extends ItemArmor {
+public class ItemMelonArmor extends ItemArmor {
 	
-	public BirchArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemMelonArmor(ArmorMaterial material, int armorType, String unlocalizedName)
 	{
 		super(material, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
@@ -24,16 +24,16 @@ public class BirchArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		if(stack.getItem() != BetterVanilla.legsBirch)
+		if(stack.getItem() != BetterVanilla.legsMelon)
 		{
-			return Reference.MODID + ":textures/models/armor/birch_layer_1.png";
+			return Reference.MODID + ":textures/models/armor/melon_layer_1.png";
 		}
-		return Reference.MODID + ":textures/models/armor/birch_layer_2.png";
+		return Reference.MODID + ":textures/models/armor/melon_layer_2.png";
 	}
 	
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.log) && par2ItemStack.getItemDamage() == 2;
+        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.melon_block);
     }
 }

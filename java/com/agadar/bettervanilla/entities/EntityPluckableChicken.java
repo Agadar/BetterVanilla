@@ -10,12 +10,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
-public class PluckableChicken extends EntityChicken implements IShearable
+public class EntityPluckableChicken extends EntityChicken implements IShearable
 {
 	/** The time until the feathers grow back. */
 	public int timeUntilFeathers;
 	
-	public PluckableChicken(World par1World) 
+	public EntityPluckableChicken(World par1World) 
 	{
 		super(par1World);
 		this.timeUntilFeathers = this.rand.nextInt(3000) + 3000;

@@ -14,16 +14,16 @@ public class ModEvents
 	{
 		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
 		// It is checked in the hook itself whether these modules are enabled. 
-		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
+		MinecraftForge.EVENT_BUS.register(new EventPlayerInteract());
 		
 		// Register the event hook for intercepting chickens spawning for the pluckable chickens module, as well
 		// as ALL spawning for the mob filter module. It is checked in the hook itself whether these modules are enabled.
-		MinecraftForge.EVENT_BUS.register(new EntityJoinWorldHook());
+		MinecraftForge.EVENT_BUS.register(new EventEntityJoinWorld());
 		
 		if (ModConfigurations.Apples || ModConfigurations.Ice) {
 			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
 			// It is checked in the hook itself whether these modules are enabled. 
-			MinecraftForge.EVENT_BUS.register(new BreakHook());
+			MinecraftForge.EVENT_BUS.register(new EventBreak());
 		}
 	}
 }

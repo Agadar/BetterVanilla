@@ -16,7 +16,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-public class BreakHook {
+public class EventBreak {
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) 
 	{

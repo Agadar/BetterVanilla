@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
-public class PlayerInteractHook {
+public class EventPlayerInteract {
 
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent event) 

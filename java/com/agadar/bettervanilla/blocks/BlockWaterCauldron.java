@@ -24,7 +24,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class CauldronWater extends Block
+public class BlockWaterCauldron extends Block
 {
     @SideOnly(Side.CLIENT)
     private IIcon field_150029_a;
@@ -35,7 +35,7 @@ public class CauldronWater extends Block
     @SuppressWarnings("unused")
 	private static final String __OBFID = "CL_00000213";
 
-    public CauldronWater()
+    public BlockWaterCauldron()
     {
         super(Material.iron);
         this.setHardness(2.0F);
@@ -87,7 +87,7 @@ public class CauldronWater extends Block
     @SideOnly(Side.CLIENT)
     public static IIcon getCauldronIcon(String p_150026_0_)
     {
-        return p_150026_0_.equals("inner") ? BetterVanilla.cauldronWater.field_150029_a : (p_150026_0_.equals("bottom") ? BetterVanilla.cauldronWater.field_150030_M : null);
+        return p_150026_0_.equals("inner") ? ((BlockWaterCauldron)ModBlocks.water_cauldron).field_150029_a : (p_150026_0_.equals("bottom") ? ((BlockWaterCauldron)ModBlocks.water_cauldron).field_150030_M : null);
     }
 
     /**

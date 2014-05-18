@@ -8,7 +8,7 @@ import net.minecraft.block.BlockReed;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 
-public class BonemealHook {
+public class EventBonemeal {
 	@SubscribeEvent 
 	public void onBoneMealUse(BonemealEvent event) {
 		Block block = event.world.getBlock(event.x, event.y, event.z);

@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
-public class PumpkinArmor extends ItemArmor {
+public class ItemCactusArmor extends ItemArmor {
 	
-	public PumpkinArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemCactusArmor(ArmorMaterial material, int armorType, String unlocalizedName)
 	{
 		super(material, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
@@ -24,16 +24,16 @@ public class PumpkinArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		if(stack.getItem() != BetterVanilla.legsPumpkin)
+		if(stack.getItem() != BetterVanilla.legsCactus)
 		{
-			return Reference.MODID + ":textures/models/armor/pumpkin_layer_1.png";
+			return Reference.MODID + ":textures/models/armor/cactus_layer_1.png";
 		}
-		return Reference.MODID + ":textures/models/armor/pumpkin_layer_2.png";
+		return Reference.MODID + ":textures/models/armor/cactus_layer_2.png";
 	}
 	
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
     {
-        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.pumpkin);
+        return par2ItemStack.getItem() == Item.getItemFromBlock(Blocks.cactus);
     }
 }

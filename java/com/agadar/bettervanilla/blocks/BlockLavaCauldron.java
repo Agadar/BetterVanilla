@@ -2,7 +2,7 @@ package com.agadar.bettervanilla.blocks;
 
 import java.util.Random;
 
-import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,9 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class CauldronLava extends CauldronWater
+public class BlockLavaCauldron extends BlockWaterCauldron
 {
-	public CauldronLava() 
+	public BlockLavaCauldron() 
 	{
 		super();
 		this.setLightLevel(1.0F);
@@ -58,12 +58,12 @@ public class CauldronLava extends CauldronWater
         		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.lava_bucket));
         	}
 
-        	par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater, 0, 2);
-        	par1World.func_147453_f(par2, par3, par4, BetterVanilla.cauldronWater);       	
+        	par1World.setBlock(par2, par3, par4, ModBlocks.water_cauldron, 0, 2);
+        	par1World.func_147453_f(par2, par3, par4, ModBlocks.water_cauldron);       	
         }
         else if (itemstack.getItem() == Items.glass_bottle && j1 > 0)
         {		
-        	ItemStack itemstack1 = new ItemStack(BetterVanilla.lavaBottle);
+        	ItemStack itemstack1 = new ItemStack(ModItems.lava_bottle);
 
         	if (!par5EntityPlayer.inventory.addItemStackToInventory(itemstack1))
         	{
@@ -89,8 +89,8 @@ public class CauldronLava extends CauldronWater
         	}
         	else
         	{
-        		par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronWater, 0, 2);
-            	par1World.func_147453_f(par2, par3, par4, BetterVanilla.cauldronWater);
+        		par1World.setBlock(par2, par3, par4, ModBlocks.water_cauldron, 0, 2);
+            	par1World.func_147453_f(par2, par3, par4, ModBlocks.water_cauldron);
         	}
         }
         return true;

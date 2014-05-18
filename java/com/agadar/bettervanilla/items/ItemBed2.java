@@ -3,7 +3,7 @@ package com.agadar.bettervanilla.items;
 import java.util.List;
 
 import com.agadar.bettervanilla.BetterVanilla;
-import com.agadar.bettervanilla.blocks.BlockBed;
+import com.agadar.bettervanilla.blocks.BlockBed2;
 import com.agadar.bettervanilla.tileentities.BedColor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -19,13 +19,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemBedOverride extends ItemBed 
+public class ItemBed2 extends ItemBed 
 {
 	public static final String[] bedNames = new String[] {"white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray", "silver", "cyan", "purple", "blue", "brown", "green", "red", "black"};
 	@SideOnly(Side.CLIENT)
     private IIcon[] bedIcons;
 	
-	public ItemBedOverride() 
+	public ItemBed2() 
 	{
 		super();
 		this.setHasSubtypes(true);	// This allows the item to be marked as a metadata item.
@@ -81,7 +81,7 @@ public class ItemBedOverride extends ItemBed
         else
         {
             ++par5;
-            BlockBed blockbed = (BlockBed)BetterVanilla.blockBedOverride;
+            BlockBed2 blockbed = (BlockBed2)BetterVanilla.blockBedOverride;
             int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte b0 = 0;
             byte b1 = 0;

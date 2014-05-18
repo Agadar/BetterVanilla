@@ -1,7 +1,7 @@
 package com.agadar.bettervanilla.renderers;
 
 import com.agadar.bettervanilla.BetterVanilla;
-import com.agadar.bettervanilla.blocks.CauldronWater;
+import com.agadar.bettervanilla.blocks.BlockWaterCauldron;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -13,7 +13,7 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
-public class CauldronWaterRenderer implements ISimpleBlockRenderingHandler 
+public class RenderWaterCauldron implements ISimpleBlockRenderingHandler 
 {
 	private final int renderId = RenderingRegistry.getNextAvailableRenderId();
 	
@@ -53,7 +53,7 @@ public class CauldronWaterRenderer implements ISimpleBlockRenderingHandler
         renderer.renderFaceXNeg(block, (double)((float)x + 1.0F - f4), (double)y, (double)z, icon);
         renderer.renderFaceZPos(block, (double)x, (double)y, (double)((float)z - 1.0F + f4), icon);
         renderer.renderFaceZNeg(block, (double)x, (double)y, (double)((float)z + 1.0F - f4), icon);
-        IIcon icon1 = CauldronWater.getCauldronIcon("inner");
+        IIcon icon1 = BlockWaterCauldron.getCauldronIcon("inner");
         renderer.renderFaceYPos(block, (double)x, (double)((float)y - 1.0F + 0.25F), (double)z, icon1);
         renderer.renderFaceYNeg(block, (double)x, (double)((float)y + 1.0F - 0.75F), (double)z, icon1);
         int i1 = renderer.blockAccess.getBlockMetadata(x, y, z);

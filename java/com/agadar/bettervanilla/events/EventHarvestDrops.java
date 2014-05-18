@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
-public class HarvestDropsHook {
+public class EventHarvestDrops {
 	
 	@SubscribeEvent
 	public void onHarvestDrops(HarvestDropsEvent event) 

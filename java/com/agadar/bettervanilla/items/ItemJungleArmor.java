@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
-public class JungleArmor extends ItemArmor {
+public class ItemJungleArmor extends ItemArmor {
 	
-	public JungleArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemJungleArmor(ArmorMaterial material, int armorType, String unlocalizedName)
 	{
 		super(material, 0, armorType);
 		setUnlocalizedName(unlocalizedName);

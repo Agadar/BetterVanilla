@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
 
-import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.items.ModItems;
 import com.agadar.bettervanilla.tileentities.BedColor;
 
 import net.minecraft.block.Block;
@@ -29,7 +29,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BlockBed extends BlockDirectional implements ITileEntityProvider
+public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
 {
     public static final int[][] field_149981_a = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
@@ -41,7 +41,7 @@ public class BlockBed extends BlockDirectional implements ITileEntityProvider
     @SuppressWarnings("unused")
 	private static final String __OBFID = "CL_00000198";
 
-    public BlockBed()
+    public BlockBed2()
     {
         super(Material.cloth);
         this.setBounds();
@@ -331,7 +331,7 @@ public class BlockBed extends BlockDirectional implements ITileEntityProvider
         /**
          * Returns whether or not this bed block is the head of the bed.
          */
-        return isBlockHeadOfBed(p_149650_1_) ? Item.getItemById(0) : BetterVanilla.itemBedOverride;
+        return isBlockHeadOfBed(p_149650_1_) ? Item.getItemById(0) : ModItems.bed;
     }
 
     private void setBounds()
@@ -450,7 +450,7 @@ public class BlockBed extends BlockDirectional implements ITileEntityProvider
             double d1 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
             double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
             EntityItem entityitem = new EntityItem(world, (double)x + d0, (double)y + d1, (double)z + d2, 
-            		new ItemStack(BetterVanilla.itemBedOverride, 1, color));
+            		new ItemStack(ModItems.bed, 1, color));
             entityitem.delayBeforeCanPickup = 10;
             world.spawnEntityInWorld(entityitem);
         }

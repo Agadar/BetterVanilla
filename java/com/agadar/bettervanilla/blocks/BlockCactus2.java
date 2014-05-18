@@ -5,9 +5,9 @@ import net.minecraft.block.BlockCactus;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockCactusOverride extends BlockCactus {
+public class BlockCactus2 extends BlockCactus {
 
-	public BlockCactusOverride(int par1) {
+	public BlockCactus2(int par1) {
 		super();
 		this.setHardness(0.4F);
 		this.setStepSound(Block.soundTypeCloth);

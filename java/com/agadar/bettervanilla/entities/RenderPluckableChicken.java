@@ -21,7 +21,7 @@ public class RenderPluckableChicken extends RenderChicken
     @Override
     protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
-    	if (!((PluckableChicken)par1Entity).getSheared()) return chickenTextures;
+    	if (!((EntityPluckableChicken)par1Entity).getSheared()) return chickenTextures;
     	return pluckedChickenTextures;
     }
 }

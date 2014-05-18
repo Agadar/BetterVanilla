@@ -8,9 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class MilkBottle extends Item 
+public class ItemMilkBottle extends Item 
 {
-	public MilkBottle() 
+	public ItemMilkBottle() 
 	{
 		super();
         this.setMaxStackSize(4);
