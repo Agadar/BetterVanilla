@@ -28,6 +28,7 @@ public class ModConfigurations
 	public static boolean Dispensers;
 	public static boolean Doors;
 	public static boolean EnderChests;
+	public static boolean EnderPotions;
 	public static boolean HorseArmor;
 	public static boolean Ice;
 	public static boolean MilkBottles;
@@ -83,6 +84,7 @@ public class ModConfigurations
 		Property dispensers = config.get(misc, "Dispenser overhaul", true);
 		Property doors = config.get(misc, "Stackable doors", true);
 		Property enderChests = config.get(dropTweaks, "Ender chest drop tweak", true);
+		Property enderPotions = config.get(pots, "Potions of Ender", true);
 		Property horseArmor = config.get(crafting, "Craftable horse armor", true);
 		Property ice = config.get(dropTweaks, "Ice drop tweak", true);
 		Property milkBottles = config.get(pots, "Milk bottles", true);
@@ -121,6 +123,7 @@ public class ModConfigurations
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
+		enderPotions.comment = "Set to 'true' to introduce Potions of Ender into the game.";
 		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";
 		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";
 		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";
@@ -161,6 +164,7 @@ public class ModConfigurations
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
 		EnderChests = enderChests.getBoolean(true);
+		EnderPotions = enderPotions.getBoolean(true);
 		HorseArmor = horseArmor.getBoolean(true);
 		Ice = ice.getBoolean(true);
 		MilkBottles = milkBottles.getBoolean(true);

@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.handlers.ModConfigurations;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -20,15 +20,15 @@ public class BreakHook {
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) 
 	{
-		if (event.block == Blocks.leaves  && (event.blockMetadata & 3) == 0 && BetterVanilla.Apples)
+		if (event.block == Blocks.leaves  && (event.blockMetadata & 3) == 0 && ModConfigurations.Apples)
 		{
 			World world = event.getPlayer().worldObj;
-			if (world.rand.nextInt(200) <= BetterVanilla.ApplesRate)
+			if (world.rand.nextInt(200) <= ModConfigurations.ApplesRate)
 			{
 				this.dropBlockAsItem(event.world, event.x, event.y, event.z, new ItemStack(Items.apple));
 			}
 		}
-		else if (event.block == Blocks.ice && BetterVanilla.Ice)
+		else if (event.block == Blocks.ice && ModConfigurations.Ice)
 		{
 			event.setCanceled(true);
 			

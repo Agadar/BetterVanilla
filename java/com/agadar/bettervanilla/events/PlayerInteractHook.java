@@ -1,6 +1,8 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.blocks.ModBlocks;
+import com.agadar.bettervanilla.handlers.ModConfigurations;
+import com.agadar.bettervanilla.items.ModItems;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -35,17 +37,17 @@ public class PlayerInteractHook {
             Block block = world.getBlock(i, j, k);
     		ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
             
-            if (block.getMaterial() == Material.lava && stack.getItem() == Items.glass_bottle && BetterVanilla.CauldronsLava)
+            if (block.getMaterial() == Material.lava && stack.getItem() == Items.glass_bottle && ModConfigurations.CauldronsLava)
             {
             	world.setBlockToAir(i, j, k);        	
     			event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
     			
-    			if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(BetterVanilla.lavaBottle))) 
+    			if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(ModItems.lava_bottle))) 
     			{
-    				event.entityPlayer.dropItem(BetterVanilla.lavaBottle, 1);
+    				event.entityPlayer.dropItem(ModItems.lava_bottle, 1);
     			}
             }
-            else if ((block == Blocks.cauldron || block == BetterVanilla.cauldronWater) && BetterVanilla.CauldronsWash)
+            else if ((block == Blocks.cauldron || block == ModBlocks.water_cauldron) && ModConfigurations.CauldronsWash)
 			{
 				int metadata = world.getBlockMetadata(i, j, k);
 

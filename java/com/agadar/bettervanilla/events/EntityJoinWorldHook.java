@@ -1,7 +1,7 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.BetterVanilla;
 import com.agadar.bettervanilla.entities.PluckableChicken;
+import com.agadar.bettervanilla.handlers.ModConfigurations;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,7 +14,7 @@ public class EntityJoinWorldHook
 	public void onEntityJoinWorld(EntityJoinWorldEvent event)
 	{		
 		// Intercept chickens spawning and substitute the chicken with our pluckable chicken.
-		if (BetterVanilla.PluckableChickens && event.entity.getClass() == EntityChicken.class)
+		if (ModConfigurations.PluckableChickens && event.entity.getClass() == EntityChicken.class)
 		{
 			PluckableChicken chicken = new PluckableChicken(event.world);
 			chicken.setLocationAndAngles(event.entity.posX, event.entity.posY, event.entity.posZ, event.entity.rotationYaw, event.entity.rotationPitch);

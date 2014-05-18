@@ -7,12 +7,14 @@ import com.agadar.bettervanilla.CommonProxy;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
 import com.agadar.bettervanilla.handlers.ModRecipes;
 import com.agadar.bettervanilla.help.Reference;
-import com.agadar.bettervanilla.blocks.BlockBedOverride;
+import com.agadar.bettervanilla.blocks.BlockBed;
 import com.agadar.bettervanilla.blocks.BlockCactusOverride;
 import com.agadar.bettervanilla.blocks.CauldronLava;
 import com.agadar.bettervanilla.blocks.CauldronWater;
+import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import com.agadar.bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
+import com.agadar.bettervanilla.entities.ModEntities;
 import com.agadar.bettervanilla.events.BonemealHook;
 import com.agadar.bettervanilla.events.BreakHook;
 import com.agadar.bettervanilla.events.EntityInteractHook;
@@ -27,7 +29,6 @@ import com.agadar.bettervanilla.items.ItemBedOverride;
 import com.agadar.bettervanilla.items.JungleArmor;
 import com.agadar.bettervanilla.items.MelonArmor;
 import com.agadar.bettervanilla.items.MilkBottle;
-import com.agadar.bettervanilla.items.ModBlocks;
 import com.agadar.bettervanilla.items.ModItems;
 import com.agadar.bettervanilla.items.OakArmor;
 import com.agadar.bettervanilla.items.PumpkinArmor;
@@ -84,56 +85,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = Reference.MODID, version = Reference.VERSION)
 public class BetterVanilla 
-{	
-	// Items
-	public static Item milkBottle;
-	public static Item itemBedOverride;
-	public static Item lavaBottle;
-	
-	// Items (Armor)
-	public static OakArmor helmetOak;
-	public static OakArmor plateOak;
-	public static OakArmor legsOak;
-	public static OakArmor bootsOak;
-	public static SpruceArmor helmetSpruce;
-	public static SpruceArmor plateSpruce;
-	public static SpruceArmor legsSpruce;
-	public static SpruceArmor bootsSpruce;
-	public static BirchArmor helmetBirch;
-	public static BirchArmor plateBirch;
-	public static BirchArmor legsBirch;
-	public static BirchArmor bootsBirch;
-	public static JungleArmor helmetJungle;
-	public static JungleArmor plateJungle;
-	public static JungleArmor legsJungle;
-	public static JungleArmor bootsJungle;
-	public static PumpkinArmor helmetPumpkin;
-	public static PumpkinArmor platePumpkin;
-	public static PumpkinArmor legsPumpkin;
-	public static PumpkinArmor bootPumpkin;
-	public static CactusArmor helmetCactus;
-	public static CactusArmor plateCactus;
-	public static CactusArmor legsCactus;
-	public static CactusArmor bootCactus;
-	public static MelonArmor helmetMelon;
-	public static MelonArmor plateMelon;
-	public static MelonArmor legsMelon;
-	public static MelonArmor bootMelon;
-	
-	// Armor Materials
-	public static ItemArmor.ArmorMaterial armorWOOD; 
-	public static ItemArmor.ArmorMaterial armorPUMPKIN; 
-	public static ItemArmor.ArmorMaterial armorCACTUS; 
-	public static ItemArmor.ArmorMaterial armorMELON;
-	
-	// Blocks
-	public static Block blockBedOverride;
-	public static CauldronWater cauldronWater;
-	public static CauldronLava cauldronLava;
-	
-	// Renderers
-	public static ISimpleBlockRenderingHandler cauldronWaterRenderer;
-	
+{		
 	@Instance(value = "BetterVanilla")
 	public static BetterVanilla instance;
 
@@ -151,28 +103,17 @@ public class BetterVanilla
 		
 		ModRecipes.addRecipes();
 		
+		ModEntities.registerEntities();
+		
 		ModEvents.subscribeEvents();
 	}
 	
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{	
-		// testing ender potion
-		Item enderPotion = (new EnderPotion(1100)).setUnlocalizedName("ender_potion").setTextureName("bettervanilla:ender_potion");
-		GameRegistry.registerItem(enderPotion, enderPotion.getUnlocalizedName());
-			
-		// Register the event hook for using clay and wool on a cauldron, and for using a glass bottle on lava.
-		// It is checked in the hook itself whether these modules are enabled. 
-		MinecraftForge.EVENT_BUS.register(new PlayerInteractHook());
-				
-		// Register the event hook for intercepting chickens spawning for the pluckable chickens module, as well
-		// as ALL spawning for the mob filter module. It is checked in the hook itself whether these modules are enabled.
-		MinecraftForge.EVENT_BUS.register(new EntityJoinWorldHook());
+
 		
-        if (Apples || Ice) {
-			// Register the event hook for increasing the drop rate of apples from leaves and altering the ice block's item drop behavior.
-			MinecraftForge.EVENT_BUS.register(new BreakHook());
-		}
+        
 		if (Beds) {
 			// Replace the original bed item with our overridden bed item.
 			Item.itemRegistry.putObject(par1Obj, par2Obj);;
@@ -188,7 +129,7 @@ public class BetterVanilla
 			// Replace the original bed block with our overridden bed block.
 			int blockBedId = Blocks.bed.blockID;
 			Blocks.blocksList[blockBedId] = null;
-			blockBedOverride = (new BlockBedOverride()).setHardness(0.2F).setBlockTextureName("bettervanilla:bed");
+			blockBedOverride = (new BlockBed()).setHardness(0.2F).setBlockTextureName("bettervanilla:bed");
 			
 			// Register the tile entity that is responsible for storing the bed's direction.
 			GameRegistry.registerTileEntity(BedColor.class, "BedColor");

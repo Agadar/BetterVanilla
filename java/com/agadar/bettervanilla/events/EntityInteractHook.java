@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.items.ModItems;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.passive.EntityCow;
@@ -20,9 +20,9 @@ public class EntityInteractHook {
 			{
 				event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
 				
-				if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(BetterVanilla.milkBottle))) 
+				if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(ModItems.milk_bottle))) 
 				{
-					event.entityPlayer.dropItem(BetterVanilla.milkBottle, 1);
+					event.entityPlayer.dropItem(ModItems.milk_bottle, 1);
 				}
 			}
 		}

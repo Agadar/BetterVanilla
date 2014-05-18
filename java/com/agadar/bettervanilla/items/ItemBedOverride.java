@@ -3,7 +3,7 @@ package com.agadar.bettervanilla.items;
 import java.util.List;
 
 import com.agadar.bettervanilla.BetterVanilla;
-import com.agadar.bettervanilla.blocks.BlockBedOverride;
+import com.agadar.bettervanilla.blocks.BlockBed;
 import com.agadar.bettervanilla.tileentities.BedColor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -81,7 +81,7 @@ public class ItemBedOverride extends ItemBed
         else
         {
             ++par5;
-            BlockBedOverride blockbed = (BlockBedOverride)BetterVanilla.blockBedOverride;
+            BlockBed blockbed = (BlockBed)BetterVanilla.blockBedOverride;
             int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte b0 = 0;
             byte b1 = 0;

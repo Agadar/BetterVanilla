@@ -29,7 +29,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BlockBedOverride extends BlockDirectional implements ITileEntityProvider
+public class BlockBed extends BlockDirectional implements ITileEntityProvider
 {
     public static final int[][] field_149981_a = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
@@ -41,7 +41,7 @@ public class BlockBedOverride extends BlockDirectional implements ITileEntityPro
     @SuppressWarnings("unused")
 	private static final String __OBFID = "CL_00000198";
 
-    public BlockBedOverride()
+    public BlockBed()
     {
         super(Material.cloth);
         this.setBounds();
