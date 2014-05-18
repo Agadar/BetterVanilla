@@ -7,11 +7,12 @@ import com.agadar.bettervanilla.CommonProxy;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
 import com.agadar.bettervanilla.handlers.ModRecipes;
 import com.agadar.bettervanilla.help.Reference;
-import com.agadar.bettervanilla.blocks.BlockBed2;
+import com.agadar.bettervanilla.blocks.BlockColoredBed;
 import com.agadar.bettervanilla.blocks.BlockCactus2;
 import com.agadar.bettervanilla.blocks.BlockLavaCauldron;
 import com.agadar.bettervanilla.blocks.BlockWaterCauldron;
 import com.agadar.bettervanilla.blocks.ModBlocks;
+import com.agadar.bettervanilla.blocks.RenderWaterCauldron;
 import com.agadar.bettervanilla.dispenserbehaviors.DispenserBehaviorShears;
 import com.agadar.bettervanilla.dispenserbehaviors.DispenserBehaviorUniversal;
 import com.agadar.bettervanilla.entities.ModEntities;
@@ -25,7 +26,7 @@ import com.agadar.bettervanilla.events.EventPlayerInteract;
 import com.agadar.bettervanilla.items.ItemBirchArmor;
 import com.agadar.bettervanilla.items.ItemCactusArmor;
 import com.agadar.bettervanilla.items.ItemEnderPotion;
-import com.agadar.bettervanilla.items.ItemBed2;
+import com.agadar.bettervanilla.items.ItemColoredBed;
 import com.agadar.bettervanilla.items.ItemJungleArmor;
 import com.agadar.bettervanilla.items.ItemMelonArmor;
 import com.agadar.bettervanilla.items.ItemMilkBottle;
@@ -33,8 +34,8 @@ import com.agadar.bettervanilla.items.ModItems;
 import com.agadar.bettervanilla.items.ItemOakArmor;
 import com.agadar.bettervanilla.items.ItemPumpkinArmor;
 import com.agadar.bettervanilla.items.ItemSpruceArmor;
-import com.agadar.bettervanilla.renderers.RenderWaterCauldron;
-import com.agadar.bettervanilla.tileentities.BedColor;
+import com.agadar.bettervanilla.tileentities.ModTileEntities;
+import com.agadar.bettervanilla.tileentities.TileEntityBedColor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
@@ -99,6 +100,8 @@ public class BetterVanilla
 		
 		ModBlocks.loadBlocks();
 		
+		ModTileEntities.registerTileEntities();
+		
 		ModItems.loadItems();
 		
 		ModRecipes.addRecipes();
@@ -111,70 +114,6 @@ public class BetterVanilla
 	@EventHandler
 	public void load(FMLInitializationEvent event) 
 	{	
-
-		
-        
-		if (Beds) {
-			// Replace the original bed item with our overridden bed item.
-			Item.itemRegistry.putObject(par1Obj, par2Obj);;
-			int itemBedId = Items.bed.itemID;
-			Items.itemsList[itemBedId] = null;
-			itemBedOverride = (new ItemBed2(itemBedId)).setMaxStackSize(1).setUnlocalizedName("bed").setTextureName("bettervanilla:bed");
-			
-			// Remove the recipe for the original bed item and add the recipes for our overridden bed item's subitems.
-			removeRecipe(new ItemStack(Items.bed));		
-			for (int i = 0; i < 16; i++) CraftingManager.getInstance().addRecipe(new ItemStack(itemBedOverride, 1, i), 
-					"xxx", "yyy", 'x', new ItemStack(Blocks.wool, 1, i), 'y', Blocks.planks);			
-			
-			// Replace the original bed block with our overridden bed block.
-			int blockBedId = Blocks.bed.blockID;
-			Blocks.blocksList[blockBedId] = null;
-			blockBedOverride = (new BlockBed2()).setHardness(0.2F).setBlockTextureName("bettervanilla:bed");
-			
-			// Register the tile entity that is responsible for storing the bed's direction.
-			GameRegistry.registerTileEntity(BedColor.class, "BedColor");
-		}
-		if (BoneMeal) {
-			// Register the event hook for using bonemeal on reeds, cacti, and warts.
-			MinecraftForge.EVENT_BUS.register(new EventBonemeal());
-		}
-		if (BookShelves || EnderChests) {
-			// Register the event hook for bookshelves and ender chests dropping bookshelves and ender chests, respectively.
-			MinecraftForge.EVENT_BUS.register(new EventHarvestDrops());
-		}
-		if (Cacti) {
-			// Replace the original cactus with our overridden cactus.
-			int cactusId = Blocks.cactus.blockID;
-			Blocks.blocksList[cactusId] = null;
-			(new BlockCactus2(cactusId)).setHardness(0.4F)
-					.setStepSound(Block.soundTypeCloth)
-					.setBlockName("cactus").setBlockTextureName("cactus");
-			
-			
-		}
-		if (CauldronsLava)
-		{
-			// Replace the original cauldron block with our water cauldron block.
-			int blockCauldronId = Blocks.cauldron.blockID;
-			Blocks.blocksList[blockCauldronId] = null;
-			cauldronWater = (BlockWaterCauldron) (new BlockWaterCauldron(blockCauldronId)).setHardness(2.0F).setBlockName("cauldron").setBlockTextureName("cauldron");
-			
-			// Add the lava cauldron block.
-			cauldronLava = (BlockLavaCauldron) (new BlockLavaCauldron(CauldronLavaID)).setHardness(2.0F).setBlockName("cauldron").setBlockTextureName("cauldron");
-			GameRegistry.registerBlock(cauldronLava, "cauldronLava");
-			
-			// Register the renderer for our cauldrons.
-			cauldronWaterRenderer = new RenderWaterCauldron();
-			RenderingRegistry.registerBlockHandler(cauldronWaterRenderer);
-			
-			// Register the Lava Bottle in the appropriate registers.
-			lavaBottle = (new ItemLavaBottle(LavaPotionID)).setUnlocalizedName("lavaBottle").setTextureName("bettervanilla:lava_bottle");
-			GameRegistry.registerItem(lavaBottle, lavaBottle.getUnlocalizedName());
-			//LanguageRegistry.addName(lavaBottle, "Lava Bottle");
-			
-			// Add a crafting recipe for Lava Bottle.
-			GameRegistry.addShapelessRecipe(new ItemStack(lavaBottle, 3), Items.lava_bucket, Items.glass_bottle, Items.glass_bottle, Items.glass_bottle);
-		}
 		if (CheaperHoppers)
 		{
 			// Remove the old recipe for hoppers, and add the new one.
@@ -456,34 +395,6 @@ public class BetterVanilla
 			else 
 			{
 				GameRegistry.addSmelting(Items.rotten_flesh, new ItemStack(Items.leather), 0.1F);
-			}
-		}
-	}
-
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) 
-	{
-	}
-	
-	/**
-	 * Removes all recipes from the CraftingManager's recipe list that have an
-	 * output equal to resultItem.
-	 * 
-	 * @param resultItem
-	 */
-	private static void removeRecipe(ItemStack resultItem) 
-	{
-		ItemStack recipeResult;
-		ArrayList<?> recipes = (ArrayList<?>) CraftingManager.getInstance().getRecipeList();
-
-		for (int scan = 0; scan < recipes.size(); scan++) 
-		{
-			IRecipe tmpRecipe = (IRecipe) recipes.get(scan);
-			recipeResult = tmpRecipe.getRecipeOutput();
-
-			if (ItemStack.areItemStacksEqual(resultItem, recipeResult)) 
-			{
-				recipes.remove(scan);
 			}
 		}
 	}

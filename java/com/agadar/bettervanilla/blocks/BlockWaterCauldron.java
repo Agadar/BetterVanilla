@@ -6,8 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 
-import com.agadar.bettervanilla.BetterVanilla;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -39,7 +37,6 @@ public class BlockWaterCauldron extends Block
     {
         super(Material.iron);
         this.setHardness(2.0F);
-        //this.setBlockName("cauldron.water");
         this.setBlockTextureName("cauldron");
     }
 
@@ -115,7 +112,7 @@ public class BlockWaterCauldron extends Block
     @Override
     public int getRenderType()
     {
-        return BetterVanilla.cauldronWaterRenderer.getRenderId();
+        return ModBlocks.renderWaterCauldron.getRenderId();
     }
 
     /**
@@ -189,8 +186,8 @@ public class BlockWaterCauldron extends Block
         		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.bucket));
         	}
 
-        	par1World.setBlock(par2, par3, par4, BetterVanilla.cauldronLava, 3, 2);
-        	par1World.func_147453_f(par2, par3, par4, BetterVanilla.cauldronLava);
+        	par1World.setBlock(par2, par3, par4, ModBlocks.lava_cauldron, 3, 2);
+        	par1World.func_147453_f(par2, par3, par4, ModBlocks.lava_cauldron);
         }              
         else if (j1 > 0)
         {
@@ -252,7 +249,7 @@ public class BlockWaterCauldron extends Block
     @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return Item.getItemFromBlock(BetterVanilla.cauldronWater);
+        return Item.getItemFromBlock(ModBlocks.water_cauldron);
     }
 
     /**
@@ -262,7 +259,7 @@ public class BlockWaterCauldron extends Block
     @Override
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
-        return Item.getItemFromBlock(BetterVanilla.cauldronWater);
+        return Item.getItemFromBlock(ModBlocks.water_cauldron);
     }
 
     /**

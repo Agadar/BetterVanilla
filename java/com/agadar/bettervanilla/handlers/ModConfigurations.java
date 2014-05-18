@@ -10,13 +10,13 @@ public class ModConfigurations
 	// Retrieved values from the configuration file
 	public static boolean Apples;
 	public static double ApplesRate;
-	public static boolean Beds;
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
 	public static boolean Cacti;
 	public static boolean CauldronsWash;
 	public static boolean CauldronsLava;
 	public static boolean CheaperHoppers;
+	public static boolean ColoredBeds;
 	public static boolean CraftableBottleOEnchant;
 	public static boolean CraftableClay;
 	public static boolean CraftableCobwebs;
@@ -66,13 +66,13 @@ public class ModConfigurations
 		// Load/create the configuration properties
 		Property apples = config.get(applesTweak, "Enabled", true);
 		Property applesRate = config.get(applesTweak, "Drop rate", 5);
-		Property beds = config.get(misc, "Colored beds", true);
 		Property boneMeal = config.get(misc, "Bonemeal tweak", true);
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
 		Property cacti = config.get(misc, "Cacti placement tweak", true);
 		Property cauldronsWash = config.get(pots, "Washable wool and clay", true);
 		Property cauldronsLava = config.get(pots, "Lava inside cauldrons", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
+		Property coloredBeds = config.get(misc, "Colored beds", true);
 		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
 		Property craftableClay = config.get(crafting, "Craftable clay", true);
 		Property craftableCobwebs = config.get(crafting, "Craftable cobwebs", true);
@@ -105,13 +105,13 @@ public class ModConfigurations
 		// Set the comments of the configuration properties
 		apples.comment = "Set to 'true' to alter the drop rate of apples.";
 		applesRate.comment = "The new drop rate of apples. Vanilla default is 0.5%. BetterVanilla default is 5%.";
-		beds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		boneMeal.comment = "Set to 'true' to allow bonemeal to be used on cacti, sugar canes, and nether warts.";
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
+		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
@@ -146,13 +146,13 @@ public class ModConfigurations
 		// Retrieve the values of the configuration properties
 		Apples = apples.getBoolean(true);
 		ApplesRate = applesRate.getDouble(5) * 2;
-		Beds = beds.getBoolean(true);
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
 		CauldronsWash = cauldronsWash.getBoolean(true);
 		CauldronsLava = cauldronsLava.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
+		ColoredBeds = coloredBeds.getBoolean(true);
 		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
 		CraftableClay = craftableClay.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);

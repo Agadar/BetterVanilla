@@ -1,7 +1,4 @@
-package com.agadar.bettervanilla.renderers;
-
-import com.agadar.bettervanilla.BetterVanilla;
-import com.agadar.bettervanilla.blocks.BlockWaterCauldron;
+package com.agadar.bettervanilla.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -62,7 +59,7 @@ public class RenderWaterCauldron implements ISimpleBlockRenderingHandler
         {
         	IIcon icon2;
         	
-        	if (block == BetterVanilla.cauldronLava) icon2 = BlockLiquid.getLiquidIcon("lava_still");
+        	if (block == ModBlocks.lava_cauldron) icon2 = BlockLiquid.getLiquidIcon("lava_still");
         	else icon2 = BlockLiquid.getLiquidIcon("water_still");
         	
             if (i1 > 3)

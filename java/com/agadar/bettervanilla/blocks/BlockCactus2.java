@@ -7,11 +7,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCactus2 extends BlockCactus {
 
-	public BlockCactus2(int par1) {
+	public BlockCactus2() {
 		super();
 		this.setHardness(0.4F);
 		this.setStepSound(Block.soundTypeCloth);
-		this.setBlockName("cactus");
+		this.setBlockName("cactus2");
 		this.setBlockTextureName("cactus");
 	}
 

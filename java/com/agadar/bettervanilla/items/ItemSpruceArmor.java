@@ -1,6 +1,5 @@
 package com.agadar.bettervanilla.items;
 
-import com.agadar.bettervanilla.BetterVanilla;
 import com.agadar.bettervanilla.help.Reference;
 
 import net.minecraft.entity.Entity;
@@ -24,7 +23,7 @@ public class ItemSpruceArmor extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
-		if(stack.getItem() != BetterVanilla.legsSpruce)
+		if(stack.getItem() != ModItems.spruce_leggings)
 		{
 			return Reference.MODID + ":textures/models/armor/spruce_layer_1.png";
 		}

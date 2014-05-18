@@ -7,7 +7,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 
-public class BedColor extends TileEntity {
+public class TileEntityBedColor extends TileEntity {
 	private static final String VARIABLENAME = "_color";
 	private int _color;
 	

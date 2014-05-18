@@ -6,8 +6,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
 
+import com.agadar.bettervanilla.help.Reference;
 import com.agadar.bettervanilla.items.ModItems;
-import com.agadar.bettervanilla.tileentities.BedColor;
+import com.agadar.bettervanilla.tileentities.TileEntityBedColor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -29,7 +30,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
+public class BlockColoredBed extends BlockDirectional implements ITileEntityProvider
 {
     public static final int[][] field_149981_a = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
@@ -41,14 +42,14 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
     @SuppressWarnings("unused")
 	private static final String __OBFID = "CL_00000198";
 
-    public BlockBed2()
+    public BlockColoredBed()
     {
         super(Material.cloth);
         this.setBounds();
 		this.setHardness(0.2F);
-        this.setBlockName("bed");
+        this.setBlockName("colored_bed");
 		this.disableStats();
-		this.setBlockTextureName("bettervanilla:bed");
+		this.setBlockTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
     }
 
     /**
@@ -183,7 +184,7 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
     	int meta = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		int color = 0;
 		
-		BedColor tileEntity = (BedColor) par1IBlockAccess.getTileEntity(par2, par3, par4);
+		TileEntityBedColor tileEntity = (TileEntityBedColor) par1IBlockAccess.getTileEntity(par2, par3, par4);
 		if (tileEntity != null)
 		{
 			color = tileEntity.getColor();
@@ -331,7 +332,7 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
         /**
          * Returns whether or not this bed block is the head of the bed.
          */
-        return isBlockHeadOfBed(p_149650_1_) ? Item.getItemById(0) : ModItems.bed;
+        return isBlockHeadOfBed(p_149650_1_) ? Item.getItemById(0) : ModItems.colored_bed;
     }
 
     private void setBounds()
@@ -439,7 +440,7 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
 		if (!world.isRemote && !isBlockHeadOfBed(j) && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
 			int color = 0;			
-			BedColor tileEntity = (BedColor) world.getTileEntity(x, y, z);
+			TileEntityBedColor tileEntity = (TileEntityBedColor) world.getTileEntity(x, y, z);
 			if (tileEntity != null)
 			{
 				color = tileEntity.getColor();
@@ -450,7 +451,7 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
             double d1 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
             double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
             EntityItem entityitem = new EntityItem(world, (double)x + d0, (double)y + d1, (double)z + d2, 
-            		new ItemStack(ModItems.bed, 1, color));
+            		new ItemStack(ModItems.colored_bed, 1, color));
             entityitem.delayBeforeCanPickup = 10;
             world.spawnEntityInWorld(entityitem);
         }
@@ -481,6 +482,6 @@ public class BlockBed2 extends BlockDirectional implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) 
 	{
-		return new BedColor();
+		return new TileEntityBedColor();
 	}
 }

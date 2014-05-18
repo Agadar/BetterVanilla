@@ -47,7 +47,7 @@ public class ModItems
 	// Items (Miscellaneous)
 	public static Item ender_potion;
 	public static Item milk_bottle;
-	public static Item bed;
+	public static Item colored_bed;
 	public static Item lava_bottle;
 	
 	public static void loadItems()
@@ -56,6 +56,18 @@ public class ModItems
 		{
 			ender_potion = new ItemEnderPotion();
 			RegisterHelper.registerItem(ender_potion);
+		}
+		
+		if (ModConfigurations.ColoredBeds)
+		{
+			colored_bed = new ItemColoredBed();
+			RegisterHelper.registerItem(colored_bed);
+		}
+		
+		if (ModConfigurations.CauldronsLava)
+		{
+			lava_bottle = new ItemLavaBottle();
+			RegisterHelper.registerItem(lava_bottle);
 		}
 	}
 }

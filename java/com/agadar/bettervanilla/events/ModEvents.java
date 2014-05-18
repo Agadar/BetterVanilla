@@ -25,5 +25,16 @@ public class ModEvents
 			// It is checked in the hook itself whether these modules are enabled. 
 			MinecraftForge.EVENT_BUS.register(new EventBreak());
 		}
+		
+		if (ModConfigurations.BoneMeal) 
+		{
+			// Register the event hook for using bonemeal on reeds, cacti, and warts.
+			MinecraftForge.EVENT_BUS.register(new EventBonemeal());
+		}
+		
+		if (ModConfigurations.BookShelves || ModConfigurations.EnderChests) {
+			// Register the event hook for bookshelves and ender chests dropping bookshelves and ender chests, respectively.
+			MinecraftForge.EVENT_BUS.register(new EventHarvestDrops());
+		}
 	}
 }

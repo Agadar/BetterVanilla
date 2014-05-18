@@ -1,5 +1,7 @@
 package com.agadar.bettervanilla.items;
 
+import com.agadar.bettervanilla.help.Reference;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -15,6 +17,8 @@ public class ItemLavaBottle extends Item
 		super();
         this.setMaxStackSize(4);
         this.setCreativeTab(CreativeTabs.tabBrewing);
+        this.setUnlocalizedName("lava_bottle");
+        this.setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
 	}
 	
 	@Override
