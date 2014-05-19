@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItemCactusArmor extends ItemArmor {
 	
-	public ItemCactusArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemCactusArmor(int armorType, String unlocalizedName)
 	{
-		super(material, 0, armorType);
+		super(ModItems.CACTUS, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
 		setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
 	}

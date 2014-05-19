@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBirchArmor extends ItemArmor {
 	
-	public ItemBirchArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemBirchArmor(int armorType, String unlocalizedName)
 	{
-		super(material, 0, armorType);
+		super(ModItems.WOOD, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
 		setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
 	}

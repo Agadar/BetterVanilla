@@ -36,5 +36,11 @@ public class ModEvents
 			// Register the event hook for bookshelves and ender chests dropping bookshelves and ender chests, respectively.
 			MinecraftForge.EVENT_BUS.register(new EventHarvestDrops());
 		}
+		
+		if (ModConfigurations.MilkBottles)
+		{
+			// Register the event hook for using an empty bottle on a cow.
+			MinecraftForge.EVENT_BUS.register(new EventEntityInteract());
+		}
 	}
 }

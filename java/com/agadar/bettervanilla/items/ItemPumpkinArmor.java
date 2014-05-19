@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItemPumpkinArmor extends ItemArmor {
 	
-	public ItemPumpkinArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemPumpkinArmor(int armorType, String unlocalizedName)
 	{
-		super(material, 0, armorType);
+		super(ModItems.PUMPKIN, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
 		setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
 	}

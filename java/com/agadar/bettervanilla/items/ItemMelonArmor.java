@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ItemMelonArmor extends ItemArmor {
 	
-	public ItemMelonArmor(ArmorMaterial material, int armorType, String unlocalizedName)
+	public ItemMelonArmor(int armorType, String unlocalizedName)
 	{
-		super(material, 0, armorType);
+		super(ModItems.MELON, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
 		setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
 	}
