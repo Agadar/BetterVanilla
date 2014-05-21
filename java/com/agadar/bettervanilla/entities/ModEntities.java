@@ -1,14 +1,19 @@
 package com.agadar.bettervanilla.entities;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import com.agadar.bettervanilla.BetterVanilla;
+import com.agadar.bettervanilla.handlers.ModConfigurations;
+
+import cpw.mods.fml.common.registry.EntityRegistry;
 
 public class ModEntities 
 {
-	// Renderers
-	public static ISimpleBlockRenderingHandler cauldronWaterRenderer;
-		
 	public static void registerEntities()
 	{
-		
+		if (ModConfigurations.PluckableChickens)
+		{
+			// Register our pluckable chicken and its renderer.
+			EntityRegistry.registerGlobalEntityID(EntityPluckableChicken.class, "Pluckable Chicken", EntityRegistry.findGlobalUniqueEntityId());
+			BetterVanilla.proxy.registerPluckableChicken();
+		}
 	}
 }

@@ -47,7 +47,7 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
         super(Material.cloth);
         this.setBounds();
 		this.setHardness(0.2F);
-        this.setBlockName("colored_bed");
+        this.setBlockName("colored_bed_block");
 		this.disableStats();
 		this.setBlockTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
     }

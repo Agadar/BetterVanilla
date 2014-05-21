@@ -4,6 +4,8 @@ import com.agadar.bettervanilla.entities.EntityPluckableChicken;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -25,16 +27,16 @@ public class EventEntityJoinWorld
 		}
 		
 		// Intercept all spawning and filter the mobs in the filter list. 
-		/*if (BetterVanilla.MobFilter && event.entity instanceof EntityLiving)
+		if (ModConfigurations.MobFilter && event.entity instanceof EntityLiving)
 		{
-			for (String name : BetterVanilla.MobFilterList)
+			for (String name : ModConfigurations.MobFilterList)
 			{
-				if (event.entity.getEntityName().equals(name))
+				if (EntityList.getEntityString(event.entity).equals(name))
 				{
 					event.setCanceled(true);
 					break;
 				}
 			}
-		}*/
+		}
 	}
 }

@@ -51,6 +51,7 @@ public class ModItems
 	public static Item milk_bottle;
 	public static Item colored_bed;
 	public static Item lava_bottle;
+	public static Item fleshy_hide;
 	
 	public static void loadItems()
 	{
@@ -131,6 +132,42 @@ public class ModItems
 			melon_chestplate = new ItemMelonArmor(1, "melon_chestplate");
 			melon_leggings = new ItemMelonArmor(2, "melon_leggings");
 			melon_boots = new ItemMelonArmor(3, "melon_boots");
+			
+			// Register our new armor items.
+			RegisterHelper.registerItem(oak_helmet);
+			RegisterHelper.registerItem(oak_chestplate);
+			RegisterHelper.registerItem(oak_leggings);
+			RegisterHelper.registerItem(oak_boots);
+			RegisterHelper.registerItem(spruce_helmet);
+			RegisterHelper.registerItem(spruce_chestplate);
+			RegisterHelper.registerItem(spruce_leggings);
+			RegisterHelper.registerItem(spruce_boots);
+			RegisterHelper.registerItem(birch_helmet);
+			RegisterHelper.registerItem(birch_chestplate);
+			RegisterHelper.registerItem(birch_leggings);
+			RegisterHelper.registerItem(birch_boots);
+			RegisterHelper.registerItem(jungle_helmet);
+			RegisterHelper.registerItem(jungle_chestplate);
+			RegisterHelper.registerItem(jungle_leggings);
+			RegisterHelper.registerItem(jungle_boots);
+			RegisterHelper.registerItem(pumpkin_helmet);
+			RegisterHelper.registerItem(pumpkin_chestplate);
+			RegisterHelper.registerItem(pumpkin_leggings);
+			RegisterHelper.registerItem(pumpkin_boots);
+			RegisterHelper.registerItem(cactus_helmet);
+			RegisterHelper.registerItem(cactus_chestplate);
+			RegisterHelper.registerItem(cactus_leggings);
+			RegisterHelper.registerItem(cactus_boots);
+			RegisterHelper.registerItem(melon_helmet);
+			RegisterHelper.registerItem(melon_chestplate);
+			RegisterHelper.registerItem(melon_leggings);
+			RegisterHelper.registerItem(melon_boots);
+		}
+		
+		if (ModConfigurations.RottenFleshToLeather && ModConfigurations.HardLeatherRecipe)
+		{
+			fleshy_hide = new ItemFleshyHide();
+			RegisterHelper.registerItem(fleshy_hide);
 		}
 	}
 }

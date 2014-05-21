@@ -41,7 +41,7 @@ public class EventBreak {
 	        
 	        if ((Blocks.ice.canSilkHarvest(event.world, player, event.x, event.y, event.z, event.blockMetadata) 
 	        		&& EnchantmentHelper.getSilkTouchModifier(player)) || biome.contains("taiga") || 
-	        		biome.contains("frozen") || biome.contains("ice"))
+	        		biome.contains("frozen") || biome.contains("ice") || biome.contains("snow") || biome.contains("frost"))
 	        {
 	            this.dropBlockAsItem(event.world, event.x, event.y, event.z, new ItemStack(Blocks.ice));
 	            event.world.setBlockToAir(event.x, event.y, event.z);
