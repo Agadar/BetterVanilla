@@ -34,7 +34,7 @@ public class ModBlocks
 		
 		if (ModConfigurations.CauldronsLava)
 		{
-			water_cauldron = new BlockWaterCauldron().setBlockName("water_cauldron");
+			water_cauldron = new BlockWaterCauldron().setBlockName("water_cauldron_block");
 			RegisterHelper.registerBlock(water_cauldron);
 			
 			lava_cauldron = new BlockLavaCauldron().setBlockName("lava_cauldron");

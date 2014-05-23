@@ -6,6 +6,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 
+import com.agadar.bettervanilla.items.ModItems;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -249,7 +251,7 @@ public class BlockWaterCauldron extends Block
     @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return Item.getItemFromBlock(ModBlocks.water_cauldron);
+        return ModItems.water_cauldron;
     }
 
     /**
@@ -259,7 +261,7 @@ public class BlockWaterCauldron extends Block
     @Override
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
-        return Item.getItemFromBlock(ModBlocks.water_cauldron);
+        return ModItems.water_cauldron;
     }
 
     /**

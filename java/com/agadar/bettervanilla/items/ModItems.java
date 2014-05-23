@@ -52,6 +52,7 @@ public class ModItems
 	public static Item colored_bed;
 	public static Item lava_bottle;
 	public static Item fleshy_hide;
+	public static Item water_cauldron;
 	
 	public static void loadItems()
 	{
@@ -168,6 +169,12 @@ public class ModItems
 		{
 			fleshy_hide = new ItemFleshyHide();
 			RegisterHelper.registerItem(fleshy_hide);
+		}
+		
+		if (ModConfigurations.CauldronsLava)
+		{
+			water_cauldron = new ItemWaterCauldron();
+			RegisterHelper.registerItem(water_cauldron);
 		}
 	}
 }

@@ -107,10 +107,17 @@ public class ModConfigurations
 		applesRate.comment = "The new drop rate of apples. Vanilla default is 0.5%. BetterVanilla default is 5%.";
 		boneMeal.comment = "Set to 'true' to allow bonemeal to be used on cacti, sugar canes, and nether warts.";
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
+		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cactus block with ours,
+		or somehow implement this feature in another way. Make sure to check out Forge events. Also, seems like the name
+		has not been set in the .lang file.*/
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
+		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cauldron item and block with ours,
+		or somehow implement this feature in another way. Also, seems like the names have not been set in the .lang file.*/
 		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
+		/* TODO: Due to code changes we must find an alternate way to replace the vanilla bed item and block with ours,
+		or somehow implement this feature in another way. Also, seems like the names have not been set in the .lang file.*/
 		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
@@ -120,6 +127,7 @@ public class ModConfigurations
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		craftableRottenFlesh.comment = "Set to 'true' to allow the crafting of rotten flesh.";
 		craftableSlimeBalls.comment = "Set to 'true' to allow the crafting of slimeballs. Requires the harder variant of the Rotten Flesh to Leather recipe to be enabled, as this recipe uses Fleshy Hide.";
+		
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";

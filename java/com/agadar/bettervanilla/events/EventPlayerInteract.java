@@ -4,6 +4,7 @@ import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
 import com.agadar.bettervanilla.items.ModItems;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -59,12 +60,12 @@ public class EventPlayerInteract {
 					{
 						numberToWash = stack.stackSize;
 					}
-					if (event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Blocks.stained_hardened_clay, numberToWash))) 
+					if (event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Blocks.hardened_clay, numberToWash))) 
 					{
 						stack.stackSize -= numberToWash;
 						event.entityPlayer.inventoryContainer.detectAndSendChanges();
 						world.setBlockMetadataWithNotify(i, j, k, metadata - 1, 2);
-						//world.func_96440_m(i, j, k, Blocks.cauldron);
+						event.useBlock = Result.DENY;
 					}
 				}
 				else if (stack.getItem() == Item.getItemFromBlock(Blocks.wool) && stack.getItemDamage() != 0 && metadata > 0) 
@@ -80,7 +81,7 @@ public class EventPlayerInteract {
 						stack.stackSize -= numberToWash;
 						event.entityPlayer.inventoryContainer.detectAndSendChanges();
 						world.setBlockMetadataWithNotify(i, j, k, metadata - 1, 2);
-						//world.func_96440_m(i, j, k, Block.cauldron.blockID);
+						event.useBlock = Result.DENY;
 					}
 				}		
 			}
