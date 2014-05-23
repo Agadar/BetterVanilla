@@ -35,8 +35,8 @@ public class ModConfigurations
 	public static boolean MobFilter;
 	public static String[] MobFilterList;
 	public static boolean MoreArmor;
-	public static boolean MoreStairs;
-	public static String[] StairsMaterials;
+	//public static boolean MoreStairs;
+	//public static String[] StairsMaterials;
 	public static boolean MossStone;
 	public static boolean Nametags;
 	public static boolean PluckableChickens;
@@ -60,7 +60,7 @@ public class ModConfigurations
 		String misc = "Miscellaneous";
 		String mobFil = "Mob filter";
 		String moarArmor = "More armor";
-		String moarStairs = "More stairs";
+		//String moarStairs = "More stairs";
 		String rotToLeath = "Rotten Flesh to Leather";
 		
 		// Load/create the configuration properties
@@ -91,8 +91,8 @@ public class ModConfigurations
 		Property mobFilter = config.get(mobFil, "Enabled", false);
 		Property mobFilterList = config.get(mobFil, "Filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property moreArmor = config.get(moarArmor, "Enabled", true);
-		Property moreStairs = config.get(moarStairs, "Enabled", true);
-		Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf", "Glowstone" });
+		//Property moreStairs = config.get(moarStairs, "Enabled", true);
+		//Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf", "Glowstone" });
 		Property mossStone = config.get(crafting, "Craftable moss stone", true);
 		Property nametags = config.get(crafting, "Craftable nametags", true);
 		Property pluckableChickens = config.get(animals, "Pluckable chickens", true);
@@ -131,20 +131,22 @@ public class ModConfigurations
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";	
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
+		/*TODO: Get name in .lang files. */
 		enderPotions.comment = "Set to 'true' to introduce Potions of Ender into the game.";
-		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";
-		/* We're here thus far down in the list. */
+		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";		
 		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";
-		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";
+		/*TODO: Get name in .lang files. */
+		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";		
 		mobFilter.comment = "Set to 'true' to prevent the mobs of which the names are entered into the mob filter list from spawning naturally.";
 		mobFilterList.comment = "Insert into this list the names of mobs you wish to stop from spawning naturally. "
 				+ "Invalid or wrongly-typed mob names are ignored. Ensure that this mod is loaded last if you want to prevent mobs added by "
 				+ "other mods from spawning.";
 		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
-		moreStairs.comment = "Set to 'true' to allow the crafting of stairs made from the materials as written in the materials list in this module.";
-		stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
+		//moreStairs.comment = "Set to 'true' to allow the crafting of stairs made from the materials as written in the materials list in this module.";
+		//stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
+		/*TODO: Get name in .lang files. */
 		pluckableChickens.comment = "Set to 'true' to allow players to pluck chickens using shears.";
 		rottenFleshToLeather.comment = "Set to 'true' to allow rotten flesh to be smelted into leather or crafted into Fleshy Hides, depending on other settings.";
 		hardLeatherRecipe.comment = "Set to 'true' to disable directly smelting rotten flesh into leather, instead introducing an intermediate product (Fleshy Hide).";
@@ -180,8 +182,8 @@ public class ModConfigurations
 		MobFilter = mobFilter.getBoolean(false);
 		MobFilterList = mobFilterList.getStringList();
 		MoreArmor = moreArmor.getBoolean(true);
-		MoreStairs = moreStairs.getBoolean(true);
-		StairsMaterials = stairsMaterials.getStringList();
+		//MoreStairs = moreStairs.getBoolean(true);
+		//StairsMaterials = stairsMaterials.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
 		PluckableChickens = pluckableChickens.getBoolean(true);

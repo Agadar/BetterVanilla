@@ -95,15 +95,6 @@ public class ModItems
 			CACTUS = EnumHelper.addArmorMaterial("CACTUS", 5, new int[]{1, 3, 2, 1}, 15);
 			MELON = EnumHelper.addArmorMaterial("MELON", 5, new int[]{1, 3, 2, 1}, 15);
 			
-			// Register whatever it is these integers represent.
-			/*int oak = BetterVanilla.proxy.addArmor("oak");
-			int spruce = BetterVanilla.proxy.addArmor("spruce");
-			int birch = BetterVanilla.proxy.addArmor("birch");
-			int jungle = BetterVanilla.proxy.addArmor("jungle");
-			int pumpkin = BetterVanilla.proxy.addArmor("pumpkin");
-			int cactus = BetterVanilla.proxy.addArmor("cactus");
-			int melon = BetterVanilla.proxy.addArmor("melon");*/
-			
 			// Create our new armor items.
 			oak_helmet = new ItemOakArmor(0, "oak_helmet");
 			oak_chestplate = new ItemOakArmor(1, "oak_chestplate");

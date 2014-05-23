@@ -10,12 +10,6 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends CommonProxy 
 {
 	@Override
-	public int addArmor(String armor) 
-	{
-		return RenderingRegistry.addNewArmourRendererPrefix(armor);
-	}
-	
-	@Override
 	public void registerPluckableChicken() 
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityPluckableChicken.class, new RenderPluckableChicken(new ModelChicken(), 0.3F));
