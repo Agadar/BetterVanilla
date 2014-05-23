@@ -109,7 +109,7 @@ public class ModConfigurations
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cactus block with ours,
 		or somehow implement this feature in another way. Make sure to check out Forge events. Also, seems like the name
-		has not been set in the .lang file.*/
+		has not been set in the .lang file. */
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cauldron item and block with ours,
@@ -117,7 +117,8 @@ public class ModConfigurations
 		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		/* TODO: Due to code changes we must find an alternate way to replace the vanilla bed item and block with ours,
-		or somehow implement this feature in another way. Also, seems like the names have not been set in the .lang file.*/
+		or somehow implement this feature in another way. Also, seems like the names have not been set in the .lang file.
+		Also, seems like we can't actually sleep in the beds. */
 		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
@@ -126,13 +127,13 @@ public class ModConfigurations
 		craftableFlint.comment = "Set to 'true' to allow the crafting of flint.";
 		craftableGrass.comment = "Set to 'true' to allow the crafting of grass blocks and mycelium.";
 		craftableRottenFlesh.comment = "Set to 'true' to allow the crafting of rotten flesh.";
-		craftableSlimeBalls.comment = "Set to 'true' to allow the crafting of slimeballs. Requires the harder variant of the Rotten Flesh to Leather recipe to be enabled, as this recipe uses Fleshy Hide.";
-		
+		craftableSlimeBalls.comment = "Set to 'true' to allow the crafting of slimeballs. Requires the harder variant of the Rotten Flesh to Leather recipe to be enabled, as this recipe uses Fleshy Hide.";		
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
-		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";
+		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";	
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
 		enderPotions.comment = "Set to 'true' to introduce Potions of Ender into the game.";
 		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";
+		/* We're here thus far down in the list. */
 		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";
 		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";
 		mobFilter.comment = "Set to 'true' to prevent the mobs of which the names are entered into the mob filter list from spawning naturally.";

@@ -2,8 +2,8 @@ package com.agadar.bettervanilla.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCactus2 extends BlockCactus {
 
@@ -19,6 +19,6 @@ public class BlockCactus2 extends BlockCactus {
     public boolean canBlockStay(World par1World, int par2, int par3, int par4)
     {
 		Block b = par1World.getBlock(par2, par3 - 1, par4);
-		return b.canSustainPlant(par1World, par2, par3 - 1, par4, ForgeDirection.UP, this);
+		return b == ModBlocks.cactus || b == Blocks.sand;
     }
 }
