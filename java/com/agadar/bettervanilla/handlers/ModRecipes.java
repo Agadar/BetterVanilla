@@ -121,7 +121,7 @@ public class ModRecipes
 			GameRegistry.addRecipe(new ItemStack(ModItems.jungle_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.log, 1, 3));
 			GameRegistry.addRecipe(new ItemStack(ModItems.jungle_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.log, 1, 3));
 			GameRegistry.addRecipe(new ItemStack(ModItems.jungle_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.log, 1, 3));
-			GameRegistry.addRecipe(new ItemStack(ModItems.jungle_boots), "x x", "x x", 'x', new ItemStack(Blocks.pumpkin));
+			GameRegistry.addRecipe(new ItemStack(ModItems.jungle_boots), "x x", "x x", 'x', new ItemStack(Blocks.log, 1, 3));
 			GameRegistry.addRecipe(new ItemStack(ModItems.pumpkin_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.pumpkin));
 			GameRegistry.addRecipe(new ItemStack(ModItems.pumpkin_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.pumpkin));
 			GameRegistry.addRecipe(new ItemStack(ModItems.pumpkin_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.pumpkin));
@@ -130,6 +130,14 @@ public class ModRecipes
 			GameRegistry.addRecipe(new ItemStack(ModItems.melon_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.melon_block));
 			GameRegistry.addRecipe(new ItemStack(ModItems.melon_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.melon_block));
 			GameRegistry.addRecipe(new ItemStack(ModItems.melon_boots), "x x", "x x", 'x', new ItemStack(Blocks.melon_block));
+			GameRegistry.addRecipe(new ItemStack(ModItems.acacia_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.log2, 1, 0));
+			GameRegistry.addRecipe(new ItemStack(ModItems.acacia_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.log2, 1, 0));
+			GameRegistry.addRecipe(new ItemStack(ModItems.acacia_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 0));
+			GameRegistry.addRecipe(new ItemStack(ModItems.acacia_boots), "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 0));
+			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
+			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.log2, 1, 1));
+			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
+			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_boots), "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
 			
 			if (ModConfigurations.Cacti)
 			{

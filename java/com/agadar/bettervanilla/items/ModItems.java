@@ -45,6 +45,14 @@ public class ModItems
 	public static Item melon_chestplate;
 	public static Item melon_leggings;
 	public static Item melon_boots;
+	public static Item acacia_helmet;
+	public static Item acacia_chestplate;
+	public static Item acacia_leggings;
+	public static Item acacia_boots;
+	public static Item big_oak_helmet;
+	public static Item big_oak_chestplate;
+	public static Item big_oak_leggings;
+	public static Item big_oak_boots;
 	
 	// Items (Miscellaneous)
 	public static Item ender_potion;
@@ -124,6 +132,14 @@ public class ModItems
 			melon_chestplate = new ItemMelonArmor(1, "melon_chestplate");
 			melon_leggings = new ItemMelonArmor(2, "melon_leggings");
 			melon_boots = new ItemMelonArmor(3, "melon_boots");
+			acacia_helmet = new ItemAcaciaArmor(0, "acacia_helmet");
+			acacia_chestplate = new ItemAcaciaArmor(1, "acacia_chestplate");
+			acacia_leggings = new ItemAcaciaArmor(2, "acacia_leggings");
+			acacia_boots = new ItemAcaciaArmor(3, "acacia_boots");
+			big_oak_helmet = new ItemBigOakArmor(0, "big_oak_helmet");
+			big_oak_chestplate = new ItemBigOakArmor(1, "big_oak_chestplate");
+			big_oak_leggings = new ItemBigOakArmor(2, "big_oak_leggings");
+			big_oak_boots = new ItemBigOakArmor(3, "big_oak_boots");
 			
 			// Register our new armor items.
 			RegisterHelper.registerItem(oak_helmet);
@@ -154,6 +170,14 @@ public class ModItems
 			RegisterHelper.registerItem(melon_chestplate);
 			RegisterHelper.registerItem(melon_leggings);
 			RegisterHelper.registerItem(melon_boots);
+			RegisterHelper.registerItem(acacia_helmet);
+			RegisterHelper.registerItem(acacia_chestplate);
+			RegisterHelper.registerItem(acacia_leggings);
+			RegisterHelper.registerItem(acacia_boots);
+			RegisterHelper.registerItem(big_oak_helmet);
+			RegisterHelper.registerItem(big_oak_chestplate);
+			RegisterHelper.registerItem(big_oak_leggings);
+			RegisterHelper.registerItem(big_oak_boots);
 		}
 		
 		if (ModConfigurations.RottenFleshToLeather && ModConfigurations.HardLeatherRecipe)

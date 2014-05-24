@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.agadar.bettervanilla.blocks.BlockColoredBed;
 import com.agadar.bettervanilla.blocks.ModBlocks;
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 import com.agadar.bettervanilla.tileentities.TileEntityBedColor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +32,7 @@ public class ItemColoredBed extends ItemBed
         this.setMaxDamage(0);  		// This makes it so the item doesn't have the damage bar at the bottom of its icon.
         this.setMaxStackSize(1);
         this.setUnlocalizedName("colored_bed");
-        this.setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
+        this.setTextureName(References.MODID + ":" + getUnlocalizedName().substring(5));
 	}	
 	
 	@Override

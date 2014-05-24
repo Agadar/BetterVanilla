@@ -6,7 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
 
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 import com.agadar.bettervanilla.items.ModItems;
 import com.agadar.bettervanilla.tileentities.TileEntityBedColor;
 
@@ -49,7 +49,7 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
 		this.setHardness(0.2F);
         this.setBlockName("colored_bed_block");
 		this.disableStats();
-		this.setBlockTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
+		this.setBlockTextureName(References.MODID + ":" + getUnlocalizedName().substring(5));
     }
 
     /**

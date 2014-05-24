@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.items;
 
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -14,7 +14,7 @@ public class ItemJungleArmor extends ItemArmor {
 	{
 		super(ModItems.WOOD, 0, armorType);
 		setUnlocalizedName(unlocalizedName);
-		setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
+		setTextureName(References.MODID + ":" + getUnlocalizedName().substring(5));
 	}
 
     /**
@@ -25,9 +25,9 @@ public class ItemJungleArmor extends ItemArmor {
 	{
 		if(stack.getItem() != ModItems.jungle_leggings)
 		{
-			return Reference.MODID + ":textures/models/armor/jungle_layer_1.png";
+			return References.MODID + ":textures/models/armor/jungle_layer_1.png";
 		}
-		return Reference.MODID + ":textures/models/armor/jungle_layer_2.png";
+		return References.MODID + ":textures/models/armor/jungle_layer_2.png";
 	}
 	
 	@Override

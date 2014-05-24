@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.entities;
 
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderChicken;
@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 public class RenderPluckableChicken extends RenderChicken
 {
 	private static final ResourceLocation chickenTextures = new ResourceLocation("textures/entity/chicken.png");
-    private static final ResourceLocation pluckedChickenTextures = new ResourceLocation(Reference.MODID + ":textures/entities/plucked_chicken.png");
+    private static final ResourceLocation pluckedChickenTextures = new ResourceLocation(References.MODID + ":textures/entities/plucked_chicken.png");
 
     public RenderPluckableChicken(ModelBase par1ModelBase, float par2)
     {

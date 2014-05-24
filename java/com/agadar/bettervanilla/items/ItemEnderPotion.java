@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.items;
 
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,7 +20,7 @@ public class ItemEnderPotion extends Item
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.tabBrewing);
         this.setUnlocalizedName("ender_potion");
-        this.setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
+        this.setTextureName(References.MODID + ":" + getUnlocalizedName().substring(5));
 	}
 	
 	@Override

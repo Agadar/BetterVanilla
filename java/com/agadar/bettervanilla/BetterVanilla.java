@@ -3,7 +3,7 @@ package com.agadar.bettervanilla;
 import com.agadar.bettervanilla.CommonProxy;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
 import com.agadar.bettervanilla.handlers.ModRecipes;
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.dispenserbehaviors.ModDispenserBehaviors;
 import com.agadar.bettervanilla.entities.ModEntities;
@@ -18,13 +18,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Reference.MODID, version = Reference.VERSION)
+@Mod(modid = References.MODID, version = References.VERSION, name = References.NAME)
 public class BetterVanilla 
 {		
-	@Instance(value = "BetterVanilla")
+	@Instance(value = References.NAME)
 	public static BetterVanilla instance;
 
-	@SidedProxy(clientSide = "com.agadar.bettervanilla.client.ClientProxy", serverSide = "com.agadar.bettervanilla.CommonProxy")
+	@SidedProxy(clientSide = References.CLIENTSIDE, serverSide = References.SERVERSIDE)
 	public static CommonProxy proxy;
 
 	@EventHandler

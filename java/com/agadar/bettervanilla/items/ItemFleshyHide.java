@@ -1,6 +1,6 @@
 package com.agadar.bettervanilla.items;
 
-import com.agadar.bettervanilla.help.Reference;
+import com.agadar.bettervanilla.help.References;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -11,6 +11,6 @@ public class ItemFleshyHide extends Item
 	{
 		this.setCreativeTab(CreativeTabs.tabMaterials);
 		this.setUnlocalizedName("fleshy_hide");
-		this.setTextureName(Reference.MODID + ":" + getUnlocalizedName().substring(5));
+		this.setTextureName(References.MODID + ":" + getUnlocalizedName().substring(5));
 	}
 }

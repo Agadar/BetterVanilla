@@ -1,24 +1,31 @@
-entity.pluckable_chicken.name=Chicken
+tile.cactus2.name=Cactus
+
+tile.lava_cauldron.name=Cauldron
+tile.water_cauldron_block.name=Cauldron
+item.water_cauldron.name=Cauldron
+item.lava_bottle.name=Lava Bottle
+
+tile.colored_bed_block.name=Colored Bed
+item.colored_bed.white.name=White Bed
+item.colored_bed.orange.name=Orange Bed
+item.colored_bed.magenta.name=Magenta Bed
+item.colored_bed.light_blue.name=Light Blue Bed
+item.colored_bed.yellow.name=Yellow Bed
+item.colored_bed.lime.name=Lime Bed
+item.colored_bed.pink.name=Pink Bed
+item.colored_bed.gray.name=Gray Bed
+item.colored_bed.silver.name=Light Gray Bed
+item.colored_bed.cyan.name=Cyan Bed
+item.colored_bed.purple.name=Purple Bed
+item.colored_bed.blue.name=Blue Bed
+item.colored_bed.brown.name=Brown Bed
+item.colored_bed.green.name=Green Bed
+item.colored_bed.red.name=Red Bed
+item.colored_bed.black.name=Black Bed
 
 item.ender_potion.name=Potion of Ender
-item.fleshy_hide.name=Fleshy Hide
 
-item.bed.white.name=White Bed
-item.bed.orange.name=Orange Bed
-item.bed.magenta.name=Magenta Bed
-item.bed.light_blue.name=Light Blue Bed
-item.bed.yellow.name=Yellow Bed
-item.bed.lime.name=Lime Bed
-item.bed.pink.name=Pink Bed
-item.bed.gray.name=Gray Bed
-item.bed.silver.name=Light Gray Bed
-item.bed.cyan.name=Cyan Bed
-item.bed.purple.name=Purple Bed
-item.bed.blue.name=Blue Bed
-item.bed.brown.name=Brown Bed
-item.bed.green.name=Green Bed
-item.bed.red.name=Red Bed
-item.bed.black.name=Black Bed
+item.milk_bottle.name=Milk Bottle
 
 item.oak_helmet.name=Oak Helmet
 item.oak_chestplate.name=Oak Chestplate
@@ -48,6 +55,19 @@ item.melon_helmet.name=Melon Helmet
 item.melon_chestplate.name=Melon Chestplate
 item.melon_leggings.name=Melon Leggings
 item.melon_boots.name=Melon Boots
+item.acacia_helmet.name=Acacia Helmet
+item.acacia_chestplate.name=Acacia Chestplate
+item.acacia_leggings.name=Acacia Leggings
+item.acacia_boots.name=Acacia Boots
+item.big_oak_helmet.name=Dark Oak Helmet
+item.big_oak_chestplate.name=Dark Oak Chestplate
+item.big_oak_leggings.name=Dark Oak Leggings
+item.big_oak_boots.name=Dark Oak Boots
 
-tile.stone_stairs.name=Cobblestone Stairs
+entity.pluckable_chicken.name=Chicken
+
+item.fleshy_hide.name=Fleshy Hide
+
+
+
 
