@@ -1,19 +1,23 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.handlers.ModConfigurations;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
-public class EventHarvestDrops {
+public class EventHarvestDrop 
+{
+	private final Block block;
+	
+	public EventHarvestDrop(Block block)
+	{
+		this.block = block;
+	}
 	
 	@SubscribeEvent
 	public void onHarvestDrops(HarvestDropsEvent event) 
 	{
-		if ((event.block == Blocks.ender_chest && ModConfigurations.EnderChests) ||
-				((event.block == Blocks.bookshelf && ModConfigurations.BookShelves))) 
+		if (event.block == this.block) 
 		{
 			event.drops.clear();
 			event.drops.add(new ItemStack(event.block));

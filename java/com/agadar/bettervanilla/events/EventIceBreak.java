@@ -1,34 +1,25 @@
 package com.agadar.bettervanilla.events;
 
-import com.agadar.bettervanilla.handlers.ModConfigurations;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-public class EventBreak {
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+public class EventIceBreak 
+{
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) 
 	{
-		if (event.block == Blocks.leaves  && (event.blockMetadata & 3) == 0 && ModConfigurations.Apples)
-		{
-			World world = event.getPlayer().worldObj;
-			if (world.rand.nextInt(200) <= ModConfigurations.ApplesRate)
-			{
-				this.dropBlockAsItem(event.world, event.x, event.y, event.z, new ItemStack(Items.apple));
-			}
-		}
-		else if (event.block == Blocks.ice && ModConfigurations.Ice)
+		if (event.block == Blocks.ice)
 		{
 			event.setCanceled(true);
 			

@@ -8,7 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 
-public class EventEntityInteract {
+public class EventMilkBottle {
 	@SubscribeEvent
 	public void onEntityInteract(EntityInteractEvent event) 
 	{
