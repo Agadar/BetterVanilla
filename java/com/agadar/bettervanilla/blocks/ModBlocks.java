@@ -26,12 +26,6 @@ public class ModBlocks
 			RegisterHelper.registerBlock(colored_bed);
 		}
 		
-		if (ModConfigurations.Cacti)
-		{
-			cactus = new BlockCactus2();
-			RegisterHelper.registerBlock(cactus);
-		}
-		
 		if (ModConfigurations.CauldronsLava)
 		{
 			water_cauldron = new BlockWaterCauldron().setBlockName("water_cauldron_block");

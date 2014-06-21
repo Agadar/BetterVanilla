@@ -12,7 +12,6 @@ public class ModConfigurations
 	public static double ApplesRate;
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
-	public static boolean Cacti;
 	public static boolean CauldronsWash;
 	public static boolean CauldronsLava;
 	public static boolean CheaperHoppers;
@@ -35,8 +34,6 @@ public class ModConfigurations
 	public static boolean MobFilter;
 	public static String[] MobFilterList;
 	public static boolean MoreArmor;
-	//public static boolean MoreStairs;
-	//public static String[] StairsMaterials;
 	public static boolean MossStone;
 	public static boolean Nametags;
 	public static boolean PluckableChickens;
@@ -60,7 +57,6 @@ public class ModConfigurations
 		String misc = "Miscellaneous";
 		String mobFil = "Mob filter";
 		String moarArmor = "More armor";
-		//String moarStairs = "More stairs";
 		String rotToLeath = "Rotten Flesh to Leather";
 		
 		// Load/create the configuration properties
@@ -68,7 +64,6 @@ public class ModConfigurations
 		Property applesRate = config.get(applesTweak, "Drop rate", 5);
 		Property boneMeal = config.get(misc, "Bonemeal tweak", true);
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
-		Property cacti = config.get(misc, "Cacti placement tweak", true);
 		Property cauldronsWash = config.get(pots, "Washable wool and clay", true);
 		Property cauldronsLava = config.get(pots, "Lava inside cauldrons", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
@@ -91,8 +86,6 @@ public class ModConfigurations
 		Property mobFilter = config.get(mobFil, "Enabled", false);
 		Property mobFilterList = config.get(mobFil, "Filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property moreArmor = config.get(moarArmor, "Enabled", true);
-		//Property moreStairs = config.get(moarStairs, "Enabled", true);
-		//Property stairsMaterials = config.get(moarStairs, "Materials", new String[] { "Stone", "Bookshelf", "Glowstone" });
 		Property mossStone = config.get(crafting, "Craftable moss stone", true);
 		Property nametags = config.get(crafting, "Craftable nametags", true);
 		Property pluckableChickens = config.get(animals, "Pluckable chickens", true);
@@ -107,9 +100,6 @@ public class ModConfigurations
 		applesRate.comment = "The new drop rate of apples. Vanilla default is 0.5%. BetterVanilla default is 5%.";
 		boneMeal.comment = "Set to 'true' to allow bonemeal to be used on cacti, sugar canes, and nether warts.";
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
-		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cactus block with ours,
-		or somehow implement this feature in another way. Make sure to check out Forge events. */
-		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cauldron item and block with ours,
 		or somehow implement this feature in another way. */
@@ -137,8 +127,6 @@ public class ModConfigurations
 		mobFilterList.comment = "Insert into this list the names of mobs you wish to stop from spawning naturally. "
 				+ "Invalid or wrongly-typed mob names are ignored";
 		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
-		//moreStairs.comment = "Set to 'true' to allow the crafting of stairs made from the materials as written in the materials list in this module.";
-		//stairsMaterials.comment = "Insert into this list the names of blocks which you want to be able to craft into stairs. Invalid or wrongly-typed block names are ignored. Ensure that this mod is loaded last if you want to craft stairs out of blocks added by other mods.";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
 		pluckableChickens.comment = "Set to 'true' to allow players to pluck chickens using shears.";
@@ -153,7 +141,6 @@ public class ModConfigurations
 		ApplesRate = applesRate.getDouble(5) * 2;
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
-		Cacti = cacti.getBoolean(true);
 		CauldronsWash = cauldronsWash.getBoolean(true);
 		CauldronsLava = cauldronsLava.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
@@ -176,8 +163,6 @@ public class ModConfigurations
 		MobFilter = mobFilter.getBoolean(false);
 		MobFilterList = mobFilterList.getStringList();
 		MoreArmor = moreArmor.getBoolean(true);
-		//MoreStairs = moreStairs.getBoolean(true);
-		//StairsMaterials = stairsMaterials.getStringList();
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
 		PluckableChickens = pluckableChickens.getBoolean(true);

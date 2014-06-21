@@ -2,7 +2,6 @@ package com.agadar.bettervanilla.handlers;
 
 import java.util.ArrayList;
 
-import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.items.ModItems;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -138,21 +137,10 @@ public class ModRecipes
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.log2, 1, 1));
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_boots), "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
-			
-			if (ModConfigurations.Cacti)
-			{
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(ModBlocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(ModBlocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(ModBlocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(ModBlocks.cactus));
-			}
-			else 
-			{
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.cactus));
-				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(Blocks.cactus));
-			}
+			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.cactus));
+			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.cactus));
+			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.cactus));
+			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(Blocks.cactus));
 		}
 		
 		if (ModConfigurations.MossStone) 
