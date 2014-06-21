@@ -1,6 +1,8 @@
 package com.agadar.bettervanilla.events;
 
+import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.handlers.ModConfigurations;
+import com.agadar.bettervanilla.items.ModItems;
 
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,16 +22,25 @@ public class ModEvents
 		if (ModConfigurations.BoneMeal) MinecraftForge.EVENT_BUS.register(new EventBonemeal());
 		
 		// Register the event hook for bookshelves dropping bookshelves instead of books.
-		if (ModConfigurations.BookShelves) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.bookshelf));
+		if (ModConfigurations.BookShelves) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.bookshelf, Blocks.bookshelf));
+		
+		// Register the event hook for cacti dropping BetterVanilla cacti instead of vanilla cacti.
+		if (ModConfigurations.Cacti) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.cactus, ModBlocks.cactus));
 		
 		// Register the event hook for using clay or wool on a cauldron filled with water.
 		if (ModConfigurations.CauldronsWash) MinecraftForge.EVENT_BUS.register(new EventCauldronWash());
 
-		// Register the event hook for using an empty bottle on lava.
-		if (ModConfigurations.CauldronsLava) MinecraftForge.EVENT_BUS.register(new EventLavaBottle());
+		if (ModConfigurations.CauldronsLava)
+		{
+			// Register the event hook for using an empty bottle on lava.
+			MinecraftForge.EVENT_BUS.register(new EventLavaBottle());
+			
+			// Register the event hook for making vanilla Cauldrons drop WaterCauldrons.
+			MinecraftForge.EVENT_BUS.register(new EventHarvestDrop2(Blocks.cauldron, ModItems.water_cauldron));
+		}
 		
 		// Register the event hook for ender chests dropping ender chests instead of obsidian blocks.
-		if (ModConfigurations.EnderChests) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.ender_chest));
+		if (ModConfigurations.EnderChests) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.ender_chest, Blocks.ender_chest));
 		
 		// Register the event hook for altering the ice block's item drop behavior.
 		if (ModConfigurations.Ice) MinecraftForge.EVENT_BUS.register(new EventIceBreak());

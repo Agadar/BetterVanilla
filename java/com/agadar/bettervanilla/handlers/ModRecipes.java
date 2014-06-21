@@ -2,6 +2,7 @@ package com.agadar.bettervanilla.handlers;
 
 import java.util.ArrayList;
 
+import com.agadar.bettervanilla.blocks.ModBlocks;
 import com.agadar.bettervanilla.items.ModItems;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,7 +19,7 @@ public class ModRecipes
      * Called in the preInit
      */
 	public static void addRecipes() 
-	{
+	{		
         if (ModConfigurations.ColoredBeds)
         {
         	// Remove the recipe for the original bed item and add the recipes for our colored bed item's subitems.
@@ -33,6 +34,10 @@ public class ModRecipes
         {
         	// Add a crafting recipe for Lava Bottle.
         	GameRegistry.addShapelessRecipe(new ItemStack(ModItems.lava_bottle, 3), Items.lava_bucket, Items.glass_bottle, Items.glass_bottle, Items.glass_bottle);
+        	
+        	// Remove the crafting recipe for the vanilla Cauldron and add the recipe for the WaterCauldron.
+        	removeRecipe(new ItemStack(Items.cauldron));
+        	GameRegistry.addRecipe(new ItemStack(ModItems.water_cauldron), "x x", "x x", "xxx", 'x', Items.iron_ingot);
         }
         
         if (ModConfigurations.CheaperHoppers)
@@ -137,10 +142,21 @@ public class ModRecipes
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.log2, 1, 1));
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
 			GameRegistry.addRecipe(new ItemStack(ModItems.big_oak_boots), "x x", "x x", 'x', new ItemStack(Blocks.log2, 1, 1));
-			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.cactus));
-			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.cactus));
-			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.cactus));
-			GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(Blocks.cactus));
+			
+			if (ModConfigurations.Cacti)
+ 			{
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(ModBlocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(ModBlocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(ModBlocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(ModBlocks.cactus));
+ 			}
+ 			else 
+ 			{
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_helmet), "xxx", "x x", 'x', new ItemStack(Blocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_chestplate), "x x", "xxx", "xxx", 'x', new ItemStack(Blocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_leggings), "xxx", "x x", "x x", 'x', new ItemStack(Blocks.cactus));
+ 				GameRegistry.addRecipe(new ItemStack(ModItems.cactus_boots), "x x", "x x", 'x', new ItemStack(Blocks.cactus));
+ 			}
 		}
 		
 		if (ModConfigurations.MossStone) 

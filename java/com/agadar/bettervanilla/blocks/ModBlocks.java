@@ -20,6 +20,12 @@ public class ModBlocks
 	
 	public static void loadBlocks()
 	{
+		if (ModConfigurations.Cacti)
+		{
+			cactus = new BlockCactus2();
+			RegisterHelper.registerBlock(cactus);
+		}
+		
 		if (ModConfigurations.ColoredBeds)
 		{
 			colored_bed = new BlockColoredBed();

@@ -12,6 +12,7 @@ public class ModConfigurations
 	public static double ApplesRate;
 	public static boolean BoneMeal;
 	public static boolean BookShelves;
+	public static boolean Cacti;
 	public static boolean CauldronsWash;
 	public static boolean CauldronsLava;
 	public static boolean CheaperHoppers;
@@ -64,6 +65,7 @@ public class ModConfigurations
 		Property applesRate = config.get(applesTweak, "Drop rate", 5);
 		Property boneMeal = config.get(misc, "Bonemeal tweak", true);
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
+		Property cacti = config.get(misc, "Cacti placement tweak", true);
 		Property cauldronsWash = config.get(pots, "Washable wool and clay", true);
 		Property cauldronsLava = config.get(pots, "Lava inside cauldrons", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
@@ -100,9 +102,8 @@ public class ModConfigurations
 		applesRate.comment = "The new drop rate of apples. Vanilla default is 0.5%. BetterVanilla default is 5%.";
 		boneMeal.comment = "Set to 'true' to allow bonemeal to be used on cacti, sugar canes, and nether warts.";
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
+		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
-		/* TODO: Due to code changes we must find an alternate way to replace the vanilla cauldron item and block with ours,
-		or somehow implement this feature in another way. */
 		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		/* TODO: Due to code changes we must find an alternate way to replace the vanilla bed item and block with ours,
@@ -141,6 +142,7 @@ public class ModConfigurations
 		ApplesRate = applesRate.getDouble(5) * 2;
 		BoneMeal = boneMeal.getBoolean(true);
 		BookShelves = bookShelves.getBoolean(true);
+		Cacti = cacti.getBoolean(true);
 		CauldronsWash = cauldronsWash.getBoolean(true);
 		CauldronsLava = cauldronsLava.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
