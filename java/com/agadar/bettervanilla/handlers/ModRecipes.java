@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 
 public class ModRecipes
@@ -20,6 +21,12 @@ public class ModRecipes
      */
 	public static void addRecipes() 
 	{		
+		if (ModConfigurations.Cacti)
+		{
+			// Add the furnace recipe for Green Dye that uses the BetterVanilla cacti.
+			FurnaceRecipes.smelting().func_151393_a(ModBlocks.cactus, new ItemStack(Items.dye, 1, 2), 0.2F);
+		}
+		
         if (ModConfigurations.ColoredBeds)
         {
         	// Remove the recipe for the original bed item and add the recipes for our colored bed item's subitems.

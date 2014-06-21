@@ -39,6 +39,12 @@ public class ModEvents
 			MinecraftForge.EVENT_BUS.register(new EventHarvestDrop2(Blocks.cauldron, ModItems.water_cauldron));
 		}
 		
+		if (ModConfigurations.ColoredBeds)
+		{
+			// Register the event hook for making vanilla Beds drop ColoredBeds.
+			//MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.bed, ModBlocks.colored_bed));
+		}
+		
 		// Register the event hook for ender chests dropping ender chests instead of obsidian blocks.
 		if (ModConfigurations.EnderChests) MinecraftForge.EVENT_BUS.register(new EventHarvestDrop(Blocks.ender_chest, Blocks.ender_chest));
 		

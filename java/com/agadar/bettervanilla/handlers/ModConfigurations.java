@@ -106,8 +106,6 @@ public class ModConfigurations
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
 		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
-		/* TODO: Due to code changes we must find an alternate way to replace the vanilla bed item and block with ours,
-		or somehow implement this feature in another way. Also, seems like we can't actually sleep in the beds. */
 		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
