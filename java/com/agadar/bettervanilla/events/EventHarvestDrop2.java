@@ -16,11 +16,13 @@ public class EventHarvestDrop2
 {
 	private final Block block;
 	private final Item newDrops;
+	private final int itemDamage;
 	
-	public EventHarvestDrop2(Block block, Item newDrops)
+	public EventHarvestDrop2(Block block, Item newDrops, int itemDamage)
 	{
 		this.block = block;
 		this.newDrops = newDrops;
+		this.itemDamage = itemDamage;
 	}
 	
 	@SubscribeEvent
@@ -29,7 +31,7 @@ public class EventHarvestDrop2
 		if (event.block == this.block) 
 		{
 			event.drops.clear();
-			event.drops.add(new ItemStack(newDrops));
+			event.drops.add(new ItemStack(newDrops, 1, itemDamage));
 			event.dropChance = 1.0f;
 		}
 	}

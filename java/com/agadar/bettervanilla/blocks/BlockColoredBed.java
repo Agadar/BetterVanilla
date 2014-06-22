@@ -157,26 +157,6 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
             }
         }
     }
-
-    /**
-     * Gets the block's texture. Args: side, meta
-     *//*
-    @SideOnly(Side.CLIENT)
-    @Override
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-    {
-        if (p_149691_1_ == 0)
-        {
-            return Blocks.planks.getBlockTextureFromSide(p_149691_1_);
-        }
-        else
-        {
-            int k = getDirection(p_149691_2_);
-            int l = Direction.bedDirection[k][p_149691_1_];
-            int i1 = isBlockHeadOfBed(p_149691_2_) ? 1 : 0;
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedTopIcons[i1] : this.bedSideIcons[i1]) : this.bedEndIcons[i1];
-        }
-    }*/
     
     @SideOnly(Side.CLIENT)
     @Override
@@ -408,10 +388,10 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
     @Override
     public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
     {
-        if (!isBlockHeadOfBed(p_149690_5_))
+        /*if (!isBlockHeadOfBed(p_149690_5_))
         {
             super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, 0);
-        }
+        }*/
     }
 
     /**
@@ -423,16 +403,15 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
     {
         return 1;
     }
-
+    
     /**
      * Gets an item for the block being called on. Args: world, x, y, z
-     *//*
+     */
     @SideOnly(Side.CLIENT)
-    @Override
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
-        return BetterVanilla.itemBedOverride
-    }*/
+    	return ModItems.colored_bed;
+    }
     
     // copied this from the old BlockBedOverride
     @Override
