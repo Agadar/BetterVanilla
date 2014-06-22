@@ -15,10 +15,9 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = References.MODID, version = References.VERSION, name = References.NAME)
+@Mod(modid = References.MODID, version = References.VERSION, name = References.NAME, useMetadata = true)
 public class BetterVanilla 
 {		
 	@Instance(value = References.NAME)
@@ -45,25 +44,5 @@ public class BetterVanilla
 		ModEntities.registerEntities();
 		
 		ModEvents.subscribeEvents();
-	}
-	
-	@EventHandler
-	public void load(FMLInitializationEvent event) 
-	{	
-		/*if (MoreStairs)
-		{
-			for (String blockName : StairsMaterials) 
-			{
-				for (Block block : Blocks.blocksList)
-				{
-					if (block != null && block.getLocalizedName().equals(blockName)) 
-					{
-						Block stairs = (new BlockStairs2(MoreStairsID++, block, 0)).setBlockName(blockName + "Stairs");
-						GameRegistry.registerBlock(stairs, blockName + "Stairs");
-						GameRegistry.addRecipe(new ItemStack(stairs, 4), "x  ", "xx ", "xxx", 'x', block);
-					}
-				}
-			}
-		}*/
 	}
 }

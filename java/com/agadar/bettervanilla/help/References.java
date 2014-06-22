@@ -7,7 +7,7 @@ public class References
     them once here, and we can always access them.
      */
 	public static final String MODID = "bettervanilla";
-	public static final String VERSION = "0.2.1";
+	public static final String VERSION = "0.3.0";
 	public static final String NAME = "BetterVanilla";
 	public static final String CLIENTSIDE = "com.agadar.bettervanilla.client.ClientProxy";
 	public static final String SERVERSIDE = "com.agadar.bettervanilla.CommonProxy";
