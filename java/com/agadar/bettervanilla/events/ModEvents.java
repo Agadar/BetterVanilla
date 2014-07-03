@@ -51,9 +51,6 @@ public class ModEvents
 		// Register the event hook for altering the ice block's item drop behavior.
 		if (ModConfigurations.Ice) MinecraftForge.EVENT_BUS.register(new EventIceBreak());
 		
-		// Register the event hook for using an empty bottle on a cow.
-		if (ModConfigurations.MilkBottles) MinecraftForge.EVENT_BUS.register(new EventMilkBottle());
-		
 		// Register the event hook for intercepting mob spawning for the mob filter module.
 		if (ModConfigurations.MobFilter) MinecraftForge.EVENT_BUS.register(new EventMobFilter());
 		

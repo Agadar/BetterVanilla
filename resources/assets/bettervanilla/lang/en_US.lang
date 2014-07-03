@@ -1,6 +1,7 @@
 tile.cactus2.name=Cactus
 
 tile.lava_cauldron.name=Cauldron
+tile.milk_cauldron.name=Cauldron
 tile.water_cauldron_block.name=Cauldron
 item.water_cauldron.name=Cauldron
 item.lava_bottle.name=Lava Bottle

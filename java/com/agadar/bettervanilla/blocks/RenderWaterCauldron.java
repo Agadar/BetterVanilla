@@ -57,10 +57,20 @@ public class RenderWaterCauldron implements ISimpleBlockRenderingHandler
 
         if (i1 > 0)
         {
-        	IIcon icon2;
+        	IIcon icon2 = null;
         	
-        	if (block == ModBlocks.lava_cauldron) icon2 = BlockLiquid.getLiquidIcon("lava_still");
-        	else icon2 = BlockLiquid.getLiquidIcon("water_still");
+        	if (block == ModBlocks.lava_cauldron)
+        	{
+        		icon2 = BlockLiquid.getLiquidIcon("lava_still");
+        	}
+        	else if (block == ModBlocks.water_cauldron)
+        	{
+        		icon2 = BlockLiquid.getLiquidIcon("water_still");
+        	}
+        	else if (block == ModBlocks.milk_cauldron)
+        	{
+        		icon2 = ModBlocks.milk_block.getIcon(0, 0);
+        	}
         	
             if (i1 > 3)
             {

@@ -1,27 +1,20 @@
 package com.agadar.bettervanilla.blocks;
 
-import java.util.Random;
-
-import com.agadar.bettervanilla.items.ModItems;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class BlockLavaCauldron extends BlockWaterCauldron
+import com.agadar.bettervanilla.items.ModItems;
+
+public class BlockMilkCauldron extends BlockWaterCauldron 
 {
-	public BlockLavaCauldron() 
+	public BlockMilkCauldron() 
 	{
 		super();
-		this.setLightLevel(1.0F);
 	}
 	
 	@Override
@@ -42,7 +35,7 @@ public class BlockLavaCauldron extends BlockWaterCauldron
         int i1 = par1World.getBlockMetadata(par2, par3, par4);
         int j1 = func_150027_b(i1);
 
-        if (itemstack.getItem() == Items.lava_bucket && j1 < 3)
+        if (itemstack.getItem() == Items.milk_bucket && j1 < 3)
         {      	
         	if (!par5EntityPlayer.capabilities.isCreativeMode)
         	{
@@ -55,7 +48,7 @@ public class BlockLavaCauldron extends BlockWaterCauldron
         {
         	if (!par5EntityPlayer.capabilities.isCreativeMode)
         	{
-        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.lava_bucket));
+        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
         	}
 
         	par1World.setBlock(par2, par3, par4, ModBlocks.water_cauldron, 0, 2);
@@ -63,7 +56,7 @@ public class BlockLavaCauldron extends BlockWaterCauldron
         }
         else if (itemstack.getItem() == Items.glass_bottle && j1 > 0)
         {		
-        	ItemStack itemstack1 = new ItemStack(ModItems.lava_bottle);
+        	ItemStack itemstack1 = new ItemStack(ModItems.milk_bottle);
 
         	if (!par5EntityPlayer.inventory.addItemStackToInventory(itemstack1))
         	{
@@ -96,28 +89,6 @@ public class BlockLavaCauldron extends BlockWaterCauldron
         return true;
     }
 	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
-	 {
-		 if (par1World.getBlock(par2, par3 + 1, par4).getMaterial() == Material.air && !par1World.getBlock(par2, par3 + 1, par4).isOpaqueCube())
-	        {
-	            if (par5Random.nextInt(100) == 0)
-	            {
-	                double d5 = (double)((float)par2 + par5Random.nextFloat());
-	                double d7 = (double)par3 + this.maxY;
-	                double d6 = (double)((float)par4 + par5Random.nextFloat());
-	                par1World.spawnParticle("lava", d5, d7, d6, 0.0D, 0.0D, 0.0D);
-	                par1World.playSound(d5, d7, d6, "liquid.lavapop", 0.2F + par5Random.nextFloat() * 0.2F, 0.9F + par5Random.nextFloat() * 0.15F, false);
-	            }
-
-	            if (par5Random.nextInt(200) == 0)
-	            {
-	                par1World.playSound((double)par2, (double)par3, (double)par4, "liquid.lava", 0.2F + par5Random.nextFloat() * 0.2F, 0.9F + par5Random.nextFloat() * 0.15F, false);
-	            }
-	        }
-	 }
-	
 	@Override
     public void fillWithRain(World par1World, int par2, int par3, int par4)
     {
@@ -126,13 +97,17 @@ public class BlockLavaCauldron extends BlockWaterCauldron
     @Override
     public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
     {
+    	if (!(p_149670_5_ instanceof EntityPlayer))
+    	{
+    		return;
+    	}
+    	
         int l = func_150027_b(p_149670_1_.getBlockMetadata(p_149670_2_, p_149670_3_, p_149670_4_));
         float f = (float)p_149670_3_ + (6.0F + (float)(3 * l)) / 16.0F;
 
         if (!p_149670_1_.isRemote && l > 0 && p_149670_5_.boundingBox.minY <= (double)f)
         {
-        	p_149670_5_.attackEntityFrom(DamageSource.lava, 4.0F);
-        	p_149670_5_.setFire(15);
+        	((EntityPlayer) p_149670_5_).curePotionEffects(new ItemStack(Items.milk_bucket));
         }
     }
 }

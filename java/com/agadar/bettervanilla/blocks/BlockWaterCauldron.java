@@ -190,7 +190,17 @@ public class BlockWaterCauldron extends Block
 
         	par1World.setBlock(par2, par3, par4, ModBlocks.lava_cauldron, 3, 2);
         	par1World.func_147453_f(par2, par3, par4, ModBlocks.lava_cauldron);
-        }              
+        }
+        else if (itemstack.getItem() == Items.milk_bucket && j1 <= 0)
+        {
+        	if (!par5EntityPlayer.capabilities.isCreativeMode)
+        	{
+        		par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Items.bucket));
+        	}
+
+        	par1World.setBlock(par2, par3, par4, ModBlocks.milk_cauldron, 3, 2);
+        	par1World.func_147453_f(par2, par3, par4, ModBlocks.milk_cauldron);
+        } 
         else if (j1 > 0)
         {
         	if (itemstack.getItem() == Items.glass_bottle)
