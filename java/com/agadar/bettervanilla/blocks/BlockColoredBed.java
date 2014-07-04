@@ -188,6 +188,7 @@ public class BlockColoredBed extends BlockDirectional implements ITileEntityProv
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister)
     {
+    	this.blockIcon = Blocks.planks.getBlockTextureFromSide(0);
     	IIcon head_end = par1IconRegister.registerIcon(this.getTextureName() + "_head_end");
         this.bedTopIcons = new IIcon[][] { 
         		new IIcon[] { par1IconRegister.registerIcon(this.getTextureName() + "_feet_top_white"), par1IconRegister.registerIcon(this.getTextureName() + "_head_top_white")},
