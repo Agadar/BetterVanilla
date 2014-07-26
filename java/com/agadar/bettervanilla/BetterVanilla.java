@@ -1,15 +1,15 @@
 package com.agadar.bettervanilla;
 
 import com.agadar.bettervanilla.CommonProxy;
-import com.agadar.bettervanilla.handlers.ModConfigurations;
-import com.agadar.bettervanilla.handlers.ModRecipes;
+import com.agadar.bettervanilla.help.ModConfigurations;
+import com.agadar.bettervanilla.help.ModRecipes;
 import com.agadar.bettervanilla.help.References;
-import com.agadar.bettervanilla.blocks.ModBlocks;
-import com.agadar.bettervanilla.dispenserbehaviors.ModDispenserBehaviors;
-import com.agadar.bettervanilla.entities.ModEntities;
-import com.agadar.bettervanilla.events.ModEvents;
-import com.agadar.bettervanilla.items.ModItems;
-import com.agadar.bettervanilla.tileentities.ModTileEntities;
+import com.agadar.bettervanilla.block.ModBlocks;
+import com.agadar.bettervanilla.dispenserbehavior.ModDispenserBehaviors;
+import com.agadar.bettervanilla.entity.ModEntities;
+import com.agadar.bettervanilla.eventhandler.ModEventHandlers;
+import com.agadar.bettervanilla.item.ModItems;
+import com.agadar.bettervanilla.tileentity.ModTileEntities;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -31,18 +31,18 @@ public class BetterVanilla
 	{		
 		ModConfigurations.loadConfigurations(event.getSuggestedConfigurationFile());
 		
-		ModBlocks.loadBlocks();
+		ModBlocks.registerModBlocks();
 		
-		ModTileEntities.registerTileEntities();
+		ModTileEntities.registerModTileEntities();
 		
-		ModItems.loadItems();
+		ModItems.registerModItems();
 		
-		ModRecipes.addRecipes();
+		ModRecipes.registerModRecipes();
 		
-		ModDispenserBehaviors.setDispenserBehaviors();
+		ModDispenserBehaviors.registerModDispenserBehaviors();
 		
-		ModEntities.registerEntities();
+		ModEntities.registerModEntities();
 		
-		ModEvents.subscribeEvents();
+		ModEventHandlers.registerModEventHandlers();
 	}
 }

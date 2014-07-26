@@ -1,8 +1,8 @@
 package com.agadar.bettervanilla.client;
 
 import com.agadar.bettervanilla.CommonProxy;
-import com.agadar.bettervanilla.entities.EntityPluckableChicken;
-import com.agadar.bettervanilla.entities.RenderPluckableChicken;
+import com.agadar.bettervanilla.entity.EntityPluckableChicken;
+import com.agadar.bettervanilla.entity.RenderPluckableChicken;
 
 import net.minecraft.client.model.ModelChicken;
 import cpw.mods.fml.client.registry.RenderingRegistry;
