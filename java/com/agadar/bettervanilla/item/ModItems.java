@@ -78,7 +78,7 @@ public class ModItems
 		
 		if (ModConfigurations.CauldronsLava)
 		{
-			lava_bottle = new ItemLavaBottle();
+			lava_bottle = new ItemFireBottle();
 			RegisterHelper.registerItem(lava_bottle);
 		}
 		

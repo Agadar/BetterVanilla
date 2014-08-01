@@ -1,11 +1,15 @@
 package com.agadar.bettervanilla.eventhandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -15,6 +19,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 import com.agadar.bettervanilla.item.ModItems;
+import com.agadar.bettervanilla.potion.ModPotions;
+import com.agadar.brewingapi.BrewingRecipes;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -41,10 +47,15 @@ public class HandlerLavaBottle
 				{
 					world.setBlockToAir(i, j, k);        	
 					event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
+					
+					ItemStack lavaBottleStack = new ItemStack(ModItems.lava_bottle, 1, 1);
+					List<PotionEffect> effects = new ArrayList<PotionEffect>();
+					effects.add(new PotionEffect(ModPotions.fire.id, 1, 0));		
+					BrewingRecipes.brewing().setEffects(lavaBottleStack, effects);
 
-					if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(ModItems.lava_bottle))) 
+					if (!event.entityPlayer.inventory.addItemStackToInventory(lavaBottleStack)) 
 					{
-						event.entityPlayer.dropItem(ModItems.lava_bottle, 1);
+						event.entityPlayer.entityDropItem(lavaBottleStack, 0.0F);
 					}
 				}
 			}
