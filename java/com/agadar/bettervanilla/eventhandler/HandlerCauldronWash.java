@@ -40,6 +40,7 @@ public class HandlerCauldronWash
 				if (metadata > 0)
 				{
 					ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
+					if (stack == null) return;
 					
 					if (stack.getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay)) 
 					{

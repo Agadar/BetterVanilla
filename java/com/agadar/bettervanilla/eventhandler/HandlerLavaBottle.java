@@ -37,7 +37,7 @@ public class HandlerLavaBottle
 			{
 				ItemStack stack = event.entityPlayer.getCurrentEquippedItem();
 				
-				if (stack.getItem() == Items.glass_bottle) 
+				if (stack != null && stack.getItem() == Items.glass_bottle) 
 				{
 					world.setBlockToAir(i, j, k);        	
 					event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
