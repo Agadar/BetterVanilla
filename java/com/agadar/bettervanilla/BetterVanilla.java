@@ -67,13 +67,23 @@ public class BetterVanilla
 			return;
 		}
 		
-		/** Brewing recipes. */
-		ItemStack inputStack = new ItemStack(ModItems.lava_bottle, 1, 1);			
+		/** Splash Lava Bottle recipe. */
+		ItemStack inputStack = new ItemStack(ModItems.itemPotionBase, 1, 1);			
 		List<PotionEffect> effects = new ArrayList<PotionEffect>();
 		effects.add(new PotionEffect(ModPotions.fire.id, 1, 0));	
 		BrewingRecipes.brewing().setEffects(inputStack, effects);
 		ItemStack ingredientStack = new ItemStack(Items.gunpowder, 1, 0);
 		ItemStack outputStack = inputStack.copy();
+		outputStack.setItemDamage(16384);
+		BrewingRecipes.brewing().addBrewing(inputStack, ingredientStack, outputStack);
+		
+		/** Splash Milk Bottle recipe. */
+		inputStack = new ItemStack(ModItems.itemPotionBase, 1, 1);			
+		effects = new ArrayList<PotionEffect>();
+		effects.add(new PotionEffect(ModPotions.cure.id, 1, 0));	
+		BrewingRecipes.brewing().setEffects(inputStack, effects);
+		ingredientStack = new ItemStack(Items.gunpowder, 1, 0);
+		outputStack = inputStack.copy();
 		outputStack.setItemDamage(16384);
 		BrewingRecipes.brewing().addBrewing(inputStack, ingredientStack, outputStack);
 	}

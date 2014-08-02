@@ -56,9 +56,8 @@ public class ModItems
 	
 	// Items (Miscellaneous)
 	public static Item ender_potion;
-	public static Item milk_bottle;
 	public static Item colored_bed;
-	public static Item lava_bottle;
+	public static Item itemPotionBase;
 	public static Item fleshy_hide;
 	public static Item water_cauldron;
 	
@@ -78,8 +77,8 @@ public class ModItems
 		
 		if (ModConfigurations.CauldronsLava)
 		{
-			lava_bottle = new ItemFireBottle();
-			RegisterHelper.registerItem(lava_bottle);
+			itemPotionBase = new ItemPotionBase();
+			RegisterHelper.registerItem(itemPotionBase);
 		}
 		
 		if (ModConfigurations.Doors) 
@@ -87,12 +86,6 @@ public class ModItems
 			// Increase the maximum stack size from 1 to 16.
 			Items.wooden_door.setMaxStackSize(16);
 			Items.iron_door.setMaxStackSize(16);
-		}
-		
-		if (ModConfigurations.MilkBottles)
-		{
-			milk_bottle = new ItemMilkBottle();
-			RegisterHelper.registerItem(milk_bottle);
 		}
 		
 		if (ModConfigurations.MoreArmor)

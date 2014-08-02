@@ -48,7 +48,7 @@ public class HandlerLavaBottle
 					world.setBlockToAir(i, j, k);        	
 					event.entityPlayer.inventory.decrStackSize(event.entityPlayer.inventory.currentItem, 1);
 					
-					ItemStack lavaBottleStack = new ItemStack(ModItems.lava_bottle, 1, 1);
+					ItemStack lavaBottleStack = new ItemStack(ModItems.itemPotionBase, 1, 1);
 					List<PotionEffect> effects = new ArrayList<PotionEffect>();
 					effects.add(new PotionEffect(ModPotions.fire.id, 1, 0));		
 					BrewingRecipes.brewing().setEffects(lavaBottleStack, effects);

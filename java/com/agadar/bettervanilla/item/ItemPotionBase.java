@@ -17,15 +17,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 
-public class ItemFireBottle extends ItemPotion 
+public class ItemPotionBase extends ItemPotion 
 {
 	@SideOnly(Side.CLIENT)
-    private IIcon overlayIcon;
+    private IIcon fireOverlayIcon;
+	@SideOnly(Side.CLIENT)
+    private IIcon milkOverlayIcon;
     
-	public ItemFireBottle()
+	public ItemPotionBase()
 	{
 		super();
-		this.setUnlocalizedName("fire_potion");
+		this.setUnlocalizedName("potion_base");
 		this.setTextureName("potion");
 	}
 
@@ -34,11 +36,22 @@ public class ItemFireBottle extends ItemPotion
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item par1Item, CreativeTabs par2CreativeTab, List par3List)
     {
+		/** (Splash) Lava Bottle. */
 		ItemStack drinkable = new ItemStack(par1Item, 1, 1);		
 		List<PotionEffect> effects = new ArrayList<PotionEffect>();
 		effects.add(new PotionEffect(ModPotions.fire.id, 1, 0));		
 		BrewingRecipes.brewing().setEffects(drinkable, effects);	
 		ItemStack splash = drinkable.copy();
+		splash.setItemDamage(16384);
+		par3List.add(drinkable);
+		par3List.add(splash);
+		
+		/** (Splash) Milk Bottle. */
+		drinkable = new ItemStack(par1Item, 1, 1);		
+		effects = new ArrayList<PotionEffect>();
+		effects.add(new PotionEffect(ModPotions.cure.id, 1, 0));		
+		BrewingRecipes.brewing().setEffects(drinkable, effects);	
+		splash = drinkable.copy();
 		splash.setItemDamage(16384);
 		par3List.add(drinkable);
 		par3List.add(splash);
@@ -51,19 +64,39 @@ public class ItemFireBottle extends ItemPotion
         return 16777215;
     }
 	
+	@SuppressWarnings("unchecked")
 	@Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int par1, int par2)
-    {
-        return par2 == 0 ? this.overlayIcon : super.getIconFromDamageForRenderPass(par1, par2);
-    }
+	public IIcon getIcon(ItemStack par1ItemStack, int par2Pass)
+	{
+		if (par2Pass == 0)
+		{
+			List<PotionEffect> effects = this.getEffects(par1ItemStack);
+			
+			if (effects.size() > 0)
+			{
+				int potionId = effects.get(0).getPotionID();
+				
+				if (potionId == ModPotions.fire.id)
+				{
+					return this.fireOverlayIcon;
+				}
+				else if (potionId == ModPotions.cure.id)
+				{
+					return this.milkOverlayIcon;
+				}
+			}
+		}
+		
+		return super.getIcon(par1ItemStack, par2Pass);
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister)
     {
 		super.registerIcons(par1IconRegister);
-        this.overlayIcon = par1IconRegister.registerIcon(References.MODID + ":fire_potion_overlay");
+        this.fireOverlayIcon = par1IconRegister.registerIcon(References.MODID + ":fire_potion_overlay");
+        this.milkOverlayIcon = par1IconRegister.registerIcon(References.MODID + ":milk_potion_overlay");
     }
 	
 	@Override

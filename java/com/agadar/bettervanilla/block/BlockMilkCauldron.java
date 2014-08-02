@@ -1,14 +1,20 @@
 package com.agadar.bettervanilla.block;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 import com.agadar.bettervanilla.item.ModItems;
+import com.agadar.bettervanilla.potion.ModPotions;
+import com.agadar.brewingapi.BrewingRecipes;
 
 public class BlockMilkCauldron extends BlockWaterCauldron 
 {
@@ -56,11 +62,14 @@ public class BlockMilkCauldron extends BlockWaterCauldron
         }
         else if (itemstack.getItem() == Items.glass_bottle && j1 > 0)
         {		
-        	ItemStack itemstack1 = new ItemStack(ModItems.milk_bottle);
+        	ItemStack milkBottleStack = new ItemStack(ModItems.itemPotionBase, 1, 1);
+			List<PotionEffect> effects = new ArrayList<PotionEffect>();
+			effects.add(new PotionEffect(ModPotions.cure.id, 1, 0));		
+			BrewingRecipes.brewing().setEffects(milkBottleStack, effects);
 
-        	if (!par5EntityPlayer.inventory.addItemStackToInventory(itemstack1))
+        	if (!par5EntityPlayer.inventory.addItemStackToInventory(milkBottleStack))
         	{
-        		par1World.spawnEntityInWorld(new EntityItem(par1World, (double)par2 + 0.5D, (double)par3 + 1.5D, (double)par4 + 0.5D, itemstack1));
+        		par1World.spawnEntityInWorld(new EntityItem(par1World, (double)par2 + 0.5D, (double)par3 + 1.5D, (double)par4 + 0.5D, milkBottleStack));
         	}
         	else if (par5EntityPlayer instanceof EntityPlayerMP)
         	{
@@ -90,9 +99,7 @@ public class BlockMilkCauldron extends BlockWaterCauldron
     }
 	
 	@Override
-    public void fillWithRain(World par1World, int par2, int par3, int par4)
-    {
-    }
+    public void fillWithRain(World par1World, int par2, int par3, int par4) { }
 	
     @Override
     public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)

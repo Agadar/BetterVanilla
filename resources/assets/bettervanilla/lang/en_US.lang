@@ -70,4 +70,6 @@ item.fleshy_hide.name=Fleshy Hide
 
 potion.fire=Instant Fire
 potion.fire.postfix=Lava Bottle
+potion.cure=Instant Cure
+potion.cure.postfix=Milk Bottle
 

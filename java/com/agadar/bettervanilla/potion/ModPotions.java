@@ -5,21 +5,34 @@ import java.lang.reflect.Modifier;
 
 import net.minecraft.potion.Potion;
 
-/** Responsible for instantiating this mod's Potions. */
+/** Responsible for managing this mod's Potions. */
 public class ModPotions 
 {
 	/** The potion that sets the player on fire. */
 	public final static Potion fire;
+	/** The potion that cures all potion effects. */
+	public final static Potion cure;
+	
+	/** The next unique Potion Id. Should only be used and altered by getUniquePotionId(). */
+	private static int nextPotionId = 32;
 	
 	static
 	{
 		openUpPotionTypes();		
-
-		/* Ensures that we start with a potion id of which the corresponding Potion is null. */
-		int id = 32;
-		while (id < Potion.potionTypes.length && Potion.potionTypes[id] != null) id++;
 		
-		fire = new PotionBase(id++, true, 0).setPotionName("potion.fire");
+		fire = new PotionBase(getUniquePotionId(), true, 0).setPotionName("potion.fire");
+		cure = new PotionBase(getUniquePotionId(), false, 0).setPotionName("potion.cure");
+	}
+	
+	/** Returns the next unique Potion Id. */
+	private static int getUniquePotionId()
+	{
+		while (nextPotionId < Potion.potionTypes.length && Potion.potionTypes[nextPotionId] != null)
+		{
+			nextPotionId++;
+		}
+		
+		return nextPotionId;
 	}
 	
 	/** Calling this method allows us to register new Potions and modify existing Potions. */

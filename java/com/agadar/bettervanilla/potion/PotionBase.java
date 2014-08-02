@@ -1,6 +1,9 @@
 package com.agadar.bettervanilla.potion;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.BaseAttributeMap;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 
 public class PotionBase extends Potion 
@@ -42,9 +45,26 @@ public class PotionBase extends Potion
     	{
     		par2EntityLivingBase.setFire(15);
     	}
+    	else if (this.id == ModPotions.cure.id)
+    	{
+    		par2EntityLivingBase.curePotionEffects(new ItemStack(Items.milk_bucket));
+    	}
     	else
     	{
     		super.affectEntity(par1EntityLivingBase, par2EntityLivingBase, par3, par4);
+    	}
+    }
+    
+    @Override
+    public void removeAttributesModifiersFromEntity(EntityLivingBase par1EntityLivingBase, BaseAttributeMap par2BaseAttributeMap, int par3)
+    {
+    	if (this.id == ModPotions.cure.id)
+    	{
+    		par1EntityLivingBase.curePotionEffects(new ItemStack(Items.milk_bucket));
+    	}
+    	else
+    	{
+    		super.removeAttributesModifiersFromEntity(par1EntityLivingBase, par2BaseAttributeMap, par3);
     	}
     }
 }

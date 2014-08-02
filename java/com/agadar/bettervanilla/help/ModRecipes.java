@@ -37,9 +37,6 @@ public class ModRecipes
         
         if (ModConfigurations.CauldronsLava)
         {
-        	// Add a crafting recipe for Lava Bottle.
-        	GameRegistry.addShapelessRecipe(new ItemStack(ModItems.lava_bottle, 3), Items.lava_bucket, Items.glass_bottle, Items.glass_bottle, Items.glass_bottle);
-        	
         	// Remove the crafting recipe for the vanilla Cauldron and add the recipe for the WaterCauldron.
         	removeRecipe(new ItemStack(Items.cauldron));
         	GameRegistry.addRecipe(new ItemStack(ModItems.water_cauldron), "x x", "x x", "xxx", 'x', Items.iron_ingot);
@@ -104,12 +101,6 @@ public class ModRecipes
 			GameRegistry.addRecipe(new ItemStack(Items.golden_horse_armor), "  x", "xyx", "xxx", 'x', Items.gold_ingot, 'y', new ItemStack(Blocks.wool, 1, 14));
 			GameRegistry.addRecipe(new ItemStack(Items.iron_horse_armor), "  x", "xyx", "xxx", 'x', Items.iron_ingot, 'y', new ItemStack(Blocks.wool, 1, 15));
 			GameRegistry.addRecipe(new ItemStack(Items.diamond_horse_armor), "  x", "xyx", "xxx", 'x', Items.diamond, 'y', new ItemStack(Blocks.wool, 1, 11));
-		}
-		
-		if (ModConfigurations.MilkBottles)
-		{
-			// Add a crafting recipe for Milk Bottle.
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.milk_bottle, 3), Items.milk_bucket, Items.glass_bottle, Items.glass_bottle, Items.glass_bottle);
 		}
 		
 		if (ModConfigurations.MoreArmor)
