@@ -86,5 +86,24 @@ public class BetterVanilla
 		outputStack = inputStack.copy();
 		outputStack.setItemDamage(16384);
 		BrewingRecipes.brewing().addBrewing(inputStack, ingredientStack, outputStack);
+		
+		/** Ender Potion recipe. */
+		inputStack = new ItemStack(Items.potionitem, 1, 16);
+		ingredientStack = new ItemStack(Items.ender_pearl, 1, 0);
+		outputStack = new ItemStack(ModItems.itemPotionBase, 1, 1);
+		effects = new ArrayList<PotionEffect>();
+		effects.add(new PotionEffect(ModPotions.ender.id, 1, 0));	
+		BrewingRecipes.brewing().setEffects(outputStack, effects);
+		BrewingRecipes.brewing().addBrewing(inputStack, ingredientStack, outputStack);
+		
+		/** Splash Ender Potion recipe. */
+		inputStack = new ItemStack(ModItems.itemPotionBase, 1, 1);		
+		effects = new ArrayList<PotionEffect>();
+		effects.add(new PotionEffect(ModPotions.ender.id, 1, 0));		
+		BrewingRecipes.brewing().setEffects(inputStack, effects);	
+		ingredientStack = new ItemStack(Items.gunpowder, 1, 0);
+		outputStack = inputStack.copy();
+		outputStack.setItemDamage(16384);
+		BrewingRecipes.brewing().addBrewing(inputStack, ingredientStack, outputStack);
 	}
 }

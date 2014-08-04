@@ -55,7 +55,6 @@ public class ModItems
 	public static Item big_oak_boots;
 	
 	// Items (Miscellaneous)
-	public static Item ender_potion;
 	public static Item colored_bed;
 	public static Item itemPotionBase;
 	public static Item fleshy_hide;
@@ -63,12 +62,6 @@ public class ModItems
 	
 	public static void registerModItems()
 	{
-		if (ModConfigurations.EnderPotions)
-		{
-			ender_potion = new ItemEnderPotion();
-			RegisterHelper.registerItem(ender_potion);
-		}
-		
 		if (ModConfigurations.ColoredBeds)
 		{
 			colored_bed = new ItemColoredBed();

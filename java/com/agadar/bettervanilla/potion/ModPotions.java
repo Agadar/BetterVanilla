@@ -8,10 +8,12 @@ import net.minecraft.potion.Potion;
 /** Responsible for managing this mod's Potions. */
 public class ModPotions 
 {
-	/** The potion that sets the player on fire. */
+	/** The potion that sets the affected on fire. */
 	public final static Potion fire;
 	/** The potion that cures all potion effects. */
 	public final static Potion cure;
+	/** The potion that teleports the affected to a random location. */
+	public final static Potion ender;
 	
 	/** The next unique Potion Id. Should only be used and altered by getUniquePotionId(). */
 	private static int nextPotionId = 32;
@@ -22,6 +24,7 @@ public class ModPotions
 		
 		fire = new PotionBase(getUniquePotionId(), true, 0).setPotionName("potion.fire");
 		cure = new PotionBase(getUniquePotionId(), false, 0).setPotionName("potion.cure");
+		ender = new PotionBase(getUniquePotionId(), false, 0).setPotionName("potion.ender");
 	}
 	
 	/** Returns the next unique Potion Id. */

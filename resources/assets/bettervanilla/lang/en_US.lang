@@ -23,10 +23,6 @@ item.colored_bed.green.name=Green Bed
 item.colored_bed.red.name=Red Bed
 item.colored_bed.black.name=Black Bed
 
-item.ender_potion.name=Potion of Ender
-
-item.milk_bottle.name=Milk Bottle
-
 item.oak_helmet.name=Oak Helmet
 item.oak_chestplate.name=Oak Chestplate
 item.oak_leggings.name=Oak Leggings
@@ -72,4 +68,6 @@ potion.fire=Instant Fire
 potion.fire.postfix=Lava Bottle
 potion.cure=Instant Cure
 potion.cure.postfix=Milk Bottle
+potion.ender=Teleportation
+potion.ender.postfix=Potion of Ender
 

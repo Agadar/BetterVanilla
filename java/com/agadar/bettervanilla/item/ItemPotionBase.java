@@ -23,6 +23,8 @@ public class ItemPotionBase extends ItemPotion
     private IIcon fireOverlayIcon;
 	@SideOnly(Side.CLIENT)
     private IIcon milkOverlayIcon;
+	@SideOnly(Side.CLIENT)
+    private IIcon enderOverlayIcon;
     
 	public ItemPotionBase()
 	{
@@ -50,6 +52,16 @@ public class ItemPotionBase extends ItemPotion
 		drinkable = new ItemStack(par1Item, 1, 1);		
 		effects = new ArrayList<PotionEffect>();
 		effects.add(new PotionEffect(ModPotions.cure.id, 1, 0));		
+		BrewingRecipes.brewing().setEffects(drinkable, effects);	
+		splash = drinkable.copy();
+		splash.setItemDamage(16384);
+		par3List.add(drinkable);
+		par3List.add(splash);
+		
+		/** (Splash) Ender Potion. */
+		drinkable = new ItemStack(par1Item, 1, 1);		
+		effects = new ArrayList<PotionEffect>();
+		effects.add(new PotionEffect(ModPotions.ender.id, 1, 0));		
 		BrewingRecipes.brewing().setEffects(drinkable, effects);	
 		splash = drinkable.copy();
 		splash.setItemDamage(16384);
@@ -84,6 +96,10 @@ public class ItemPotionBase extends ItemPotion
 				{
 					return this.milkOverlayIcon;
 				}
+				else if (potionId == ModPotions.ender.id)
+				{
+					return this.enderOverlayIcon;
+				}
 			}
 		}
 		
@@ -97,6 +113,7 @@ public class ItemPotionBase extends ItemPotion
 		super.registerIcons(par1IconRegister);
         this.fireOverlayIcon = par1IconRegister.registerIcon(References.MODID + ":fire_potion_overlay");
         this.milkOverlayIcon = par1IconRegister.registerIcon(References.MODID + ":milk_potion_overlay");
+        this.enderOverlayIcon = par1IconRegister.registerIcon(References.MODID + ":ender_potion_overlay");
     }
 	
 	@Override
