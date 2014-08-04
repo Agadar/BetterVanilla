@@ -48,12 +48,6 @@ public class ModRecipes
 			removeRecipe(new ItemStack(Blocks.hopper));
 			GameRegistry.addRecipe(new ItemStack(Blocks.hopper), "x x", "xyx", " x ", 'x', Blocks.stone, 'y', Items.redstone);
 		}
-        
-		if (ModConfigurations.CraftableBottleOEnchant)
-		{
-			// Add the recipe for Bottle o' Enchanting.
-			GameRegistry.addRecipe(new ItemStack(Items.experience_bottle), "xxx", "xyx", "xxx", 'x', Items.gold_nugget, 'y', new ItemStack(Items.potionitem, 1, 16));
-		}
 		
 		if (ModConfigurations.CraftableClay)
 		{

@@ -18,7 +18,6 @@ public class ModConfigurations
 	public static boolean CauldronsContent;
 	public static boolean CheaperHoppers;
 	public static boolean ColoredBeds;
-	public static boolean CraftableBottleOEnchant;
 	public static boolean CraftableClay;
 	public static boolean CraftableCobwebs;
 	public static boolean CraftableEndstone;
@@ -71,7 +70,6 @@ public class ModConfigurations
 		Property cauldronsContent = config.get(pots, "Lava and milk inside cauldrons", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
 		Property coloredBeds = config.get(misc, "Colored beds", true);
-		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
 		Property craftableClay = config.get(crafting, "Craftable clay", true);
 		Property craftableCobwebs = config.get(crafting, "Craftable cobwebs", true);
 		Property craftableEndstone = config.get(crafting, "Craftable endstone", true);
@@ -107,7 +105,6 @@ public class ModConfigurations
 		cauldronsContent.comment = "Set to 'true' to allow lava and milk to be placed within cauldrons.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
-		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
 		craftableClay.comment = "Set to 'true' to allow the crafting of clay.";
 		craftableCobwebs.comment = "Set to 'true' to allow the crafting of cobwebs.";
 		craftableEndstone.comment = "Set to 'true' to allow the crafting of endstone.";
@@ -144,7 +141,6 @@ public class ModConfigurations
 		CauldronsContent = cauldronsContent.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		ColoredBeds = coloredBeds.getBoolean(true);
-		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
 		CraftableClay = craftableClay.getBoolean(true);
 		CraftableCobwebs = craftableCobwebs.getBoolean(true);
 		CraftableEndstone = craftableEndstone.getBoolean(true);
