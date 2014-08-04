@@ -35,7 +35,7 @@ public class ModRecipes
 			}
         }
         
-        if (ModConfigurations.CauldronsLava)
+        if (ModConfigurations.CauldronsContent)
         {
         	// Remove the crafting recipe for the vanilla Cauldron and add the recipe for the WaterCauldron.
         	removeRecipe(new ItemStack(Items.cauldron));

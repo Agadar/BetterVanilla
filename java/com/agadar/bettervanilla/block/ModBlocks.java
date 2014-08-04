@@ -42,7 +42,7 @@ public class ModBlocks
 			RegisterHelper.registerBlock(colored_bed);
 		}
 		
-		if (ModConfigurations.CauldronsLava)
+		if (ModConfigurations.CauldronsContent)
 		{
 			/** Instantiate the milk fluid and its block and register them. */
 			milk = new Fluid("milk");

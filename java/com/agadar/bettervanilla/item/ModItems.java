@@ -68,7 +68,7 @@ public class ModItems
 			RegisterHelper.registerItem(colored_bed);
 		}
 		
-		if (ModConfigurations.CauldronsLava)
+		if (ModConfigurations.MorePotions)
 		{
 			itemPotionBase = new ItemPotionBase();
 			RegisterHelper.registerItem(itemPotionBase);
@@ -172,7 +172,7 @@ public class ModItems
 			RegisterHelper.registerItem(fleshy_hide);
 		}
 		
-		if (ModConfigurations.CauldronsLava)
+		if (ModConfigurations.CauldronsContent)
 		{
 			water_cauldron = new ItemWaterCauldron();
 			RegisterHelper.registerItem(water_cauldron);

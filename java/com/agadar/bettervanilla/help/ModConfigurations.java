@@ -15,7 +15,7 @@ public class ModConfigurations
 	public static boolean BookShelves;
 	public static boolean Cacti;
 	public static boolean CauldronsWash;
-	public static boolean CauldronsLava;
+	public static boolean CauldronsContent;
 	public static boolean CheaperHoppers;
 	public static boolean ColoredBeds;
 	public static boolean CraftableBottleOEnchant;
@@ -29,13 +29,12 @@ public class ModConfigurations
 	public static boolean Dispensers;
 	public static boolean Doors;
 	public static boolean EnderChests;
-	public static boolean EnderPotions;
 	public static boolean HorseArmor;
 	public static boolean Ice;
-	public static boolean MilkBottles;
 	public static boolean MobFilter;
 	public static String[] MobFilterList;
 	public static boolean MoreArmor;
+	public static boolean MorePotions;
 	public static boolean MossStone;
 	public static boolean Nametags;
 	public static boolean PluckableChickens;
@@ -69,7 +68,7 @@ public class ModConfigurations
 		Property bookShelves = config.get(dropTweaks, "Bookshelves drop tweak", true);
 		Property cacti = config.get(misc, "Cacti placement tweak", true);
 		Property cauldronsWash = config.get(pots, "Washable wool and clay", true);
-		Property cauldronsLava = config.get(pots, "Lava inside cauldrons", true);
+		Property cauldronsContent = config.get(pots, "Lava and milk inside cauldrons", true);
 		Property cheaperHoppers = config.get(crafting, "Cheaper hoppers", true);
 		Property coloredBeds = config.get(misc, "Colored beds", true);
 		Property craftableBottleOEnchant = config.get(crafting, "Craftable Bottle o' Enchanting", true);
@@ -83,13 +82,12 @@ public class ModConfigurations
 		Property dispensers = config.get(misc, "Dispenser overhaul", true);
 		Property doors = config.get(misc, "Stackable doors", true);
 		Property enderChests = config.get(dropTweaks, "Ender chest drop tweak", true);
-		Property enderPotions = config.get(pots, "Potions of Ender", true);
 		Property horseArmor = config.get(crafting, "Craftable horse armor", true);
 		Property ice = config.get(dropTweaks, "Ice drop tweak", true);
-		Property milkBottles = config.get(pots, "Milk bottles", true);
 		Property mobFilter = config.get(mobFil, "Enabled", false);
 		Property mobFilterList = config.get(mobFil, "Filter list", new String[] { "Example1", "Example2", "Example3" });
 		Property moreArmor = config.get(moarArmor, "Enabled", true);
+		Property morePotions = config.get(pots, "More potions", true);
 		Property mossStone = config.get(crafting, "Craftable moss stone", true);
 		Property nametags = config.get(crafting, "Craftable nametags", true);
 		Property pluckableChickens = config.get(animals, "Pluckable chickens", true);
@@ -106,7 +104,7 @@ public class ModConfigurations
 		bookShelves.comment = "Set to 'true' to make bookshelves drop a book shelf upon destruction instead of books.";
 		cacti.comment = "Set to 'true' to allow cacti to be placed beside solid blocks without breaking.";
 		cauldronsWash.comment = "Set to 'true' to allow players to wash away the dye from dyed wool and clay using a cauldron.";
-		cauldronsLava.comment = "Set to 'true' to allow lava to be placed within cauldrons, and to add the Lava Bottle into the game.";
+		cauldronsContent.comment = "Set to 'true' to allow lava and milk to be placed within cauldrons.";
 		cheaperHoppers.comment = "Set to 'true' to replace the vanilla hopper recipe with a cheaper and more sensible one.";
 		coloredBeds.comment = "Set to 'true' to allow the crafting of colored beds (adds 15 new beds to the game, each with a different wool color).";
 		craftableBottleOEnchant.comment = "Set to 'true' to allow the crafting of Bottles o' Enchanting.";
@@ -120,14 +118,13 @@ public class ModConfigurations
 		dispensers.comment = "Set to 'true' to make dispensers place blocks, plant seeds, and use hoes and shears instead of dropping them as items.";
 		doors.comment = "Set to 'true' to increase the maximum stack size of doors from 1 to 16.";	
 		enderChests.comment = "Set to 'true' to make ender chests drop an ender chest upon destruction instead of obsidian blocks.";
-		enderPotions.comment = "Set to 'true' to introduce Potions of Ender into the game.";
 		horseArmor.comment = "Set to 'true' to allow the crafting of horse armors.";		
-		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";
-		milkBottles.comment = "Set to 'true' to allow the crafting of milk bottles, which, just like buckets of milk, cure poison effects.";		
+		ice.comment = "Set to 'true' to make ice blocks drop an ice block upon destruction instead of creating a water source when in a snowy biome.";		
 		mobFilter.comment = "Set to 'true' to prevent the mobs of which the names are entered into the mob filter list from spawning naturally.";
 		mobFilterList.comment = "Insert into this list the names of mobs you wish to stop from spawning naturally. "
 				+ "Invalid or wrongly-typed mob names are ignored";
 		moreArmor.comment = "Set to 'true' to allow the crafting of several new armor types. All new armor types have the same stats as leather armor.";
+		morePotions.comment = "Set to 'true' to introduce Milk Bottles, Lava Bottles, and Potions of Ender into the game. Requires Agadar's Brewing-API!";
 		mossStone.comment = "Set to 'true' to allow the crafting of moss stone, cracked stone bricks, mossy stone bricks, and chiseled stone bricks.";
 		nametags.comment = "Set to 'true' to allow the crafting of nametags.";
 		pluckableChickens.comment = "Set to 'true' to allow players to pluck chickens using shears.";
@@ -144,7 +141,7 @@ public class ModConfigurations
 		BookShelves = bookShelves.getBoolean(true);
 		Cacti = cacti.getBoolean(true);
 		CauldronsWash = cauldronsWash.getBoolean(true);
-		CauldronsLava = cauldronsLava.getBoolean(true);
+		CauldronsContent = cauldronsContent.getBoolean(true);
 		CheaperHoppers = cheaperHoppers.getBoolean(true);
 		ColoredBeds = coloredBeds.getBoolean(true);
 		CraftableBottleOEnchant = craftableBottleOEnchant.getBoolean(true);
@@ -158,13 +155,12 @@ public class ModConfigurations
 		Dispensers = dispensers.getBoolean(true);
 		Doors = doors.getBoolean(true);
 		EnderChests = enderChests.getBoolean(true);
-		EnderPotions = enderPotions.getBoolean(true);
 		HorseArmor = horseArmor.getBoolean(true);
 		Ice = ice.getBoolean(true);
-		MilkBottles = milkBottles.getBoolean(true);
 		MobFilter = mobFilter.getBoolean(false);
 		MobFilterList = mobFilterList.getStringList();
 		MoreArmor = moreArmor.getBoolean(true);
+		MorePotions = morePotions.getBoolean(true);
 		MossStone = mossStone.getBoolean(true);
 		Nametags = nametags.getBoolean(true);
 		PluckableChickens = pluckableChickens.getBoolean(true);

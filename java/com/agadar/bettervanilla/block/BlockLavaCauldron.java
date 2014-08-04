@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.agadar.bettervanilla.help.ModConfigurations;
 import com.agadar.bettervanilla.item.ModItems;
 import com.agadar.bettervanilla.potion.ModPotions;
 import com.agadar.brewingapi.BrewingRecipes;
@@ -66,7 +67,7 @@ public class BlockLavaCauldron extends BlockWaterCauldron
         	par1World.setBlock(par2, par3, par4, ModBlocks.water_cauldron, 0, 2);
         	par1World.func_147453_f(par2, par3, par4, ModBlocks.water_cauldron);       	
         }
-        else if (itemstack.getItem() == Items.glass_bottle && j1 > 0)
+        else if (itemstack.getItem() == Items.glass_bottle && j1 > 0 && ModConfigurations.MorePotions)
         {		
         	ItemStack lavaBottleStack = new ItemStack(ModItems.itemPotionBase, 1, 1);
 			List<PotionEffect> effects = new ArrayList<PotionEffect>();
