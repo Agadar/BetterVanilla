@@ -1,7 +1,7 @@
 package com.agadar.bettervanilla;
 
-public abstract class CommonProxy
+public class CommonProxy
 {	
 	/** Registers the renderer for the pluckable chicken. */
-	public abstract void registerPluckableChicken();
+	public void registerPluckableChicken() { }
 }
