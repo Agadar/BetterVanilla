@@ -5,6 +5,6 @@
   "description": "BetterVanilla is a Minecraft mod which attempts to improve vanilla gameplay by changing existing mechanics and expanding upon existing content.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "authorList": ["Agadar"],
+  "authorList": ["Agadar"]
 }
 ]
